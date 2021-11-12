@@ -13,7 +13,7 @@ def destroy_window(window):
 def open_add_book_window():
     """Opens the add_book_window and closes the menu_window"""
     # can the user upload an image using a tkinter form?
-    # appending "date added"?
+    # appending "date added" to the database record?
 
     menu_window.destroy()
     add_book_window = Tk()
