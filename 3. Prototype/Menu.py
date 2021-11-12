@@ -55,7 +55,7 @@ def open_add_book_window():
     copies_owned_lbl.grid(row=13, column=0, padx=5, pady=5)
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
 
-    # add_book_window - entry fields
+    # add_book_window - entry fields and comboboxes
     isbn_ent = Entry(add_book_window)
     book_title_ent = Entry(add_book_window)
     series_ent = Entry(add_book_window)
@@ -66,13 +66,15 @@ def open_add_book_window():
     price_ent = Entry(add_book_window)
     summary_ent = Entry(add_book_window)
     keywords_ent = Entry(add_book_window)
-    cover_type_ent = Entry(add_book_window)  # combobox?
+    cover_type_cbx = ttk.Combobox(add_book_window, values=[
+        "Paperback",
+        "Hardcover"])
     charge_if_lost_ent = Entry(add_book_window)
     charge_if_damaged_ent = Entry(add_book_window)
     copies_owned_ent = Entry(add_book_window)
     copies_available_ent = Entry(add_book_window)
 
-    # add_book_window geometry - entry fields
+    # add_book_window geometry - entry fields and comboboxes
     isbn_ent.grid(row=0, column=1, padx=5, pady=5)
     book_title_ent.grid(row=1, column=1, padx=5, pady=5)
     series_ent.grid(row=2, column=1, padx=5, pady=5)
@@ -83,7 +85,7 @@ def open_add_book_window():
     price_ent.grid(row=7, column=1, padx=5, pady=5)
     summary_ent.grid(row=8, column=1, padx=5, pady=5)
     keywords_ent.grid(row=9, column=1, padx=5, pady=5)
-    cover_type_ent.grid(row=10, column=1, padx=5, pady=5)
+    cover_type_cbx.grid(row=10, column=1, padx=5, pady=5)
     charge_if_lost_ent.grid(row=11, column=1, padx=5, pady=5)
     charge_if_damaged_ent.grid(row=12, column=1, padx=5, pady=5)
     copies_owned_ent.grid(row=13, column=1, padx=5, pady=5)
