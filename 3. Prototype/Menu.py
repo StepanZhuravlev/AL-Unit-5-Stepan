@@ -3,6 +3,7 @@
 # function that closes the current window and opens menu
 
 from tkinter import *
+from tkinter import ttk
     
     
 def destroy_window(window):
