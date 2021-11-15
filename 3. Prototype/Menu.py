@@ -15,6 +15,10 @@ def open_add_book_window():
     """Opens the add_book_window and closes the menu_window"""
     # can the user upload an image using a tkinter form?
     # appending "date added" to the database record?
+    
+def get_book_data():
+    """"""
+    pass
 
     menu_window.destroy()
     add_book_window = Tk()
