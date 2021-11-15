@@ -4,7 +4,7 @@
 
 from tkinter import *
 from tkinter import ttk
-    
+import book_database
     
 def destroy_window(window):
     """Destroys a window passed as an argument"""
@@ -56,24 +56,24 @@ def open_add_book_window():
     copies_owned_lbl.grid(row=13, column=0, padx=5, pady=5)
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
 
-    # add_book_window - entry fields and listboxes
+    # add_book_window - entry fields
     isbn_ent = Entry(add_book_window)
     book_title_ent = Entry(add_book_window)
     series_ent = Entry(add_book_window)
     author_ent = Entry(add_book_window)
     genre_ent = Entry(add_book_window)
     publisher_ent = Entry(add_book_window)
-    publication_date_ent = Entry(add_book_window)  # calendar thing?
+    publication_date_ent = Entry(add_book_window)  # date picker?
     price_ent = Entry(add_book_window)
     summary_ent = Entry(add_book_window)
     keywords_ent = Entry(add_book_window)
-    cover_type_lbx = Listbox(add_book_window, single) # not finished
+    cover_type_cbx = ttk.Combobox(add_book_window, values = ["Paperback", "Hardback"]) 
     charge_if_lost_ent = Entry(add_book_window)
     charge_if_damaged_ent = Entry(add_book_window)
     copies_owned_ent = Entry(add_book_window)
     copies_available_ent = Entry(add_book_window)
 
-    # add_book_window geometry - entry fields and comboboxes
+    # add_book_window geometry - entry fields
     isbn_ent.grid(row=0, column=1, padx=5, pady=5)
     book_title_ent.grid(row=1, column=1, padx=5, pady=5)
     series_ent.grid(row=2, column=1, padx=5, pady=5)
@@ -91,10 +91,12 @@ def open_add_book_window():
     copies_available_ent.grid(row=14, column=1, padx=5, pady=5)
 
     # add_book_window - buttons
+    book_insert_database_btn = Button(add_book_window, text="Save to the database")
     back_to_menu_btn = Button(add_book_window, text="Back to Menu")
 
-    # add_book_window geometry - buttons
-    back_to_menu_btn.grid(row=15, column=0, padx=5, pady=5)  # centering the button - check the code on school computer
+    # add_book_window geometry - buttons, centering the button - check the code on school computer
+    book_insert_database_btn.grid(row=15, column=1, padx=5, pady=5)
+    back_to_menu_btn.grid(row=15, column=0, padx=5, pady=5)  
 
     add_book_window.mainloop()
     
