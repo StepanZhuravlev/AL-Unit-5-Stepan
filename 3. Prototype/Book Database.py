@@ -6,7 +6,7 @@ def create_database():
     """<Description>"""
     book_database = sqlite3.connect("Book.db")
     book_database_cursor = book_database.cursor()  # creating a cursor
-    book_database_cursor.execute("""CREATE TABLE IF NOT EXISTS Book
+    book_database_cursor.execute("""CREATE TABLE IF NOT EXISTS Book(
                                  ISBN VARCHAR(14) PRIMARY KEY,
                                  BookTitle VARCHAR(150),
                                  Series VARCHAR(100),
@@ -22,7 +22,7 @@ def create_database():
                                  ChargeIfDamaged CURRENCY,
                                  CopiesOwned INTEGER,
                                  CopiesAvailable INTEGER,
-                                 DateAdded DATE
+                                 DateAdded DATE)
                                  """)
     book_database.commit()
     book_database.close()
@@ -32,7 +32,7 @@ def insert_book_data(new_book_data):
     """<Description>"""
     book_database = sqlite3.connect("Book.db")
     book_database_cursor = book_database.cursor()
-    book_database_cursor.execute("""INSERT INTO Book(ISBN, BookTitle, Series, Author, Genre, Publisher, PublicationDate
+    book_database_cursor.execute("""INSERT INTO Book(ISBN, BookTitle, Series, Author, Genre, Publisher, PublicationDate,
     Price, Summary, Keywords, CoverType, ChargeIfLost, ChargeIfDamaged, CopiesOwned, CopiesAvailable, DateAdded)
     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (new_book_data[0], new_book_data[1], new_book_data[2], new_book_data[3],
                                                   new_book_data[4], new_book_data[5], new_book_data[6], new_book_data[7],
