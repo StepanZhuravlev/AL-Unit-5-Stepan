@@ -56,7 +56,7 @@ def open_add_book_window():
     copies_owned_lbl.grid(row=13, column=0, padx=5, pady=5)
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
 
-    # add_book_window - entry fields and comboboxes
+    # add_book_window - entry fields and listboxes
     isbn_ent = Entry(add_book_window)
     book_title_ent = Entry(add_book_window)
     series_ent = Entry(add_book_window)
@@ -67,9 +67,7 @@ def open_add_book_window():
     price_ent = Entry(add_book_window)
     summary_ent = Entry(add_book_window)
     keywords_ent = Entry(add_book_window)
-    cover_type_cbx = ttk.Combobox(add_book_window, values=[
-        "Paperback",
-        "Hardcover"])
+    cover_type_lbx = Listbox(add_book_window, single) # not finished
     charge_if_lost_ent = Entry(add_book_window)
     charge_if_damaged_ent = Entry(add_book_window)
     copies_owned_ent = Entry(add_book_window)
