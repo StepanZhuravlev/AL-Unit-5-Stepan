@@ -7,7 +7,7 @@ from tkinter import ttk
 import book_database
 
 
-def get_book_data():
+def get_book_data():  # unifinished + names of functions in book_database changed
     """Gets the values of all the entry fields in the "Book data capture window" and adds them to a list.
     <entry_field>_value = value stored in the <entry field> entry"""
     list_of_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
@@ -17,12 +17,6 @@ def get_book_data():
     for field in list_of_fields:
         list_of_values.append(field.get())
     print(list_of_values)
-
-
-
-def destroy_window(window):
-    """Destroys a window passed as an argument"""
-    return window.destroy
 
 
 def open_add_book_window():
@@ -149,7 +143,7 @@ add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_add_loan_window)
 add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)
-close_menu_btn = Button(menu_window, text="Close Menu", command=destroy_window(menu_window))
+close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 
 # menu_window geometry - buttons:
 add_book_btn.grid(row=0, column=0, padx=5, pady=5)
