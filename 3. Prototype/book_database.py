@@ -2,7 +2,7 @@
 import sqlite3
 
 
-def create_database():
+def create_book_database():
     """<Description>"""
     book_database = sqlite3.connect("Book.db")
     book_database_cursor = book_database.cursor()  # creating a cursor
@@ -44,7 +44,7 @@ def insert_book_data(new_book_data):
     book_database.close()
 
 
-create_database()
+create_book_database()
 insert_book_data(["978-1108412728", "A/AS Level Computer Science for WJEC/Eduqas Student Book", "N/A",
                   "Mark Thomas, Alistair Surrall, Adam Hamflett", "Non-fiction", "Cambridge University Press",
                   "05/10/2017", "32.50", "Written for the WJEC/Eduqas A/AS Level Computer Science specifications for first teaching from 2015, this print student book helps students build their knowledge and master underlying computing principles and concepts. The student book develops computational thinking, programming and problem-solving skills. Suitable for all abilities, it puts computing into context and gives students a real-life view on professional applications of computing skills. Answers to end-of-chapter questions are located in the free online teacher's resource. A Cambridge Elevate enhanced edition is also available.",
