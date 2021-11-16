@@ -5,7 +5,21 @@
 from tkinter import *
 from tkinter import ttk
 import book_database
-    
+
+
+def get_book_data():
+    """Gets the values of all the entry fields in the "Book data capture window" and adds them to a list.
+    <entry_field>_value = value stored in the <entry field> entry"""
+    list_of_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
+                      publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_cbx,
+                      charge_if_lost_ent, charge_if_damaged_ent, copies_owned_ent, copies_available_ent]
+    list_of_values = []
+    for field in list_of_fields:
+        list_of_values.append(field.get())
+    print(list_of_values)
+
+
+
 def destroy_window(window):
     """Destroys a window passed as an argument"""
     return window.destroy
@@ -15,10 +29,6 @@ def open_add_book_window():
     """Opens the add_book_window and closes the menu_window"""
     # can the user upload an image using a tkinter form?
     # appending "date added" to the database record?
-    
-def get_book_data():
-    """"""
-    pass
 
     menu_window.destroy()
     add_book_window = Tk()
@@ -71,7 +81,7 @@ def get_book_data():
     price_ent = Entry(add_book_window)
     summary_ent = Entry(add_book_window)
     keywords_ent = Entry(add_book_window)
-    cover_type_cbx = ttk.Combobox(add_book_window, values = ["Paperback", "Hardback"]) 
+    cover_type_cbx = ttk.Combobox(add_book_window, values=["Paperback", "Hardback"])
     charge_if_lost_ent = Entry(add_book_window)
     charge_if_damaged_ent = Entry(add_book_window)
     copies_owned_ent = Entry(add_book_window)
@@ -95,7 +105,7 @@ def get_book_data():
     copies_available_ent.grid(row=14, column=1, padx=5, pady=5)
 
     # add_book_window - buttons
-    book_insert_database_btn = Button(add_book_window, text="Save to the database")
+    book_insert_database_btn = Button(add_book_window, text="Save to the database", command=get_book_data)
     back_to_menu_btn = Button(add_book_window, text="Back to Menu")
 
     # add_book_window geometry - buttons, centering the button - check the code on school computer
