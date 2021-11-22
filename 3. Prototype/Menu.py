@@ -12,12 +12,12 @@ def open_add_book_window():
     
     def get_book_data():
         """Gets the values of all StringVars in "Book data capture window" and adds them to a list, then inserts the list's elements into "Book" table"""
-        list_of_fields = [isbn_ent_var, book_title_ent_var, series_ent_var, author_ent_var, genre_ent_var, publisher_ent_var, publication_date_ent_var,
+        list_of_stringvars = [isbn_ent_var, book_title_ent_var, series_ent_var, author_ent_var, genre_ent_var, publisher_ent_var, publication_date_ent_var,
                           price_ent_var, summary_ent_var, keywords_ent_var, cover_type_cbx_var, charge_if_lost_ent_var, charge_if_damaged_ent_var,
-                          copies_owned_ent_var, copies_available_ent_var, date_added_ent_var]  # contains the names of all the StringVars
-        list_of_values = []  # contains the values of all the StringVars from list_of_fields
-        for field in list_of_fields:
-            list_of_values.append(field.get())
+                          copies_owned_ent_var, copies_available_ent_var, date_added_ent_var]  # stores the names of all the StringVars
+        list_of_values = []  # stores the values of all the StringVars from list_of_fields
+        for stringvar in list_of_stringvars:
+            list_of_values.append(stringvar.get())
         print(list_of_values)
         insert_book_data(list_of_values)  # imported from book_database
         list_of_values.clear()  # clears the list for next database record
