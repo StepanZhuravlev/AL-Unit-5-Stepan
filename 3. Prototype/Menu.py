@@ -1,32 +1,34 @@
 # "change password" button
-# Book (ISBN, BookTitle, Series, Author, Genre, Publisher, PublicationDate, Price, Summary, Keywords, Image, CoverType, ChargeIfLost, ChargeIfDamaged, CopiesOwned, CopiesAvailable, DateAdded)
-# function that closes the current window and opens menu
+# function that closes ANY current window and opens menu
+# def insert_book_data
 
 from tkinter import *
 from tkinter import ttk
-import book_database
-
-
-def get_book_data():  # unifinished + names of functions in book_database changed
-    """Gets the values of all the entry fields in the "Book data capture window" and adds them to a list.
-    <entry_field>_value = value stored in the <entry field> entry"""
-    list_of_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
-                      publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_cbx,
-                      charge_if_lost_ent, charge_if_damaged_ent, copies_owned_ent, copies_available_ent]
-    list_of_values = []
-    for field in list_of_fields:
-        list_of_values.append(field.get())
-    print(list_of_values)
+from book_database import *
 
 
 def open_add_book_window():
+    
+    
+    def get_book_data():
+        """Gets the values of all StringVars in "Book data capture window" and adds them to a list, then inserts the list's elements into "Book" table"""
+        list_of_fields = [isbn_ent_var, book_title_ent_var, series_ent_var, author_ent_var, genre_ent_var, publisher_ent_var, publication_date_ent_var,
+                          price_ent_var, summary_ent_var, keywords_ent_var, cover_type_cbx_var, charge_if_lost_ent_var, charge_if_damaged_ent_var,
+                          copies_owned_ent_var, copies_available_ent_var, date_added_ent_var]  # contains the names of all the StringVars
+        list_of_values = []  # contains the values of all the StringVars from list_of_fields
+        for field in list_of_fields:
+            list_of_values.append(field.get())
+        print(list_of_values)
+        insert_book_data(list_of_values)  # imported from book_database
+        list_of_values.clear()  # clears the list for next database record
+
+    
     """Opens the add_book_window and closes the menu_window"""
     # can the user upload an image using a tkinter form?
     # appending "date added" to the database record?
 
     menu_window.destroy()
     add_book_window = Tk()
-
     add_book_window.title("Book data capture window")
     add_book_window.geometry("500x500")
 
@@ -46,6 +48,7 @@ def open_add_book_window():
     charge_if_damaged_lbl = Label(add_book_window, text="Charge if damaged:")
     copies_owned_lbl = Label(add_book_window, text="Copies owned:")
     copies_available_lbl = Label(add_book_window, text="Copies available:")
+    date_added_lbl = Label(add_book_window, text="Date added:")
 
     # add_book_window geometry - labels
     isbn_lbl.grid(row=0, column=0, padx=5, pady=5)
@@ -63,23 +66,58 @@ def open_add_book_window():
     charge_if_damaged_lbl.grid(row=12, column=0, padx=5, pady=5)
     copies_owned_lbl.grid(row=13, column=0, padx=5, pady=5)
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
+    date_added_lbl.grid(row=15, column=0, padx=5, pady=5)
 
-    # add_book_window - entry fields
-    isbn_ent = Entry(add_book_window)
-    book_title_ent = Entry(add_book_window)
-    series_ent = Entry(add_book_window)
-    author_ent = Entry(add_book_window)
-    genre_ent = Entry(add_book_window)
-    publisher_ent = Entry(add_book_window)
-    publication_date_ent = Entry(add_book_window)  # date picker?
-    price_ent = Entry(add_book_window)
-    summary_ent = Entry(add_book_window)
-    keywords_ent = Entry(add_book_window)
-    cover_type_cbx = ttk.Combobox(add_book_window, values=["Paperback", "Hardback"])
-    charge_if_lost_ent = Entry(add_book_window)
-    charge_if_damaged_ent = Entry(add_book_window)
-    copies_owned_ent = Entry(add_book_window)
-    copies_available_ent = Entry(add_book_window)
+
+    # add_book_window - entry fields and StringVars
+    isbn_ent_var = StringVar()
+    isbn_ent = Entry(add_book_window, textvariable=isbn_ent_var)
+    
+    book_title_ent_var = StringVar()
+    book_title_ent = Entry(add_book_window, textvariable=book_title_ent_var)
+    
+    series_ent_var = StringVar()
+    series_ent = Entry(add_book_window, textvariable=series_ent_var)
+    
+    author_ent_var = StringVar()
+    author_ent = Entry(add_book_window, textvariable=author_ent_var)
+    
+    genre_ent_var = StringVar()
+    genre_ent = Entry(add_book_window, textvariable=genre_ent_var)
+    
+    publisher_ent_var = StringVar()
+    publisher_ent = Entry(add_book_window, textvariable=publisher_ent_var)
+    
+    publication_date_ent_var = StringVar()
+    publication_date_ent = Entry(add_book_window, textvariable=publication_date_ent_var)  # date picker?
+    
+    price_ent_var = StringVar()
+    price_ent = Entry(add_book_window, textvariable=price_ent_var)
+    
+    summary_ent_var = StringVar()
+    summary_ent = Entry(add_book_window, textvariable=summary_ent_var)
+    
+    keywords_ent_var = StringVar()
+    keywords_ent = Entry(add_book_window, textvariable=keywords_ent_var)
+    
+    cover_type_cbx_var = StringVar()
+    cover_type_cbx = ttk.Combobox(add_book_window, values=["Paperback", "Hardback"], textvariable=cover_type_cbx_var)
+    
+    charge_if_lost_ent_var = StringVar()
+    charge_if_lost_ent = Entry(add_book_window, textvariable=charge_if_lost_ent_var)
+    
+    charge_if_damaged_ent_var = StringVar()
+    charge_if_damaged_ent = Entry(add_book_window, textvariable=charge_if_damaged_ent_var)
+    
+    copies_owned_ent_var = StringVar()
+    copies_owned_ent = Entry(add_book_window, textvariable=copies_owned_ent_var)
+    
+    copies_available_ent_var = StringVar()
+    copies_available_ent = Entry(add_book_window, textvariable=copies_available_ent_var)
+    
+    date_added_ent_var = StringVar()
+    date_added_ent = Entry(add_book_window, textvariable=date_added_ent_var)
+
 
     # add_book_window geometry - entry fields
     isbn_ent.grid(row=0, column=1, padx=5, pady=5)
@@ -97,14 +135,15 @@ def open_add_book_window():
     charge_if_damaged_ent.grid(row=12, column=1, padx=5, pady=5)
     copies_owned_ent.grid(row=13, column=1, padx=5, pady=5)
     copies_available_ent.grid(row=14, column=1, padx=5, pady=5)
+    date_added_ent.grid(row=15, column=1, padx=5, pady=5)
 
     # add_book_window - buttons
     book_insert_database_btn = Button(add_book_window, text="Save to the database", command=get_book_data)
     back_to_menu_btn = Button(add_book_window, text="Back to Menu")
 
     # add_book_window geometry - buttons, centering the button - check the code on school computer
-    book_insert_database_btn.grid(row=15, column=1, padx=5, pady=5)
-    back_to_menu_btn.grid(row=15, column=0, padx=5, pady=5)  
+    book_insert_database_btn.grid(row=16, column=1, padx=5, pady=5)
+    back_to_menu_btn.grid(row=16, column=0, padx=5, pady=5)  
 
     add_book_window.mainloop()
     
