@@ -67,56 +67,39 @@ def open_add_book_window():
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
     date_added_lbl.grid(row=15, column=0, padx=5, pady=5)
 
-
     # add_book_window - entry fields and StringVars
     isbn_ent_var = StringVar()
     isbn_ent = Entry(add_book_window, textvariable=isbn_ent_var)
-    
     book_title_ent_var = StringVar()
     book_title_ent = Entry(add_book_window, textvariable=book_title_ent_var)
-    
     series_ent_var = StringVar()
     series_ent = Entry(add_book_window, textvariable=series_ent_var)
-    
     author_ent_var = StringVar()
     author_ent = Entry(add_book_window, textvariable=author_ent_var)
-    
     genre_ent_var = StringVar()
     genre_ent = Entry(add_book_window, textvariable=genre_ent_var)
-    
     publisher_ent_var = StringVar()
     publisher_ent = Entry(add_book_window, textvariable=publisher_ent_var)
-    
     publication_date_ent_var = StringVar()
     publication_date_ent = Entry(add_book_window, textvariable=publication_date_ent_var)  # date picker?
-    
     price_ent_var = StringVar()
     price_ent = Entry(add_book_window, textvariable=price_ent_var)
-    
     summary_ent_var = StringVar()
     summary_ent = Entry(add_book_window, textvariable=summary_ent_var)
-    
     keywords_ent_var = StringVar()
     keywords_ent = Entry(add_book_window, textvariable=keywords_ent_var)
-    
     cover_type_cbx_var = StringVar()
     cover_type_cbx = ttk.Combobox(add_book_window, values=["Paperback", "Hardback"], textvariable=cover_type_cbx_var)
-    
     charge_if_lost_ent_var = StringVar()
     charge_if_lost_ent = Entry(add_book_window, textvariable=charge_if_lost_ent_var)
-    
     charge_if_damaged_ent_var = StringVar()
     charge_if_damaged_ent = Entry(add_book_window, textvariable=charge_if_damaged_ent_var)
-    
     copies_owned_ent_var = StringVar()
     copies_owned_ent = Entry(add_book_window, textvariable=copies_owned_ent_var)
-    
     copies_available_ent_var = StringVar()
     copies_available_ent = Entry(add_book_window, textvariable=copies_available_ent_var)
-    
     date_added_ent_var = StringVar()
     date_added_ent = Entry(add_book_window, textvariable=date_added_ent_var)
-
 
     # add_book_window geometry - entry fields
     isbn_ent.grid(row=0, column=1, padx=5, pady=5)
@@ -169,6 +152,14 @@ def open_add_book_request_window():
     add_book_request_window = Tk()
     book_request_test_lbl = Label(add_book_request_window, text="book request test").pack()
     add_book_request_window.mainloop()
+    
+    
+def open_view_book_table_window():
+    """Opens the view_book_table_btn and closes the menu_window"""
+    menu_window.destroy()
+    view_book_table_window = Tk()
+    # ...
+    view_book_table_window.mainloop()
 
 
 menu_window = Tk()
@@ -182,6 +173,7 @@ add_member_btn = Button(menu_window, text="Add a new member", command=open_add_m
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_add_loan_window)
 add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
+view_book_table_btn = Button(menu_window, text="View Book Table", command=open_view_book_table_window)
 
 # menu_window geometry - buttons:
 add_book_btn.grid(row=0, column=0, padx=5, pady=5)
@@ -189,5 +181,6 @@ add_member_btn.grid(row=0, column=1, padx=5, pady=5)
 add_loan_btn.grid(row=0, column=2, padx=5, pady=5)
 add_request_btn.grid(row=0, column=3, padx=5, pady=5)
 close_menu_btn.grid(row=0, column=4, padx=5, pady=5)
+view_book_table_btn.grid(row=1, column=0, padx=5, pady=5)
 
 menu_window.mainloop()
