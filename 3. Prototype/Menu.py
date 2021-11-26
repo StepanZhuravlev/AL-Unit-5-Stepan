@@ -1,3 +1,4 @@
+# https://www.activestate.com/resources/quick-reads/how-to-display-data-in-a-table-using-tkinter/
 # "change password" button
 # function that closes ANY current window and opens menu
 # def insert_book_data
@@ -8,7 +9,7 @@ from book_database import *
 
 
 def open_add_book_window():
-    
+    """Opens the add_book_window and closes the menu_window"""
     
     def get_book_data():
         """Gets the values of all StringVars in "Book data capture window" and adds them to a list, then inserts the list's elements into "Book" table"""
@@ -22,8 +23,6 @@ def open_add_book_window():
         insert_book_data(list_of_values)  # imported from book_database
         list_of_values.clear()  # clears the list for next database record
 
-    
-    """Opens the add_book_window and closes the menu_window"""
     # can the user upload an image using a tkinter form?
     # appending "date added" to the database record?
 
