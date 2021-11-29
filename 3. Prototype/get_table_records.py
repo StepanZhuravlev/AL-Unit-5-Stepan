@@ -1,8 +1,9 @@
 import sqlite3
 
 
-def display_table_records(table_name, treeview, num_of_records):  # prints the records successfully, doesn't add them to a Treeview yet
+def display_table_records(table_name, treeview, num_of_records):
     """Gets all the records from <table_name> table, and inserts them into a <treeview> Treeview"""
+    
     library_database = sqlite3.connect("Library.db")
     library_table_cursor = library_database.cursor()
     library_table_cursor.execute(f"SELECT * FROM {table_name}")
