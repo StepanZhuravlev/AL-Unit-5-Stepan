@@ -1,11 +1,12 @@
 # https://www.activestate.com/resources/quick-reads/how-to-display-data-in-a-table-using-tkinter/
 # "change password" button
 # function that closes ANY current window and opens menu
-# def insert_book_data
 
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from book_database import *
+from book_database import insert_book_data
+from get_table_records import display_table_records
 
 
 def open_add_book_window():
@@ -158,7 +159,55 @@ def open_view_book_table_window():
     """Opens the view_book_table_btn and closes the menu_window"""
     menu_window.destroy()
     view_book_table_window = Tk()
-    # ...
+    view_book_table_window.title("View Book Table")
+    
+    # .column(minwidth=0, width=100, stretch=NO)
+    # Treeview:
+    view_book_table_treeview = ttk.Treeview(view_book_table_window, columns=("col_1", "col_2", "col_3", "col_4",
+                                                                            "col_5", "col_6", "col_7", "col_8",
+                                                                            "col_9", "col_10", "col_11", "col_12",
+                                                                            "col_13", "col_14", "col_15", "col_16"),
+                                            show='headings')
+    view_book_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#1", text="ID")
+    view_book_table_treeview.column("#2", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#2", text="BookTitle")
+    view_book_table_treeview.column("#3", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#3", text="Series")
+    view_book_table_treeview.column("#4", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#4", text="Author")
+    view_book_table_treeview.column("#5", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#5", text="Genre")
+    view_book_table_treeview.column("#6", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#6", text="Publisher")
+    view_book_table_treeview.column("#7", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#7", text="PublicationDate")
+    view_book_table_treeview.column("#8", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#8", text="Price")
+    view_book_table_treeview.column("#9", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#9", text="Summary")
+    view_book_table_treeview.column("#10", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#10", text="Keywords")
+    view_book_table_treeview.column("#11", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#11", text="CoverType")
+    view_book_table_treeview.column("#12", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#12", text="ChargeIfLost")
+    view_book_table_treeview.column("#13", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#13", text="ChargeIfDamaged")
+    view_book_table_treeview.column("#14", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#14", text="CopiesOwned")
+    view_book_table_treeview.column("#15", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#15", text="CopiesAvailable")
+    view_book_table_treeview.column("#16", anchor=CENTER, width=100, stretch=NO)
+    view_book_table_treeview.heading("#16", text="DateAdded")
+    # geometry - Treeview
+    view_book_table_treeview.grid(row=0, column=0, padx=5, pady=5)
+    
+    # button:
+    display_book_table_btn = Button(text="Display data", command=lambda:display_table_records("Book", view_book_table_treeview, tk.END))  # imported from get_table_records
+    # geometry - button
+    display_book_table_btn.grid(row=1, column=0, padx=5, pady=5)
+    
     view_book_table_window.mainloop()
 
 
