@@ -14,8 +14,8 @@ def open_add_book_window():
     def get_book_data():
         """Gets the values of all StringVars in "Book data capture window" and adds them to a list, then inserts the list's elements into "Books" table"""
         list_of_stringvars = [isbn_ent_var, book_title_ent_var, series_ent_var, author_ent_var, genre_ent_var, publisher_ent_var, publication_date_ent_var,
-                          price_ent_var, summary_ent_var, keywords_ent_var, cover_type_cbx_var, charge_if_lost_ent_var, charge_if_damaged_ent_var,
-                          copies_owned_ent_var, copies_available_ent_var, date_added_ent_var]  # stores the names of all the StringVars
+                              price_ent_var, summary_ent_var, keywords_ent_var, cover_type_cbx_var, charge_if_lost_ent_var, charge_if_damaged_ent_var,
+                              copies_owned_ent_var, copies_available_ent_var, date_added_ent_var]  # stores the names of all the StringVars
         list_of_values = []  # stores the values of all the StringVars from list_of_fields
         for stringvar in list_of_stringvars:
             list_of_values.append(stringvar.get())
@@ -142,7 +142,7 @@ def open_add_member_window():
     first_name_lbl = Label(add_member_window, text="First name:")
     last_name_lbl = Label(add_member_window, text="Last name:")
     date_of_birth_lbl = Label(add_member_window, text="Date of birth:")
-    email_lbl = Label(add_member_window, text="")
+    email_lbl = Label(add_member_window, text="Email:")
     school_year_lbl = Label(add_member_window, text="School year (if applicable):")
     member_type_lbl = Label(add_member_window, text="Member type:")
     
@@ -185,11 +185,12 @@ def open_add_member_window():
     member_type_ent.grid(row=7, column=1, padx=5, pady=5)
     
     # add_member_window - buttons - instantiation
-    member_insert_btn = Button(add_book_window, text="Save to the database")
-    back_to_menu_btn = Button(add_book_window, text="Back to Menu")
+    member_insert_btn = Button(add_member_window, text="Save to the database")
+    back_to_menu_btn = Button(add_member_window, text="Back to Menu")
     
     # add_member_window - buttons - geometry
-    
+    member_insert_btn.grid(row=8, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=8, column=1, padx=5, pady=5)
     
     add_member_window.mainloop()
     
@@ -211,7 +212,7 @@ def open_add_book_request_window():
     
     
 def open_view_books_table_window():
-    """Opens the view_book_table_btn and closes the menu_window"""
+    """Opens the view_books_table_window and closes the menu_window"""
     menu_window.destroy()
     view_books_table_window = Tk()
     view_books_table_window.title("View Books Table")
@@ -219,10 +220,10 @@ def open_view_books_table_window():
     # .column(minwidth=0, width=100, stretch=NO)
     # Treeview:
     view_books_table_treeview = ttk.Treeview(view_books_table_window, columns=("col_1", "col_2", "col_3", "col_4",
-                                                                            "col_5", "col_6", "col_7", "col_8",
-                                                                            "col_9", "col_10", "col_11", "col_12",
-                                                                            "col_13", "col_14", "col_15", "col_16"),
-                                            show='headings')
+                                                                               "col_5", "col_6", "col_7", "col_8",
+                                                                               "col_9", "col_10", "col_11", "col_12",
+                                                                               "col_13", "col_14", "col_15", "col_16"),
+                                             show='headings')
     view_books_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
     view_books_table_treeview.heading("#1", text="ISBN")
     view_books_table_treeview.column("#2", anchor=CENTER, width=100, stretch=NO)
@@ -259,11 +260,44 @@ def open_view_books_table_window():
     view_books_table_treeview.grid(row=0, column=0, padx=5, pady=5)
     
     # button:
-    display_books_table_btn = Button(text="Display data", command=lambda:display_table_records("Books", view_books_table_treeview, tk.END))  # imported from get_table_records
+    display_books_table_btn = Button(text="Display data", command=lambda: display_table_records("Books", view_books_table_treeview, tk.END))  # imported from get_table_records
     # geometry - button
     display_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
     
     view_books_table_window.mainloop()
+
+
+def open_view_members_table_window():
+    menu_window.destroy()
+    view_members_table_window = Tk()
+    view_members_table_window.title("View Books Table")
+
+    # Treeview
+    view_members_table_treeview = ttk.Treeview(view_members_table_window, columns=("col_1", "col_2", "col_3", "col_4"
+                                                                                   "col_5", "col_6", "col_7", "col_8"),
+                                               show="headings")
+    view_members_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#1", text="MemberID")
+    view_members_table_treeview.column("#2", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#2", text="MemberID")
+    view_members_table_treeview.column("#3", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#3", text="MemberID")
+    view_members_table_treeview.column("#4", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#4", text="MemberID")
+    view_members_table_treeview.column("#5", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#5", text="MemberID")
+    view_members_table_treeview.column("#6", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#6", text="MemberID")
+    view_members_table_treeview.column("#7", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#7", text="MemberID")
+    view_members_table_treeview.column("#8", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#8", text="MemberID")
+
+    view_members_table_treeview.grid(row=0, column=0, padx=5, pady=5)
+    display_members_table_btn = Button(text="Display data", command=lambda: display_table_records("Members", view_members_table_treeview, tk.END))
+    display_members_table_btn.grid(row=1, column=0, padx=5, pady=5)
+
+    view_members_table_window.mainloop()
 
 
 menu_window = Tk()
@@ -271,20 +305,22 @@ menu_window.title("Menu")
 menu_window.geometry("600x200")
 menu_window.resizable(width=False, height=False)
 
-# menu_window buttons:
+# menu_window - buttons - instantiation
 add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_window)
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_add_loan_window)
 add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books Table", command=open_view_books_table_window)
+view_members_table_btn = Button(menu_window, text="View Members Table", command=open_view_members_table_window)
 
-# menu_window geometry - buttons:
+# menu_window - buttons - geometry
 add_book_btn.grid(row=0, column=0, padx=5, pady=5)
 add_member_btn.grid(row=0, column=1, padx=5, pady=5)
 add_loan_btn.grid(row=0, column=2, padx=5, pady=5)
 add_request_btn.grid(row=0, column=3, padx=5, pady=5)
 close_menu_btn.grid(row=0, column=4, padx=5, pady=5)
 view_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
+view_members_table_btn.grid(row=1, column=1, padx=5, pady=5)
 
 menu_window.mainloop()
