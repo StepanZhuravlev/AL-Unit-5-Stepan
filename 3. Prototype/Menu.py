@@ -4,7 +4,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from library_database import insert_book_data
+from library_database import insert_book_data, insert_member_data
 from get_table_records import display_table_records
 
 
@@ -256,12 +256,9 @@ def open_view_books_table_window():
     view_books_table_treeview.heading("#15", text="CopiesAvailable")
     view_books_table_treeview.column("#16", anchor=CENTER, width=100, stretch=NO)
     view_books_table_treeview.heading("#16", text="DateAdded")
-    # geometry - Treeview
+
     view_books_table_treeview.grid(row=0, column=0, padx=5, pady=5)
-    
-    # button:
-    display_books_table_btn = Button(text="Display data", command=lambda: display_table_records("Books", view_books_table_treeview, tk.END))  # imported from get_table_records
-    # geometry - button
+    display_books_table_btn = Button(text="Display data", command=lambda: display_table_records("Books", view_books_table_treeview, tk.END))  # imported from get_table_records.py
     display_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
     
     view_books_table_window.mainloop()
@@ -270,31 +267,29 @@ def open_view_books_table_window():
 def open_view_members_table_window():
     menu_window.destroy()
     view_members_table_window = Tk()
-    view_members_table_window.title("View Books Table")
+    view_members_table_window.title("View Members Table")
 
     # Treeview
-    view_members_table_treeview = ttk.Treeview(view_members_table_window, columns=("col_1", "col_2", "col_3", "col_4"
-                                                                                   "col_5", "col_6", "col_7", "col_8"),
+    view_members_table_treeview = ttk.Treeview(view_members_table_window, columns=("col_1", "col_2", "col_3", "col_4",
+                                                                                   "col_5", "col_6", "col_7"),
                                                show="headings")
     view_members_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
     view_members_table_treeview.heading("#1", text="MemberID")
     view_members_table_treeview.column("#2", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#2", text="MemberID")
+    view_members_table_treeview.heading("#2", text="FirstName")
     view_members_table_treeview.column("#3", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#3", text="MemberID")
+    view_members_table_treeview.heading("#3", text="LastName")
     view_members_table_treeview.column("#4", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#4", text="MemberID")
+    view_members_table_treeview.heading("#4", text="DateOfBirth")
     view_members_table_treeview.column("#5", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#5", text="MemberID")
+    view_members_table_treeview.heading("#5", text="Email")
     view_members_table_treeview.column("#6", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#6", text="MemberID")
+    view_members_table_treeview.heading("#6", text="SchoolYear")
     view_members_table_treeview.column("#7", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#7", text="MemberID")
-    view_members_table_treeview.column("#8", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#8", text="MemberID")
+    view_members_table_treeview.heading("#7", text="MemberType")
 
     view_members_table_treeview.grid(row=0, column=0, padx=5, pady=5)
-    display_members_table_btn = Button(text="Display data", command=lambda: display_table_records("Members", view_members_table_treeview, tk.END))
+    display_members_table_btn = Button(text="Display data", command=lambda: display_table_records("Members", view_members_table_treeview, tk.END))  # imported from get_table_records.py
     display_members_table_btn.grid(row=1, column=0, padx=5, pady=5)
 
     view_members_table_window.mainloop()

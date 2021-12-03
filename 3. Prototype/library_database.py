@@ -38,7 +38,7 @@ def insert_book_data(new_book_data):
                                                   new_book_data[8], new_book_data[9], new_book_data[10], new_book_data[11],
                                                   new_book_data[12], new_book_data[13], new_book_data[14], new_book_data[15])
                                  )
-    print("New book data inserted successfully")
+    print("New book data inserted successfully.")
     library_database.commit()
     library_database.close()
 
@@ -59,7 +59,6 @@ def create_members_table():
                                     """)
     library_database.commit()
     library_database.close()
-    print("members table created")
     
     
 def insert_member_data(new_member_data):
@@ -70,17 +69,41 @@ def insert_member_data(new_member_data):
     VALUES (?,?,?,?,?,?,?)""", (new_member_data[0], new_member_data[1], new_member_data[2], new_member_data[3],
                                 new_member_data[4], new_member_data[5], new_member_data[6])
                                )
-    print("New member data inserted successfully")
+    print("New member data inserted successfully.")
     library_database.commit()
     library_database.close()
     
 
-#create_book_table()
+# LOANS TABLE:
+def create_loans_table():
+    """Creates a table for storing loan details"""
+    library_database = sqlite3.connect("Library.db")
+    loans_table_cursor = library_database.cursor()
+    loans_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Loans(
+                                  LoanID VARCHAR(5) PRIMARY KEY,
+                                  FOREIGN KEY ISBN REFERENCES Books(ISBN),
+                                  FOREIGN KEY MemberID REFERENCES Members(MemberID),
+                                  LoanDate DATE,
+                                  LoanDuration INTEGER,
+                                  DueForReturn DATE, 
+                                  IsDamaged BOOLEAN,
+                                  IsLost BOOLEAN)
+                                  """)
+    library_database.commit()
+    library_database.close()
+    
 
-SELECT name FROM sqlite_schema WHERE type ='table' AND name NOT LIKE 'sqlite_%';
+def insert_loan_data(new_loan_data):
+    """Adds the details entered by the user to Loans table in Library.db database"""
+    library_database = sqlite3.connect("Library.db")
+    loans_table_cursor = library_database.cursor()
+    loans_table_cursor.execute("""INSERT INTO Loans(LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost) VALUES (?,?,?,?,?,?)""",
+                               new_loan_data[0], new_loan_data[1], new_loan_data[2], new_loan_data[3], new_loan_data[4], new_loan_data[5])
+    print("New loan data inserted successfully.")
+    library_database.commit()
+    library_database.close()
+    
 
+create_book_table()
 create_members_table()
-
-
-new_member_data = ["MemID2", "Stepan", "Zhuravlev", "01/01/2000", "szhuravlev308@ccblearning.org.uk", "14", "Student"]
-insert_member_data(new_member_data)
+create_loans_table()
