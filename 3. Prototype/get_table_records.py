@@ -13,4 +13,3 @@ def display_table_records(table_name, treeview, num_of_records):
         treeview.insert("", num_of_records, values=row)
     
     library_database.close()
-    

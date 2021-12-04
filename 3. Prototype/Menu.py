@@ -23,13 +23,9 @@ def open_add_book_window():
         insert_book_data(list_of_values)  # imported from book_database
         list_of_values.clear()  # clears the list for next database record
 
-    # can the user upload an image using a tkinter form?
-    # appending "date added" to the database record?
-
     menu_window.destroy()
     add_book_window = Tk()
     add_book_window.title("Book data capture window")
-    add_book_window.geometry("500x500")
 
     # add_book_window - labels
     isbn_lbl = Label(add_book_window, text="ISBN:")
@@ -124,20 +120,33 @@ def open_add_book_window():
     back_to_menu_btn = Button(add_book_window, text="Back to Menu")
 
     # add_book_window geometry - buttons, centering the button - check the code on school computer
-    book_insert_database_btn.grid(row=16, column=1, padx=5, pady=5)
-    back_to_menu_btn.grid(row=16, column=0, padx=5, pady=5)  
+    book_insert_database_btn.grid(row=16, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=16, column=1, padx=5, pady=5)
 
     add_book_window.mainloop()
     
     
 def open_add_member_window():
     """Opens the add_member_window and closes the menu_window"""
+
+    def get_member_data():
+        """Gets the values of all StringVars in "Member data capture window" and adds them to a list, then inserts the list's elements into "Members" table"""
+        list_of_stringvars = [member_title_ent_var, first_name_ent_var, last_name_ent_var, date_of_birth_ent_var,
+                              email_lbl_ent_var, school_year_ent_var,
+                              member_type_ent_var]  # stores the names of all the StringVars
+        list_of_values = []  # stores the values of all the StringVars from list_of_stringvars
+        for stringvar in list_of_stringvars:
+            list_of_values.append(stringvar.get())
+        print(list_of_values)
+        insert_member_data(list_of_values)  # imported from library_database
+        list_of_values.clear()  # clears the list for next database record
+
     menu_window.destroy()
     add_member_window = Tk()
     add_member_window.title("Member data capture window")
     
     # add_member_window - labels - instantiation
-    member_id_lbl = Label(add_member_window, text="Member ID:")
+    #member_id_lbl = Label(add_member_window, text="Member ID:")
     member_title_lbl = Label(add_member_window, text="Member title:")
     first_name_lbl = Label(add_member_window, text="First name:")
     last_name_lbl = Label(add_member_window, text="Last name:")
@@ -147,18 +156,18 @@ def open_add_member_window():
     member_type_lbl = Label(add_member_window, text="Member type:")
     
     # add_member_window - labels - geometry
-    member_id_lbl.grid(row=0, column=0, padx=5, pady=5)
-    member_title_lbl.grid(row=1, column=0, padx=5, pady=5)
-    first_name_lbl.grid(row=2, column=0, padx=5, pady=5)
-    last_name_lbl.grid(row=3, column=0, padx=5, pady=5)
-    date_of_birth_lbl.grid(row=4, column=0, padx=5, pady=5)
-    email_lbl.grid(row=5, column=0, padx=5, pady=5)
-    school_year_lbl.grid(row=6, column=0, padx=5, pady=5)
-    member_type_lbl.grid(row=7, column=0, padx=5, pady=5)
+    #member_id_lbl.grid(row=0, column=0, padx=5, pady=5)
+    member_title_lbl.grid(row=0, column=0, padx=5, pady=5)
+    first_name_lbl.grid(row=1, column=0, padx=5, pady=5)
+    last_name_lbl.grid(row=2, column=0, padx=5, pady=5)
+    date_of_birth_lbl.grid(row=3, column=0, padx=5, pady=5)
+    email_lbl.grid(row=4, column=0, padx=5, pady=5)
+    school_year_lbl.grid(row=5, column=0, padx=5, pady=5)
+    member_type_lbl.grid(row=6, column=0, padx=5, pady=5)
     
     # add_member_window - entry fields - instantiation
-    member_id_ent_var = StringVar()
-    member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
+    #member_id_ent_var = StringVar()
+    #member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
     member_title_ent_var = StringVar()
     member_title_ent = Entry(add_member_window, textvariable=member_title_ent_var)
     first_name_ent_var = StringVar()
@@ -175,22 +184,22 @@ def open_add_member_window():
     member_type_ent = Entry(add_member_window, textvariable=member_type_ent_var)
     
     # add_member_window - entry fields - geometry
-    member_id_ent.grid(row=0, column=1, padx=5, pady=5)
-    member_title_ent.grid(row=1, column=1, padx=5, pady=5)
-    first_name_ent.grid(row=2, column=1, padx=5, pady=5)
-    last_name_ent.grid(row=3, column=1, padx=5, pady=5)
-    date_of_birth_ent.grid(row=4, column=1, padx=5, pady=5)
-    email_lbl_ent.grid(row=5, column=1, padx=5, pady=5)
-    school_year_ent.grid(row=6, column=1, padx=5, pady=5)
-    member_type_ent.grid(row=7, column=1, padx=5, pady=5)
+    #member_id_ent.grid(row=0, column=1, padx=5, pady=5)
+    member_title_ent.grid(row=0, column=1, padx=5, pady=5)
+    first_name_ent.grid(row=1, column=1, padx=5, pady=5)
+    last_name_ent.grid(row=2, column=1, padx=5, pady=5)
+    date_of_birth_ent.grid(row=3, column=1, padx=5, pady=5)
+    email_lbl_ent.grid(row=4, column=1, padx=5, pady=5)
+    school_year_ent.grid(row=5, column=1, padx=5, pady=5)
+    member_type_ent.grid(row=6, column=1, padx=5, pady=5)
     
     # add_member_window - buttons - instantiation
-    member_insert_btn = Button(add_member_window, text="Save to the database")
+    member_insert_btn = Button(add_member_window, text="Save to the database", command=get_member_data)
     back_to_menu_btn = Button(add_member_window, text="Back to Menu")
     
     # add_member_window - buttons - geometry
-    member_insert_btn.grid(row=8, column=0, padx=5, pady=5)
-    back_to_menu_btn.grid(row=8, column=1, padx=5, pady=5)
+    member_insert_btn.grid(row=7, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=7, column=1, padx=5, pady=5)
     
     add_member_window.mainloop()
     
@@ -273,8 +282,10 @@ def open_view_members_table_window():
     view_members_table_treeview = ttk.Treeview(view_members_table_window, columns=("col_1", "col_2", "col_3", "col_4",
                                                                                    "col_5", "col_6", "col_7"),
                                                show="headings")
+    #view_members_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
+    #view_members_table_treeview.heading("#1", text="MemberID")
     view_members_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#1", text="MemberID")
+    view_members_table_treeview.heading("#1", text="MemberTitle")
     view_members_table_treeview.column("#2", anchor=CENTER, width=100, stretch=NO)
     view_members_table_treeview.heading("#2", text="FirstName")
     view_members_table_treeview.column("#3", anchor=CENTER, width=100, stretch=NO)
