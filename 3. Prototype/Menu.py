@@ -146,7 +146,7 @@ def open_add_member_window():
     add_member_window.title("Member data capture window")
     
     # add_member_window - labels - instantiation
-    #member_id_lbl = Label(add_member_window, text="Member ID:")
+    member_id_lbl = Label(add_member_window, text="Member ID:")
     member_title_lbl = Label(add_member_window, text="Member title:")
     first_name_lbl = Label(add_member_window, text="First name:")
     last_name_lbl = Label(add_member_window, text="Last name:")
@@ -156,18 +156,18 @@ def open_add_member_window():
     member_type_lbl = Label(add_member_window, text="Member type:")
     
     # add_member_window - labels - geometry
-    #member_id_lbl.grid(row=0, column=0, padx=5, pady=5)
-    member_title_lbl.grid(row=0, column=0, padx=5, pady=5)
-    first_name_lbl.grid(row=1, column=0, padx=5, pady=5)
-    last_name_lbl.grid(row=2, column=0, padx=5, pady=5)
-    date_of_birth_lbl.grid(row=3, column=0, padx=5, pady=5)
-    email_lbl.grid(row=4, column=0, padx=5, pady=5)
-    school_year_lbl.grid(row=5, column=0, padx=5, pady=5)
-    member_type_lbl.grid(row=6, column=0, padx=5, pady=5)
+    member_id_lbl.grid(row=0, column=0, padx=5, pady=5)
+    member_title_lbl.grid(row=1, column=0, padx=5, pady=5)
+    first_name_lbl.grid(row=2, column=0, padx=5, pady=5)
+    last_name_lbl.grid(row=3, column=0, padx=5, pady=5)
+    date_of_birth_lbl.grid(row=4, column=0, padx=5, pady=5)
+    email_lbl.grid(row=5, column=0, padx=5, pady=5)
+    school_year_lbl.grid(row=6, column=0, padx=5, pady=5)
+    member_type_lbl.grid(row=7, column=0, padx=5, pady=5)
     
     # add_member_window - entry fields - instantiation
-    #member_id_ent_var = StringVar()
-    #member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
+    member_id_ent_var = StringVar()
+    member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
     member_title_ent_var = StringVar()
     member_title_ent = Entry(add_member_window, textvariable=member_title_ent_var)
     first_name_ent_var = StringVar()
@@ -184,22 +184,22 @@ def open_add_member_window():
     member_type_ent = Entry(add_member_window, textvariable=member_type_ent_var)
     
     # add_member_window - entry fields - geometry
-    #member_id_ent.grid(row=0, column=1, padx=5, pady=5)
-    member_title_ent.grid(row=0, column=1, padx=5, pady=5)
-    first_name_ent.grid(row=1, column=1, padx=5, pady=5)
-    last_name_ent.grid(row=2, column=1, padx=5, pady=5)
-    date_of_birth_ent.grid(row=3, column=1, padx=5, pady=5)
-    email_lbl_ent.grid(row=4, column=1, padx=5, pady=5)
-    school_year_ent.grid(row=5, column=1, padx=5, pady=5)
-    member_type_ent.grid(row=6, column=1, padx=5, pady=5)
+    member_id_ent.grid(row=0, column=1, padx=5, pady=5)
+    member_title_ent.grid(row=1, column=1, padx=5, pady=5)
+    first_name_ent.grid(row=2, column=1, padx=5, pady=5)
+    last_name_ent.grid(row=3, column=1, padx=5, pady=5)
+    date_of_birth_ent.grid(row=4, column=1, padx=5, pady=5)
+    email_lbl_ent.grid(row=5, column=1, padx=5, pady=5)
+    school_year_ent.grid(row=6, column=1, padx=5, pady=5)
+    member_type_ent.grid(row=7, column=1, padx=5, pady=5)
     
     # add_member_window - buttons - instantiation
     member_insert_btn = Button(add_member_window, text="Save to the database", command=get_member_data)
     back_to_menu_btn = Button(add_member_window, text="Back to Menu")
     
     # add_member_window - buttons - geometry
-    member_insert_btn.grid(row=7, column=0, padx=5, pady=5)
-    back_to_menu_btn.grid(row=7, column=1, padx=5, pady=5)
+    member_insert_btn.grid(row=8, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=8, column=1, padx=5, pady=5)
     
     add_member_window.mainloop()
     
@@ -268,7 +268,11 @@ def open_view_books_table_window():
 
     view_books_table_treeview.grid(row=0, column=0, padx=5, pady=5)
     display_books_table_btn = Button(text="Display data", command=lambda: display_table_records("Books", view_books_table_treeview, tk.END))  # imported from get_table_records.py
+    back_to_menu_btn = Button(text="Back to Menu")
     display_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=1, column=1, padx=5, pady=5)
+
+
     
     view_books_table_window.mainloop()
 
@@ -308,17 +312,18 @@ def open_view_members_table_window():
 
 menu_window = Tk()
 menu_window.title("Menu")
-menu_window.geometry("600x200")
 menu_window.resizable(width=False, height=False)
 
 # menu_window - buttons - instantiation
 add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_window)
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_add_loan_window)
-add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)
+add_request_btn = Button(menu_window, text="Add a new book request (not working)", command=open_add_book_request_window)
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
-view_books_table_btn = Button(menu_window, text="View Books Table", command=open_view_books_table_window)
-view_members_table_btn = Button(menu_window, text="View Members Table", command=open_view_members_table_window)
+view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
+view_members_table_btn = Button(menu_window, text="View Members table", command=open_view_members_table_window)
+view_loans_table_btn = Button(menu_window, text="View Loans table")
+view_book_requests_table_btn = Button(menu_window, text="View Book Requests table (not working)")
 
 # menu_window - buttons - geometry
 add_book_btn.grid(row=0, column=0, padx=5, pady=5)
@@ -328,5 +333,7 @@ add_request_btn.grid(row=0, column=3, padx=5, pady=5)
 close_menu_btn.grid(row=0, column=4, padx=5, pady=5)
 view_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
 view_members_table_btn.grid(row=1, column=1, padx=5, pady=5)
+view_loans_table_btn.grid(row=1, column=2, padx=5, pady=5)
+view_book_requests_table_btn.grid(row=1, column=3, padx=5, pady=5)
 
 menu_window.mainloop()

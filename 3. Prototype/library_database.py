@@ -1,4 +1,7 @@
 import sqlite3
+import tkinter
+from tkinter import messagebox
+
 
 # BOOKS TABLE:
 def create_book_table():
@@ -38,7 +41,7 @@ def insert_book_data(new_book_data):
                                                   new_book_data[8], new_book_data[9], new_book_data[10], new_book_data[11],
                                                   new_book_data[12], new_book_data[13], new_book_data[14], new_book_data[15])
                                  )
-    # OUTPUT MESSAGE INSERTED SUCCESSFULLY
+    messagebox.showinfo("", "New data saved successfully.")
     library_database.commit()
     library_database.close()
 
@@ -49,7 +52,7 @@ def create_members_table():
     library_database = sqlite3.connect("Library.db")
     members_table_cursor = library_database.cursor()
     members_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Members(
-                                    MemberID INTEGER AUTO INCREMENT NOT NULL PRIMARY KEY,
+                                    MemberID INTEGER IDENTITY(0, 1) PRIMARY KEY,
                                     MemberTitle VARCHAR(10),
                                     FirstName VARCHAR(50),
                                     LastName VARCHAR(50),
@@ -69,7 +72,7 @@ def insert_member_data(new_member_data):
     members_table_cursor.execute("""INSERT INTO Members(MemberTitle, FirstName, LastName, DateOfBirth, Email, SchoolYear, MemberType)
     VALUES (?,?,?,?,?,?,?)""", (new_member_data[0], new_member_data[1], new_member_data[2], new_member_data[3],
                                 new_member_data[4], new_member_data[5], new_member_data[6]))
-    # OUTPUT MESSAGE INSERTED SUCCESSFULLY
+    messagebox.showinfo("", "New data saved successfully.")
     library_database.commit()
     library_database.close()
     
