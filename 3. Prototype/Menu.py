@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter import ttk
 from library_database import insert_book_data, insert_member_data
 from get_table_records import display_table_records
+from switch_windows import back_to_menu, closing_using_x
 
 
 def open_add_book_window():
@@ -23,11 +24,11 @@ def open_add_book_window():
         insert_book_data(list_of_values)  # imported from book_database
         list_of_values.clear()  # clears the list for next database record
 
-    menu_window.destroy()
+    menu_window.withdraw()  # menu_window.destroy() | .withdraw() keeps the menu_window hidden -> needs to be revealed again when X is clicked, or else the program keeps running
     add_book_window = Tk()
     add_book_window.title("Book data capture window")
 
-    # add_book_window - labels
+    # add_book_window - labels - instantiation
     isbn_lbl = Label(add_book_window, text="ISBN:")
     book_title_lbl = Label(add_book_window, text="Book title:")
     series_lbl = Label(add_book_window, text="Series:")
@@ -45,7 +46,7 @@ def open_add_book_window():
     copies_available_lbl = Label(add_book_window, text="Copies available:")
     date_added_lbl = Label(add_book_window, text="Date added:")
 
-    # add_book_window geometry - labels
+    # add_book_window geometry - labels - geometry
     isbn_lbl.grid(row=0, column=0, padx=5, pady=5)
     book_title_lbl.grid(row=1, column=0, padx=5, pady=5)
     series_lbl.grid(row=2, column=0, padx=5, pady=5)
@@ -63,7 +64,7 @@ def open_add_book_window():
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
     date_added_lbl.grid(row=15, column=0, padx=5, pady=5)
 
-    # add_book_window - entry fields and StringVars
+    # add_book_window - entry fields - instantiation & StringVars
     isbn_ent_var = StringVar()
     isbn_ent = Entry(add_book_window, textvariable=isbn_ent_var)
     book_title_ent_var = StringVar()
@@ -97,7 +98,7 @@ def open_add_book_window():
     date_added_ent_var = StringVar()
     date_added_ent = Entry(add_book_window, textvariable=date_added_ent_var)
 
-    # add_book_window geometry - entry fields
+    # add_book_window - entry fields - geometry
     isbn_ent.grid(row=0, column=1, padx=5, pady=5)
     book_title_ent.grid(row=1, column=1, padx=5, pady=5)
     series_ent.grid(row=2, column=1, padx=5, pady=5)
@@ -115,14 +116,15 @@ def open_add_book_window():
     copies_available_ent.grid(row=14, column=1, padx=5, pady=5)
     date_added_ent.grid(row=15, column=1, padx=5, pady=5)
 
-    # add_book_window - buttons
+    # add_book_window - buttons - instantiation
     book_insert_database_btn = Button(add_book_window, text="Save to the database", command=get_book_data)
-    back_to_menu_btn = Button(add_book_window, text="Back to Menu")
+    back_to_menu_btn = Button(add_book_window, text="Back to Menu", command=lambda: back_to_menu(add_book_window, menu_window))  # imported from switch_windows.py
 
-    # add_book_window geometry - buttons, centering the button - check the code on school computer
+    # add_book_window geometry - buttons - geometry
     book_insert_database_btn.grid(row=16, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=16, column=1, padx=5, pady=5)
 
+    add_book_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_book_window, menu_window))  # imported from switch_windows.py
     add_book_window.mainloop()
     
     
@@ -141,7 +143,7 @@ def open_add_member_window():
         insert_member_data(list_of_values)  # imported from library_database
         list_of_values.clear()  # clears the list for next database record
 
-    menu_window.destroy()
+    menu_window.withdraw()
     add_member_window = Tk()
     add_member_window.title("Member data capture window")
     
@@ -165,7 +167,7 @@ def open_add_member_window():
     school_year_lbl.grid(row=6, column=0, padx=5, pady=5)
     member_type_lbl.grid(row=7, column=0, padx=5, pady=5)
     
-    # add_member_window - entry fields - instantiation
+    # add_member_window - entry fields - instantiation & StringVars
     member_id_ent_var = StringVar()
     member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
     member_title_ent_var = StringVar()
@@ -195,12 +197,13 @@ def open_add_member_window():
     
     # add_member_window - buttons - instantiation
     member_insert_btn = Button(add_member_window, text="Save to the database", command=get_member_data)
-    back_to_menu_btn = Button(add_member_window, text="Back to Menu")
+    back_to_menu_btn = Button(add_member_window, text="Back to Menu", command=lambda: back_to_menu(add_member_window, menu_window))  # imported from switch_windows.py
     
     # add_member_window - buttons - geometry
     member_insert_btn.grid(row=8, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=8, column=1, padx=5, pady=5)
-    
+
+    add_member_window.protocol("WM_DELETE_WINDOW",lambda: closing_using_x(add_member_window, menu_window))  # imported from switch_windows.py
     add_member_window.mainloop()
     
     
@@ -209,6 +212,8 @@ def open_add_loan_window():
     menu_window.destroy()
     add_loan_window = Tk()
     loan_test_lbl = Label(add_loan_window, text="loan test").pack()
+
+    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_loan_window, menu_window))  # imported from switch_windows.py
     add_loan_window.mainloop()
     
     
@@ -217,12 +222,14 @@ def open_add_book_request_window():
     menu_window.destroy()
     add_book_request_window = Tk()
     book_request_test_lbl = Label(add_book_request_window, text="book request test").pack()
+
+    add_book_request_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_book_request_window, menu_window))  # imported from switch_windows.py
     add_book_request_window.mainloop()
     
     
 def open_view_books_table_window():
     """Opens the view_books_table_window and closes the menu_window"""
-    menu_window.destroy()
+    menu_window.withdraw()
     view_books_table_window = Tk()
     view_books_table_window.title("View Books Table")
     
@@ -267,18 +274,17 @@ def open_view_books_table_window():
     view_books_table_treeview.heading("#16", text="DateAdded")
 
     view_books_table_treeview.grid(row=0, column=0, padx=5, pady=5)
-    display_books_table_btn = Button(text="Display data", command=lambda: display_table_records("Books", view_books_table_treeview, tk.END))  # imported from get_table_records.py
-    back_to_menu_btn = Button(text="Back to Menu")
+    display_books_table_btn = Button(view_books_table_window, text="Display data", command=lambda: display_table_records("Books", view_books_table_treeview, tk.END))  # imported from get_table_records.py
+    back_to_menu_btn = Button(view_books_table_window, text="Back to Menu", command=lambda: back_to_menu(view_books_table_window, menu_window))
     display_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
-    back_to_menu_btn.grid(row=1, column=1, padx=5, pady=5)
+    back_to_menu_btn.grid(row=2, column=0, padx=5, pady=5)
 
-
-    
+    view_books_table_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(view_books_table_window, menu_window))  # imported from switch_windows.py
     view_books_table_window.mainloop()
 
 
 def open_view_members_table_window():
-    menu_window.destroy()
+    menu_window.withdraw()
     view_members_table_window = Tk()
     view_members_table_window.title("View Members Table")
 
@@ -304,12 +310,21 @@ def open_view_members_table_window():
     view_members_table_treeview.heading("#7", text="MemberType")
 
     view_members_table_treeview.grid(row=0, column=0, padx=5, pady=5)
-    display_members_table_btn = Button(text="Display data", command=lambda: display_table_records("Members", view_members_table_treeview, tk.END))  # imported from get_table_records.py
-    display_members_table_btn.grid(row=1, column=0, padx=5, pady=5)
 
+    # view_members_table_window - buttons - instantiation
+    display_members_table_btn = Button(view_members_table_window, text="Display data", command=lambda: display_table_records("Members", view_members_table_treeview, tk.END))  # imported from get_table_records.py
+    back_to_menu_btn = Button(view_members_table_window, text="Back to Menu", command=lambda: back_to_menu(view_members_table_window, menu_window))
+
+    # view_members_table_window - buttons - geometry
+    display_members_table_btn.grid(row=1, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=2, column=0, padx=5, pady=5)
+
+    view_members_table_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(view_members_table_window, menu_window))  # imported from switch_windows.py
     view_members_table_window.mainloop()
 
 
+#def open_menu_window():
+#   """Opens menu_window"""
 menu_window = Tk()
 menu_window.title("Menu")
 menu_window.resizable(width=False, height=False)
