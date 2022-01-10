@@ -217,7 +217,7 @@ def open_add_loan_window():
         for stringvar in list_of_stringvars:
             list_of_values.append(stringvar.get())
         print(list_of_values)
-        insert_member_data(list_of_values)
+        insert_loan_data(list_of_values)
         list_of_values.clear()
     
     menu_window.withdraw()
@@ -235,7 +235,7 @@ def open_add_loan_window():
     member_id_lbl = Label(add_loan_window, text="Member ID:")
     
     # add_loan_window - labels - geometry
-    load_id_lbl.grid(row=0, column=0, padx=5, pady=5)
+    loan_id_lbl.grid(row=0, column=0, padx=5, pady=5)
     loan_date_lbl.grid(row=1, column=0, padx=5, pady=5)
     loan_duration_lbl.grid(row=2, column=0, padx=5, pady=5)
     due_for_return_lbl.grid(row=3, column=0, padx=5, pady=5)
@@ -252,7 +252,7 @@ def open_add_loan_window():
     loan_duration_ent_var = StringVar()
     loan_duration_ent = Entry(add_loan_window, textvariable=loan_duration_ent_var)
     due_for_return_ent_var = StringVar()
-    due_for_return_ent = Entry(add_loan_window, textvariable=v)
+    due_for_return_ent = Entry(add_loan_window, textvariable=due_for_return_ent_var)
     is_damaged_ent_var = StringVar()
     is_damaged_ent = Entry(add_loan_window, textvariable=is_damaged_ent_var)
     is_lost_ent_var = StringVar()
@@ -279,7 +279,7 @@ def open_add_loan_window():
     
     # add_loan_window - buttons - geometry
     loan_insert_btn.grid(row=8, column=0, padx=5, pady=5)
-    back_to_menu_btn.grid(row=8, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=8, column=1, padx=5, pady=5)
     
     add_loan_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_loan_window, menu_window))  # imported from switch_windows.py
     add_loan_window.mainloop()
