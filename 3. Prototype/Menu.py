@@ -133,9 +133,9 @@ def open_add_member_window():
 
     def get_member_data():
         """Gets the values of all StringVars in "Member data capture window" and adds them to a list, then inserts the list's elements into "Members" table"""
-        list_of_stringvars = [member_title_ent_var, first_name_ent_var, last_name_ent_var, date_of_birth_ent_var,
-                              email_lbl_ent_var, school_year_ent_var,
-                              member_type_ent_var]  # stores the names of all the StringVars
+        list_of_stringvars = [member_id_ent_var, member_title_cbx_var, first_name_ent_var, last_name_ent_var, date_of_birth_ent_var,
+                              email_lbl_ent_var, school_year_cbx_var,
+                              member_type_cbx_var]  # stores the names of all the StringVars
         list_of_values = []  # stores the values of all the StringVars from list_of_stringvars
         for stringvar in list_of_stringvars:
             list_of_values.append(stringvar.get())
@@ -149,13 +149,16 @@ def open_add_member_window():
     
     # add_member_window - labels - instantiation
     member_id_lbl = Label(add_member_window, text="Member ID:")
-    member_title_lbl = Label(add_member_window, text="Member title:")
+    member_title_lbl = Label(add_member_window, text="Member title:")  # combobox
     first_name_lbl = Label(add_member_window, text="First name:")
     last_name_lbl = Label(add_member_window, text="Last name:")
     date_of_birth_lbl = Label(add_member_window, text="Date of birth:")
     email_lbl = Label(add_member_window, text="Email:")
-    school_year_lbl = Label(add_member_window, text="School year (if applicable):")
-    member_type_lbl = Label(add_member_window, text="Member type:")
+    school_year_lbl = Label(add_member_window, text="School year (if applicable):")  # combobox
+    member_type_lbl = Label(add_member_window, text="Member type:")  # combobox
+    # Combobox example:
+    # cover_type_cbx = ttk.Combobox(add_book_window, values=["Paperback", "Hardback"], textvariable=cover_type_cbx_var)
+    # Fields changed: member_title, school_year, member_type
     
     # add_member_window - labels - geometry
     member_id_lbl.grid(row=0, column=0, padx=5, pady=5)
@@ -168,32 +171,40 @@ def open_add_member_window():
     member_type_lbl.grid(row=7, column=0, padx=5, pady=5)
     
     # add_member_window - entry fields - instantiation & StringVars
+    # 1.
     member_id_ent_var = StringVar()
     member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
-    member_title_ent_var = StringVar()
-    member_title_ent = Entry(add_member_window, textvariable=member_title_ent_var)
+    # 2.
+    member_title_cbx_var = StringVar()
+    member_title_cbx = ttk.Combobox(add_member_window, values=["Mr", "Mrs", "Ms", "Dr"], textvariable=member_title_cbx_var)
+    # 3.
     first_name_ent_var = StringVar()
     first_name_ent = Entry(add_member_window, textvariable=first_name_ent_var)
+    # 4.
     last_name_ent_var = StringVar()
     last_name_ent = Entry(add_member_window, textvariable=last_name_ent_var)
+    # 5.
     date_of_birth_ent_var = StringVar()
     date_of_birth_ent = Entry(add_member_window, textvariable=date_of_birth_ent_var)
+    # 6.
     email_lbl_ent_var = StringVar()
     email_lbl_ent = Entry(add_member_window, textvariable=email_lbl_ent_var)
-    school_year_ent_var = StringVar()
-    school_year_ent = Entry(add_member_window, textvariable=school_year_ent_var)
-    member_type_ent_var = StringVar()
-    member_type_ent = Entry(add_member_window, textvariable=member_type_ent_var)
+    # 7.
+    school_year_cbx_var = StringVar()
+    school_year_cbx = ttk.Combobox(add_member_window, values=["8", "9", "10", "11", "12", "13", "14"], textvariable=school_year_cbx_var)
+    # 8.
+    member_type_cbx_var = StringVar()
+    member_type_cbx = ttk.Combobox(add_member_window, values=["Student", "Teacher", "Teaching Assistant", "Staff (other)"], textvariable=member_type_cbx_var)
     
     # add_member_window - entry fields - geometry
     member_id_ent.grid(row=0, column=1, padx=5, pady=5)
-    member_title_ent.grid(row=1, column=1, padx=5, pady=5)
+    member_title_cbx.grid(row=1, column=1, padx=5, pady=5)
     first_name_ent.grid(row=2, column=1, padx=5, pady=5)
     last_name_ent.grid(row=3, column=1, padx=5, pady=5)
     date_of_birth_ent.grid(row=4, column=1, padx=5, pady=5)
     email_lbl_ent.grid(row=5, column=1, padx=5, pady=5)
-    school_year_ent.grid(row=6, column=1, padx=5, pady=5)
-    member_type_ent.grid(row=7, column=1, padx=5, pady=5)
+    school_year_cbx.grid(row=6, column=1, padx=5, pady=5)
+    member_type_cbx.grid(row=7, column=1, padx=5, pady=5)
     
     # add_member_window - buttons - instantiation
     member_insert_btn = Button(add_member_window, text="Save to the database", command=get_member_data)
