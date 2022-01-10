@@ -79,7 +79,7 @@ def insert_member_data(new_member_data):
 
 # LOANS TABLE:
 def create_loans_table():
-    """Creates a table for storing loan details"""
+    """Creates a table for storing loan details"""  # foreign keys bug
     library_database = sqlite3.connect("Library.db")
     loans_table_cursor = library_database.cursor()
     loans_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Loans(

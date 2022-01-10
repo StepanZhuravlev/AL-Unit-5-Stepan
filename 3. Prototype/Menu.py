@@ -209,17 +209,55 @@ def open_add_member_window():
     
 def open_add_loan_window():
     """Opens the add_loan_window and closes the menu_window"""
-    menu_window.destroy()
+    
+    def get_loan_data():
+        """Gets the values of all StringVars in "Loan data capture window" and adds them to a list, then inserts the list's elements into "Loans" table"""
+        list_of_stringvars = []  # add names of stringvars
+        list_of_values = []
+        for stringvar in list_of_stringvars:
+            list_of_values.append(stringvar.get())
+        print(list_of_values)
+        insert_member_data(list_of_values)
+        list_of_values.clear()
+    
+    menu_window.withdraw()
     add_loan_window = Tk()
-    loan_test_lbl = Label(add_loan_window, text="loan test").pack()
-
+    add_loan_window.title("Loan data capture window")
+    
+    # add_loan_window - labels - instantiation
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    
+    # add_loan_window - labels - geometry
+    
+    
+    # add_loan_window - entry fields - instantiation and StringVars
+    
+    
+    # add_loan_window - entry fields - geometry
+    
+    
+    # add_loan_window - buttons - instantiation
+    
+    
+    # add_loan_window - buttons - geometry
+    
+    
+    
     add_loan_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_loan_window, menu_window))  # imported from switch_windows.py
     add_loan_window.mainloop()
     
     
 def open_add_book_request_window():
     """Opens the add_book_request_window and closes the menu_window"""
-    menu_window.destroy()
+    menu_window.withdraw()
     add_book_request_window = Tk()
     book_request_test_lbl = Label(add_book_request_window, text="book request test").pack()
 
