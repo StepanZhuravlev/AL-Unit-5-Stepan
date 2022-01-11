@@ -59,7 +59,7 @@ def create_members_table():
                                     DateOfBirth DATE,
                                     Email VARCHAR(50),
                                     SchoolYear INTEGER,
-                                    MemberType VARCHAR(10))
+                                    MemberType VARCHAR(25))
                                     """)
     library_database.commit()
     library_database.close()

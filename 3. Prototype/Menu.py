@@ -22,7 +22,7 @@ def open_add_book_window():
             list_of_values.append(stringvar.get())
         print(list_of_values)
         insert_book_data(list_of_values)  # imported from library_database
-        list_of_values.clear()  # clears the list for next database record
+        #list_of_values.clear()  # clears the list for next database record
 
     menu_window.withdraw()  # menu_window.destroy() | .withdraw() keeps the menu_window hidden -> needs to be revealed again when X is clicked, or else the program keeps running
     add_book_window = Tk()
@@ -134,14 +134,13 @@ def open_add_member_window():
     def get_member_data():
         """Gets the values of all StringVars in "Member data capture window" and adds them to a list, then inserts the list's elements into "Members" table"""
         list_of_stringvars = [member_id_ent_var, member_title_cbx_var, first_name_ent_var, last_name_ent_var, date_of_birth_ent_var,
-                              email_lbl_ent_var, school_year_cbx_var,
-                              member_type_cbx_var]  # stores the names of all the StringVars
+                              email_lbl_ent_var, school_year_cbx_var, member_type_cbx_var]  # stores the names of all the StringVars
         list_of_values = []  # stores the values of all the StringVars from list_of_stringvars
         for stringvar in list_of_stringvars:
             list_of_values.append(stringvar.get())
         print(list_of_values)
         insert_member_data(list_of_values)  # imported from library_database
-        list_of_values.clear()  # clears the list for next database record
+        #list_of_values.clear()  # clears the list for next database record
 
     menu_window.withdraw()
     add_member_window = Tk()
