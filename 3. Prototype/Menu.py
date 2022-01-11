@@ -21,7 +21,7 @@ def open_add_book_window():
         for stringvar in list_of_stringvars:
             list_of_values.append(stringvar.get())
         print(list_of_values)
-        insert_book_data(list_of_values)  # imported from book_database
+        insert_book_data(list_of_values)  # imported from library_database
         list_of_values.clear()  # clears the list for next database record
 
     menu_window.withdraw()  # menu_window.destroy() | .withdraw() keeps the menu_window hidden -> needs to be revealed again when X is clicked, or else the program keeps running

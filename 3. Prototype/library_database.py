@@ -90,10 +90,11 @@ def create_loans_table():
                                   IsDamaged BOOLEAN,
                                   IsLost BOOLEAN,
                                   ISBN VARCHAR(14),
-                                  MemberID INTEGER,
-                                  FOREIGN KEY(ISBN) REFERENCES Books(ISBN),
-                                  FOREIGN KEY(MemberID) REFERENCES Members(MemberID))
+                                  MemberID INTEGER
+                                  )
                                   """)
+    #FOREIGN KEY(ISBN) REFERENCES Books(ISBN),
+                                  #FOREIGN KEY(MemberID) REFERENCES Members(MemberID)
     library_database.commit()
     library_database.close()
     
