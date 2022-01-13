@@ -7,22 +7,18 @@ from tkinter import ttk
 from library_database import insert_book_data, insert_member_data, insert_loan_data
 from get_table_records import display_table_records
 from switch_windows import back_to_menu, closing_using_x
+from get_form_data import get_form_data_func
 
 
 def open_add_book_window():
     """Opens the add_book_window and closes the menu_window"""
-    
-    def get_book_data():
-        """Gets the values of all StringVars in "Book data capture window" and adds them to a list, then inserts the list's elements into "Books" table"""
-        list_of_stringvars = [isbn_ent_var, book_title_ent_var, series_ent_var, author_ent_var, genre_ent_var, publisher_ent_var, publication_date_ent_var,
-                              price_ent_var, summary_ent_var, keywords_ent_var, cover_type_cbx_var, charge_if_lost_ent_var, charge_if_damaged_ent_var,
-                              copies_owned_ent_var, copies_available_ent_var, date_added_ent_var]  # stores the names of all the StringVars
-        list_of_values = []  # stores the values of all the StringVars from list_of_fields
-        for stringvar in list_of_stringvars:
-            list_of_values.append(stringvar.get())
-        print(list_of_values)
-        insert_book_data(list_of_values)  # imported from library_database
-        #list_of_values.clear()  # clears the list for next database record
+
+    def get_book_data():  # Leave at the top as a different function OR call get_form_data_func() directly but after instantiation of entry fields?
+        list_of_ent_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
+                              publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_cbx,
+                              charge_if_lost_ent, charge_if_damaged_ent, copies_owned_ent, copies_available_ent,
+                              date_added_ent]
+        get_form_data_func(list_of_ent_fields, insert_book_data)  # imported from get_form_data.py
 
     menu_window.withdraw()  # menu_window.destroy() | .withdraw() keeps the menu_window hidden -> needs to be revealed again when X is clicked, or else the program keeps running
     add_book_window = Tk()
@@ -64,7 +60,7 @@ def open_add_book_window():
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
     date_added_lbl.grid(row=15, column=0, padx=5, pady=5)
 
-    # add_book_window - entry fields - instantiation & StringVars
+    # add_book_window - entry fields - instantiation & StringVars - Current purpose of StringVars?
     isbn_ent_var = StringVar()
     isbn_ent = Entry(add_book_window, textvariable=isbn_ent_var)
     book_title_ent_var = StringVar()
@@ -132,15 +128,9 @@ def open_add_member_window():
     """Opens the add_member_window and closes the menu_window"""
 
     def get_member_data():
-        """Gets the values of all StringVars in "Member data capture window" and adds them to a list, then inserts the list's elements into "Members" table"""
-        list_of_stringvars = [member_id_ent_var, member_title_cbx_var, first_name_ent_var, last_name_ent_var, date_of_birth_ent_var,
-                              email_lbl_ent_var, school_year_cbx_var, member_type_cbx_var]  # stores the names of all the StringVars
-        list_of_values = []  # stores the values of all the StringVars from list_of_stringvars
-        for stringvar in list_of_stringvars:
-            list_of_values.append(stringvar.get())
-        print(list_of_values)
-        insert_member_data(list_of_values)  # imported from library_database
-        #list_of_values.clear()  # clears the list for next database record
+        list_of_ent_fields = [member_id_ent, member_title_cbx, first_name_ent, last_name_ent, date_of_birth_ent,
+                              email_lbl_ent, school_year_cbx, member_type_cbx]
+        get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
 
     menu_window.withdraw()
     add_member_window = Tk()
@@ -221,15 +211,9 @@ def open_add_loan_window():
     """Opens the add_loan_window and closes the menu_window"""
     
     def get_loan_data():
-        """Gets the values of all StringVars in "Loan data capture window" and adds them to a list, then inserts the list's elements into "Loans" table"""
-        list_of_stringvars = [loan_id_ent_var, loan_date_ent_var, loan_duration_ent_var, due_for_return_ent_var, is_damaged_ent_var, is_lost_ent_var, isbn_ent_var, member_id_ent_var]  # add names of stringvars
-        list_of_values = []
-        for stringvar in list_of_stringvars:
-            list_of_values.append(stringvar.get())
-        print(list_of_values)
-        insert_loan_data(list_of_values)
-        list_of_values.clear()
-    
+        list_of_ent_fields = [loan_id_ent, loan_date_ent, loan_duration_ent, due_for_return_ent, is_damaged_ent, is_lost_ent, isbn_ent, member_id_ent]  # add names of stringvars
+        get_form_data_func(list_of_ent_fields, insert_loan_data)  # imported from get_form_data.py
+
     menu_window.withdraw()
     add_loan_window = Tk()
     add_loan_window.title("Loan data capture window")
