@@ -4,7 +4,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from library_database import insert_book_data, insert_member_data, insert_loan_data
+from library_database import insert_book_data, insert_member_data, insert_loan_data  # update insert_loan_data
 from get_table_records import display_table_records
 from switch_windows import back_to_menu, closing_using_x
 from get_form_data import get_form_data_func
@@ -227,14 +227,35 @@ def open_add_loan_window():
     """Opens the add_loan_window and closes the menu_window"""
     
     menu_window.withdraw()
-    add_loan_window = Tk()
-    add_loan_window.title("Loan data capture window")
-    # Let the user enter member details (e.g. ID and/or first name + last name)
+    find_member_window = Tk()
+    find_member_window.title("Find a member")
+
+    # Let the user enter member details (e.g. ID or first name + last name)
     # If a matching record is found in the database, create new record in Loans with the details of student added to it.
+    # LoanID - generate automatically on record creation
+    # LoanDate - Today / Enter value
+    # LoanDuration - Default (how many days?) / Enter value
+    # DueForReturn - Calculate using LoanDate and LoanDuration
+    # IsDamaged, IsLost - not known at the moment of record creation, need a separate form for adding those values
+    # ISBN (FK) - take from the chosen book record
+    # MemberID (FK) - take from the matching database record
+    # User inputs: LoanDate, LoanDuration, Find book by name/isbn/author
+
+    find_member = StringVar()
+
+    find_member_lbl = Label(find_member_window, text="Find a member using: ")
+    find_member_id_rbtn = Radiobutton(find_member_window, text="ID", variable=find_member, value="ID")
+    find_member_name_rbtn = Radiobutton(find_member_window, text="First name and last name", variable=find_member, value="Name")
+
+    find_member_id_ent = Entry(find_member_window)  # make visible when find_member_id_rbtn is selected
+    find_member_first_name_ent = Entry(find_member_window)  # make visible when find_member_name is selected
+    find_member_last_name_ent = Entry(find_member_window)  # make visible when find_member_name is selected
+
+    find_member_btn = Button(find_member_window, text="Find a member")  # command = search algorithm
+    back_to_menu_btn = Button(find_member_window, text="Back to Menu", command=lambda: back_to_menu(find_member_window, menu_window))
     
-    
-    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_loan_window, menu_window))  # imported from switch_windows.py
-    add_loan_window.mainloop()
+    find_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(find_member_window, menu_window))  # imported from switch_windows.py
+    find_member_window.mainloop()
     
     
 def open_add_book_request_window():
