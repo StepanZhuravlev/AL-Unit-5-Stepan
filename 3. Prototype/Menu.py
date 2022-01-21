@@ -227,12 +227,12 @@ def open_add_loan_window():
     """"""
 
     def widget_selection(var):
-        if var.get() == "ID":
+        #if var.get() == "ID":
             # display find_id_lbl, find_id_ent
-
-        if var.get() == "Name":
+            
+        #if var.get() == "Name":
             # display find_first_name_lbl, find_last_name_lbl, find_first_name_ent, find_last_name_ent
-
+        pass
 
     menu_window.withdraw()
     find_member_window = Tk()
