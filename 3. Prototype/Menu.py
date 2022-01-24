@@ -224,22 +224,49 @@ def open_add_member_window():
     
     
 def open_add_loan_window():
+    # Progress:
+    # Value of id_or_name_var getting changed successfully on Radiobutton click
+
+    # Current task:
+    # Display widget based on Radiobutton selection
+    # Try displaying all initially, then hiding all using the "Default" value of id_or_name_var
+
+    # Tips:
+    # grid_remove() - keeps row and column args, widget can be put back by using .grid() (with no args)
+    # grid_forget() - forgets row and column args
+    # https://xiith.com/python-tkinter-program-for-radiobutton-with-an-event-handling/
+
     menu_window.withdraw()
     find_member_window = Tk()
     find_member_window.title("Find a member")
 
     def selection():
-        selected = id_or_name_var.get()
-        id_or_name_lbl.config(text=selected)
+        """Shows either (find_by_id_lbl AND find_by_id_ent) | (find_by_fname_lbl AND find_by_lname_lbl AND find_by_fname_ent AND find_by_lname_ent,
+        depending on id_or_name_var value"""
+        # selected = id_or_name_var.get()
+        # id_or_name_lbl.config(text=selected)
+        # print(selected) - code for testing purposes
+
+        if id_or_name_var == "ID":
+
+        if id_or_name_var = "Name":
+
+        if id_or_name_var = "Default":
+
+
 
     # StringVar used to store the result of selection:
-    id_or_name_var = StringVar()
+    id_or_name_var = StringVar(find_member_window, value="Default")
 
     # labels - instantiation
-    id_or_name_lbl = Label(find_member_window, text="")
+    # id_or_name_lbl = Label(find_member_window) - code for testing purposes
+    heading_lbl = Label(find_member_window, text="Find a member by: ")
+    or_lbl = Label(find_member_window, text="OR")
 
     # labels - geometry
-    id_or_name_lbl.grid(row=1, column=1, padx=5, pady=5)
+    # id_or_name_lbl.grid(row=1, column=1, padx=5, pady=5) - code for testing purposes
+    heading_lbl.grid(row=0, column=0, padx=5, pady=5)
+    or_lbl.grid(row=0, column=2, padx=5, pady=5)
 
     # radiobuttons - instantiation
     find_member_id_rbtn = Radiobutton(find_member_window, text="ID", variable=id_or_name_var, value="ID", command=selection)
@@ -247,7 +274,7 @@ def open_add_loan_window():
 
     # radiobuttons - geometry
     find_member_id_rbtn.grid(row=0, column=1, padx=5, pady=5)
-    find_member_name_rbtn.grid(row=0, column=2, padx=5, pady=5)
+    find_member_name_rbtn.grid(row=0, column=3, padx=5, pady=5)
 
     find_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(find_member_window, menu_window))  # imported from switch_windows.py
     find_member_window.mainloop()
