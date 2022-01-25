@@ -219,22 +219,21 @@ def open_add_member_window():
     member_insert_btn.grid(row=8, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=8, column=1, padx=5, pady=5)
 
-    add_member_window.protocol("WM_DELETE_WINDOW",lambda: closing_using_x(add_member_window, menu_window))  # imported from switch_windows.py
+    add_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_member_window, menu_window))  # imported from switch_windows.py
     add_member_window.mainloop()
     
     
 def open_add_loan_window():
     # Progress:
     # Value of id_or_name_var getting changed successfully on Radiobutton click
+    # Appropriate widgets displayed on Radiobutton selection
 
     # Current task:
-    # Display widgets based on Radiobutton selection
-    # Try displaying all initially, then hiding all using the "Default" value of id_or_name_var
+    # Find database record whose data matches MemberID | FirstName AND LastName
+    # Display the record data
+    # Prompt the user
 
     # Tips:
-    # grid_remove() - keeps row and column args, widget can be put back by using .grid() (with no args)
-    # grid_forget() - forgets row and column args
-    # https://xiith.com/python-tkinter-program-for-radiobutton-with-an-event-handling/
     #
 
     menu_window.withdraw()
@@ -247,32 +246,32 @@ def open_add_loan_window():
 
         if id_or_name_var.get() == "ID":
             # delete fname and lname widgets
-            find_by_fname_lbl.grid_remove()
-            find_by_lname_lbl.grid_remove()
-            find_by_fname_ent.grid_remove()
-            find_by_lname_ent.grid_remove()
+            find_by_fname_lbl.grid_forget()
+            find_by_lname_lbl.grid_forget()
+            find_by_fname_ent.grid_forget()
+            find_by_lname_ent.grid_forget()
             # display id widgets
-            find_by_id_lbl.grid()
-            find_by_id_ent.grid()
+            find_by_id_lbl.grid(row=1, column=0, padx=5, pady=5)
+            find_by_id_ent.grid(row=1, column=1, padx=5, pady=5)
 
         if id_or_name_var.get() == "Name":  # display find_by_fname_lbl, find_by_lname_lbl, find_by_fname_ent, find_by_lname_ent
             # delete id widgets
-            find_by_id_lbl.grid_remove()
-            find_by_id_ent.grid_remove()
+            find_by_id_lbl.grid_forget()
+            find_by_id_ent.grid_forget()
             # display fname and lname widgets
-            find_by_fname_lbl.grid()
-            find_by_lname_lbl.grid()
-            find_by_fname_ent.grid()
-            find_by_lname_ent.grid()
+            find_by_fname_lbl.grid(row=1, column=0, padx=5, pady=5)
+            find_by_lname_lbl.grid(row=2, column=0, padx=5, pady=5)
+            find_by_fname_ent.grid(row=1, column=1, padx=5, pady=5)
+            find_by_lname_ent.grid(row=2, column=1, padx=5, pady=5)
 
         if id_or_name_var.get() == "Default":  # hide all (only active at the beginning)
             # delete all widgets
-            find_by_id_lbl.grid_remove()
-            find_by_id_ent.grid_remove()
-            find_by_fname_lbl.grid_remove()
-            find_by_lname_lbl.grid_remove()
-            find_by_fname_ent.grid_remove()
-            find_by_lname_ent.grid_remove()
+            find_by_id_lbl.grid_forget()
+            find_by_id_ent.grid_forget()
+            find_by_fname_lbl.grid_forget()
+            find_by_lname_lbl.grid_forget()
+            find_by_fname_ent.grid_forget()
+            find_by_lname_ent.grid_forget()
 
     # StringVar used to store the result of selection:
     id_or_name_var = StringVar(find_member_window, value="Default")
@@ -287,9 +286,7 @@ def open_add_loan_window():
     # labels - geometry
     heading_lbl.grid(row=0, column=0, padx=5, pady=5)
     or_lbl.grid(row=0, column=2, padx=5, pady=5)
-    find_by_id_lbl.grid(row=1, column=0, padx=5, pady=5)
-    find_by_fname_lbl.grid(row=1, column=0, padx=5, pady=5)
-    find_by_lname_lbl.grid(row=2, column=0, padx=5, pady=5)
+    # Other labels - declared within selection() function
 
     # entry fields - instantiation
     find_by_id_ent_var = StringVar()
@@ -300,9 +297,7 @@ def open_add_loan_window():
     find_by_lname_ent = Entry(find_member_window)
 
     # entry fields - geometry
-    find_by_id_ent.grid(row=1, column=1, padx=5, pady=5)
-    find_by_fname_ent.grid(row=1, column=1, padx=5, pady=5)
-    find_by_lname_ent.grid(row=2, column=1, padx=5, pady=5)
+    # Declared within selection() function
 
     # radiobuttons - instantiation
     find_member_id_rbtn = Radiobutton(find_member_window, text="ID", variable=id_or_name_var, value="ID", command=selection)
@@ -313,8 +308,12 @@ def open_add_loan_window():
     find_member_name_rbtn.grid(row=0, column=3, padx=5, pady=5)
 
     # buttons - instantiation
+    find_member_btn = Button(find_member_window, text="Find a member")
+    back_to_menu_btn = Button(find_member_window, text="Back to Menu", command=lambda: back_to_menu(find_member_window, menu_window))  # imported from switch_windows.py
 
     # buttons - geometry
+    find_member_btn.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
+    back_to_menu_btn.grid(row=3, column=2, columnspan=2, padx=5, pady=5)
 
     find_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(find_member_window, menu_window))  # imported from switch_windows.py
     find_member_window.mainloop()
