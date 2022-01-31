@@ -52,7 +52,7 @@ def create_members_table():
     library_database = sqlite3.connect("Library.db")
     members_table_cursor = library_database.cursor()
     members_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Members(
-                                    MemberID INTEGER PRIMARY KEY,
+                                    MemberID INTEGER PRIMARY KEY, 
                                     MemberTitle VARCHAR(10),
                                     FirstName VARCHAR(50),
                                     LastName VARCHAR(50),
@@ -60,7 +60,7 @@ def create_members_table():
                                     Email VARCHAR(50),
                                     SchoolYear INTEGER,
                                     MemberType VARCHAR(25))
-                                    """)
+                                    """)  # try PRIMARY KEY AUTOINCREMENT
     library_database.commit()
     library_database.close()
     
@@ -69,9 +69,9 @@ def insert_member_data(new_member_data):
     """Adds the details entered by the user to Members table in Library.db database"""
     library_database = sqlite3.connect("Library.db")
     members_table_cursor = library_database.cursor()
-    members_table_cursor.execute("""INSERT INTO Members(MemberTitle, FirstName, LastName, DateOfBirth, Email, SchoolYear, MemberType)
-    VALUES (?,?,?,?,?,?,?)""", (new_member_data[0], new_member_data[1], new_member_data[2], new_member_data[3],
-                                new_member_data[4], new_member_data[5], new_member_data[6]))
+    members_table_cursor.execute("""INSERT INTO Members(MemberID, MemberTitle, FirstName, LastName, DateOfBirth, Email, SchoolYear, MemberType)
+    VALUES (?,?,?,?,?,?,?,?)""", (new_member_data[0], new_member_data[1], new_member_data[2], new_member_data[3],
+                                  new_member_data[4], new_member_data[5], new_member_data[6], new_member_data[7]))
     messagebox.showinfo("", "New data saved successfully.")
     library_database.commit()
     library_database.close()

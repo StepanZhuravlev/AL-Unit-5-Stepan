@@ -8,6 +8,7 @@ from library_database import insert_book_data, insert_member_data, insert_loan_d
 from get_table_records import display_table_records
 from switch_windows import back_to_menu, closing_using_x
 from get_form_data import get_form_data_func
+import sqlite3
 
 
 def open_add_book_window():
@@ -227,14 +228,13 @@ def open_add_loan_window():
     # Progress:
     # Value of id_or_name_var getting changed successfully on Radiobutton click
     # Appropriate widgets displayed on Radiobutton selection
+    # Records retrieved successfully by MemberID, but not by FirstName and LastName
 
     # Current task:
-    # Find database record whose data matches MemberID | FirstName AND LastName
-    # Display the record data
-    # Prompt the user
+    # Show database record whose data matches FirstName AND LastName
 
-    # Tips:
-    #
+    # Resources:
+    # https://www.plus2net.com/python/tkinter-sqlite-id.php - Done
 
     menu_window.withdraw()
     find_member_window = Tk()
@@ -273,8 +273,21 @@ def open_add_loan_window():
             find_by_fname_ent.grid_forget()
             find_by_lname_ent.grid_forget()
 
-    # StringVar used to store the result of selection:
-    id_or_name_var = StringVar(find_member_window, value="Default")
+    def get_record_by_user_input(member_id, fname, lname):
+        if id_or_name_var.get() == "ID":
+            db_connect = sqlite3.connect("Library.db")
+            db_cursor = db_connect.execute(f"SELECT * FROM Members WHERE MemberID={member_id}")
+            output_var.set(db_cursor.fetchone())
+            db_connect.close()
+        if id_or_name_var.get() == "Name":
+            db_connect = sqlite3.connect("Library.db")
+            db_cursor = db_connect.execute(f"SELECT * FROM Members WHERE FirstName={fname} AND LastName={lname}")
+            output_var.set(db_cursor.fetchone())
+            db_connect.close()
+
+    # StringVars
+    id_or_name_var = StringVar(find_member_window, value="Default")  # used to store the result of selection
+    output_var = StringVar(find_member_window)
 
     # labels - instantiation
     heading_lbl = Label(find_member_window, text="Find a member by: ")
@@ -282,19 +295,21 @@ def open_add_loan_window():
     find_by_id_lbl = Label(find_member_window, text="Member ID:")
     find_by_fname_lbl = Label(find_member_window, text="First name:")
     find_by_lname_lbl = Label(find_member_window, text="Last name:")
+    output_lbl = Label(find_member_window, textvariable=output_var)
 
     # labels - geometry
     heading_lbl.grid(row=0, column=0, padx=5, pady=5)
     or_lbl.grid(row=0, column=2, padx=5, pady=5)
+    output_lbl.grid(row=3, column=0, padx=5, pady=5)
     # Other labels - declared within selection() function
 
     # entry fields - instantiation
-    find_by_id_ent_var = StringVar()
-    find_by_id_ent = Entry(find_member_window)
-    find_by_fname_ent_var = StringVar()
-    find_by_fname_ent = Entry(find_member_window)
-    find_by_lname_ent_var = StringVar()
-    find_by_lname_ent = Entry(find_member_window)
+    find_by_id_ent_var = StringVar(find_member_window)
+    find_by_id_ent = Entry(find_member_window, textvariable=find_by_id_ent_var)
+    find_by_fname_ent_var = StringVar(find_member_window)
+    find_by_fname_ent = Entry(find_member_window, textvariable=find_by_fname_ent_var)
+    find_by_lname_ent_var = StringVar(find_member_window)
+    find_by_lname_ent = Entry(find_member_window, textvariable=find_by_lname_ent_var)
 
     # entry fields - geometry
     # Declared within selection() function
@@ -308,12 +323,12 @@ def open_add_loan_window():
     find_member_name_rbtn.grid(row=0, column=3, padx=5, pady=5)
 
     # buttons - instantiation
-    find_member_btn = Button(find_member_window, text="Find a member")
+    find_member_btn = Button(find_member_window, text="Find a member", command=lambda: get_record_by_user_input(find_by_id_ent_var.get(), find_by_fname_ent_var.get(), find_by_lname_ent_var.get()))  # passes user entered data to a function to get the record details
     back_to_menu_btn = Button(find_member_window, text="Back to Menu", command=lambda: back_to_menu(find_member_window, menu_window))  # imported from switch_windows.py
 
     # buttons - geometry
-    find_member_btn.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
-    back_to_menu_btn.grid(row=3, column=2, columnspan=2, padx=5, pady=5)
+    find_member_btn.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
+    back_to_menu_btn.grid(row=4, column=2, columnspan=2, padx=5, pady=5)
 
     find_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(find_member_window, menu_window))  # imported from switch_windows.py
     find_member_window.mainloop()
@@ -392,24 +407,24 @@ def open_view_members_table_window():
 
     # Treeview
     view_members_table_treeview = ttk.Treeview(view_members_table_window, columns=("col_1", "col_2", "col_3", "col_4",
-                                                                                   "col_5", "col_6", "col_7"),
+                                                                                   "col_5", "col_6", "col_7", "col_8"),
                                                show="headings")
-    #view_members_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
-    #view_members_table_treeview.heading("#1", text="MemberID")
     view_members_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#1", text="MemberTitle")
+    view_members_table_treeview.heading("#1", text="MemberID")
     view_members_table_treeview.column("#2", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#2", text="FirstName")
+    view_members_table_treeview.heading("#2", text="MemberTitle")
     view_members_table_treeview.column("#3", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#3", text="LastName")
+    view_members_table_treeview.heading("#3", text="FirstName")
     view_members_table_treeview.column("#4", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#4", text="DateOfBirth")
+    view_members_table_treeview.heading("#4", text="LastName")
     view_members_table_treeview.column("#5", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#5", text="Email")
+    view_members_table_treeview.heading("#5", text="DateOfBirth")
     view_members_table_treeview.column("#6", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#6", text="SchoolYear")
+    view_members_table_treeview.heading("#6", text="Email")
     view_members_table_treeview.column("#7", anchor=CENTER, width=100, stretch=NO)
-    view_members_table_treeview.heading("#7", text="MemberType")
+    view_members_table_treeview.heading("#7", text="SchoolYear")
+    view_members_table_treeview.column("#8", anchor=CENTER, width=100, stretch=NO)
+    view_members_table_treeview.heading("#8", text="MemberType")
 
     view_members_table_treeview.grid(row=0, column=0, padx=5, pady=5)
 
