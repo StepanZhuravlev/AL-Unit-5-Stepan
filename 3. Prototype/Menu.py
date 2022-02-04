@@ -224,7 +224,8 @@ def open_add_member_window():
     add_member_window.mainloop()
     
     
-def open_add_loan_window():
+def open_find_member_window():
+    """"""
     # Progress:
     # Value of id_or_name_var getting changed successfully on Radiobutton click
     # Appropriate widgets displayed on Radiobutton selection
@@ -281,7 +282,8 @@ def open_add_loan_window():
             db_connect.close()
         if id_or_name_var.get() == "Name":
             db_connect = sqlite3.connect("Library.db")
-            db_cursor = db_connect.execute(f"SELECT * FROM Members WHERE FirstName={fname} AND LastName={lname}")
+            db_cursor = db_connect.execute(f"SELECT * FROM Members WHERE FirstName={fname}")  # error: "sqlite3.OperationalError: no such column: fname" if fname is not an int
+            # AND LastName={lname}
             output_var.set(db_cursor.fetchone())
             db_connect.close()
 
@@ -332,6 +334,11 @@ def open_add_loan_window():
 
     find_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(find_member_window, menu_window))  # imported from switch_windows.py
     find_member_window.mainloop()
+
+
+def open_add_loan_window():
+    """Loan details entry interface"""
+    pass
 
 
 def open_add_book_request_window():
@@ -447,7 +454,7 @@ menu_window.resizable(width=False, height=False)
 # menu_window - buttons - instantiation
 add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_window)
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
-add_loan_btn = Button(menu_window, text="Add a new loan", command=open_add_loan_window)
+add_loan_btn = Button(menu_window, text="Add a new loan", command=open_find_member_window)
 add_request_btn = Button(menu_window, text="Add a new book request (not working)", command=open_add_book_request_window)
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
