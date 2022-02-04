@@ -282,7 +282,7 @@ def open_find_member_window():
             db_connect.close()
         if id_or_name_var.get() == "Name":
             db_connect = sqlite3.connect("Library.db")
-            db_cursor = db_connect.execute(f"SELECT * FROM Members WHERE FirstName={fname}")  # error: "sqlite3.OperationalError: no such column: fname" if fname is not an int
+            db_cursor = db_connect.execute("SELECT * FROM Members WHERE FirstName=?",(fname))  # error: "sqlite3.OperationalError: no such column: fname" if fname is not an int
             # AND LastName={lname}
             output_var.set(db_cursor.fetchone())
             db_connect.close()
