@@ -282,8 +282,7 @@ def open_find_member_window():
             db_connect.close()
         if id_or_name_var.get() == "Name":
             db_connect = sqlite3.connect("Library.db")
-            db_cursor = db_connect.execute("SELECT * FROM Members WHERE FirstName=?",(fname))  # error: "sqlite3.OperationalError: no such column: fname" if fname is not an int
-            # AND LastName={lname}
+            db_cursor = db_connect.execute("SELECT * FROM Members WHERE FirstName=? AND LastName=?", (fname, lname))
             output_var.set(db_cursor.fetchone())
             db_connect.close()
 
@@ -297,7 +296,7 @@ def open_find_member_window():
     find_by_id_lbl = Label(find_member_window, text="Member ID:")
     find_by_fname_lbl = Label(find_member_window, text="First name:")
     find_by_lname_lbl = Label(find_member_window, text="Last name:")
-    output_lbl = Label(find_member_window, textvariable=output_var)
+    output_lbl = Label(find_member_window, textvariable=output_var)  # Contains the found record
 
     # labels - geometry
     heading_lbl.grid(row=0, column=0, padx=5, pady=5)
