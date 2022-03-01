@@ -3,26 +3,29 @@
 
 def presence_check(value):
     # Convert the value to string if it is of a different type
-    if isinstance(value, str) == False:
+    if not isinstance(value, str):
         value_to_string = str(value)
-    
     if len(value_to_string) == 0:
         # Code to be executed is value is absent
-        print("There is no value.")
+        flag = False
+        return flag
     else:
         # Code to be executed if value is present
-        print("Value is present.")
+        flag = True
+        return flag
 
 
 def lookup(value, appropriate_values):
     # appropriate_values is a list
     # In appropriate_values, every letter should be capital
-    if value in appropriate values:
+    if value in appropriate_values:
         # Code to be executed if there is a match
-        print("Value is appropriate.")
+        flag = True
+        return flag
     else:
         # Code to be executed if the value is inappropriate
-        print("Match not found.")
+        flag = False
+        return flag
         
         
 def length_check(value, length):
