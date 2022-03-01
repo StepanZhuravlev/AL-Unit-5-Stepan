@@ -454,12 +454,12 @@ menu_window.resizable(width=False, height=False)
 add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_window)
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_find_member_window)
-add_request_btn = Button(menu_window, text="Add a new book request (not working)", command=open_add_book_request_window)
+add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)  #
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
 view_members_table_btn = Button(menu_window, text="View Members table", command=open_view_members_table_window)
 view_loans_table_btn = Button(menu_window, text="View Loans table")
-view_book_requests_table_btn = Button(menu_window, text="View Book Requests table (not working)")
+view_book_requests_table_btn = Button(menu_window, text="View Book Requests table")  #
 
 # menu_window - buttons - geometry
 add_book_btn.grid(row=0, column=0, padx=5, pady=5)
