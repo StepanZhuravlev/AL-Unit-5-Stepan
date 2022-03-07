@@ -86,16 +86,32 @@ def type_check_currency(value):  # float to 2 d.p.
 
 
 def type_check_date(value):
-    date_pattern = r"[0-3][0-9][/][0-1][0-9][/][1-2][0-9][0-9][0-9]"
-    valid_dd_pattern = [0, 1]
-    if re.match(value, date_pattern):
-        # proceed to further checks
-        if value[0] == "3":  # if day is 30 or 31
-            if value[1] not in valid_dd_pattern:
-                return False
+    date_pattern = r"[0-9][0-9][/][0-9][0-9][/][0-9][0-9][0-9][0-9]"
+    # try multiple elif statements that return False, and one else statement at the end that returns True (if none of the else ifs get executed)
+    # 1. First digit of dd = [0, 1, 2, 3]
+    # 2. Second digit of dd = any, unless first digit = 3, then = [0, 1] ONLY
+    # 3. First digit of mm = [0, 1]
+    # 4. Second digit of mm: 1) if first digit = 0 then all but 0; 2) if first digit = 1 then ONLY [0, 1, 2]
+    # 5. No checks for year as that's too complicated
+    # 6. if mm = 02, then dd != 29-31
 
-        pass
-    else:
+    if re.match(value, date_pattern):  # first check: just check the "dd/mm/yyyy" pattern
+        if value[0] not in ["0", "1", "2", "3"]:
+            return False  # returns False because the first digit of dd can only be 0, 1, 2, or 3
+        elif value[0] == "3":
+            if value[1] not in ["0", "1"]:
+                return False  # returns False because dd can't be equal to 32-39
+        elif value[3] not in ["0", "1"]:
+            return False  # returns False because first digit of mm must be 0 or 1
+        elif value[3] == "0":
+            if value[4] == "0":
+                return False  # returns False because month can't be equal to 00
+        elif value[3] == "1":
+            if value[4] not in ["0", "1", "2"]:
+                return False  # returns False because mm can't be equal to 13-19
+        else:
+            return True
+    else:  # return False immediately if the first check is failed
         return False
 
 
