@@ -28,16 +28,15 @@ def length_check(value, max_length):
         return True
 
 
-def format_check(value, regex):
-    pass
-
-
 def range_check(value, min_value, max_value):
     """Checks if an integer's value is within the range"""
     if value in range(min_value, max_value+1):
         return False
     else:
         return True
+
+
+# Multiple type check functions to improve code readability (type being checked more obvious)
 
 
 def type_check_int(value):
@@ -69,6 +68,7 @@ def type_check_boolean(value):
 
 
 def type_check_currency(value):  # float to 2 d.p.
+    # https://stackoverflow.com/questions/23307209/checking-if-input-is-a-float-and-has-exactly-2-numbers-after-the-decimal-point
     if isinstance(value, float):
         # check 2 d.p.
         pass
@@ -87,6 +87,8 @@ def type_check_currency(value):  # float to 2 d.p.
 
 def type_check_date(value):
     date_pattern = r"[0-9][0-9][/][0-9][0-9][/][0-9][0-9][0-9][0-9]"
+
+    # Void?:
     # try multiple elif statements that return False, and one else statement at the end that returns True (if none of the else ifs get executed)
     # 1. First digit of dd = [0, 1, 2, 3]
     # 2. Second digit of dd = any, unless first digit = 3, then = [0, 1] ONLY
@@ -94,24 +96,29 @@ def type_check_date(value):
     # 4. Second digit of mm: 1) if first digit = 0 then all but 0; 2) if first digit = 1 then ONLY [0, 1, 2]
     # 5. No checks for year as that's too complicated
     # 6. if mm = 02, then dd != 29-31
+    #if re.match(value, date_pattern):  # first check: just check the "dd/mm/yyyy" pattern
+    #   if value[0] not in ["0", "1", "2", "3"]:
+    #       return False  # returns False because the first digit of dd can only be 0, 1, 2, or 3
+    #    elif value[0] == "3":
+    #        if value[1] not in ["0", "1"]:
+    #            return False  # returns False because dd can't be equal to 32-39
+    #    elif value[3] not in ["0", "1"]:
+    #        return False  # returns False because first digit of mm must be 0 or 1
+    #    elif value[3] == "0":
+    #        if value[4] == "0":
+    #            return False  # returns False because month can't be equal to 00
+    #    elif value[3] == "1":
+    #        if value[4] not in ["0", "1", "2"]:
+    #            return False  # returns False because mm can't be equal to 13-19
+    #    else:
+    #        return True
+    #else:  # return False immediately if the first check is failed
+    #    return False
 
-    if re.match(value, date_pattern):  # first check: just check the "dd/mm/yyyy" pattern
-        if value[0] not in ["0", "1", "2", "3"]:
-            return False  # returns False because the first digit of dd can only be 0, 1, 2, or 3
-        elif value[0] == "3":
-            if value[1] not in ["0", "1"]:
-                return False  # returns False because dd can't be equal to 32-39
-        elif value[3] not in ["0", "1"]:
-            return False  # returns False because first digit of mm must be 0 or 1
-        elif value[3] == "0":
-            if value[4] == "0":
-                return False  # returns False because month can't be equal to 00
-        elif value[3] == "1":
-            if value[4] not in ["0", "1", "2"]:
-                return False  # returns False because mm can't be equal to 13-19
-        else:
-            return True
-    else:  # return False immediately if the first check is failed
+    # Doesn't check for invalid dates (e.g. 40/13/9000)
+    if re.match(value, date_pattern):
+        return True
+    else:
         return False
 
 
