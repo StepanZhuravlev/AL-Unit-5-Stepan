@@ -1,7 +1,13 @@
+# 1. Currency
+# 2. ISBN
+# 3. Email
+# 4. Library Password
+
 import re
 
 
 def presence_check(value):
+    """PRESENCE CHECK"""
     # len function doesn't work with numeric types -> convert int, float to str
     if isinstance(value, int) or isinstance(value, float):
         value = str(value)
@@ -12,6 +18,7 @@ def presence_check(value):
 
 
 def lookup(value, appropriate_values):
+    """LOOKUP"""
     if value in appropriate_values:
         return True
     else:
@@ -19,6 +26,7 @@ def lookup(value, appropriate_values):
         
         
 def length_check(value, max_length):
+    """LENGTH CHECK"""
     if not isinstance(value, tuple) or not isinstance(value, list) or not isinstance(value, dict):  # if variable is not tuple, list, or dictionary, convert to string
         value = str(value)
 
@@ -29,17 +37,18 @@ def length_check(value, max_length):
 
 
 def range_check(value, min_value, max_value):
-    """Checks if an integer's value is within the range"""
+    """RANGE CHECK"""
     if value in range(min_value, max_value+1):
         return False
     else:
         return True
 
 
-# Multiple type check functions to improve code readability (type being checked more obvious)
+# TYPE CHECK FUNCTIONS (combine into one?)
 
 
 def type_check_int(value):
+    """INT TYPE CHECK"""
     if isinstance(value, int):
         return True
     else:
@@ -47,6 +56,7 @@ def type_check_int(value):
 
 
 def type_check_float(value):
+    """FLOAT TYPE CHECK"""
     if isinstance(value, float):
         return True
     else:
@@ -54,6 +64,7 @@ def type_check_float(value):
 
 
 def type_check_string(value):
+    """STR TYPE CHECK"""
     if isinstance(value, string):
         return True
     else:
@@ -61,13 +72,18 @@ def type_check_string(value):
 
 
 def type_check_boolean(value):
+    """BOOL TYPE CHECK"""
     if isinstance(value, bool):
         return True
     else:
         return False
 
 
-def type_check_currency(value):  # float to 2 d.p.
+# FORMAT CHECK FUNCTIONS:
+
+
+def format_check_currency(value):
+    """CURRENCY FORMAT CHECK (float to 2 d.p.)"""
     # https://stackoverflow.com/questions/23307209/checking-if-input-is-a-float-and-has-exactly-2-numbers-after-the-decimal-point
     if isinstance(value, float):
         # check 2 d.p.
@@ -75,20 +91,12 @@ def type_check_currency(value):  # float to 2 d.p.
     else:
         return False
 
-# Type checks needed for: string, int, float, boolean, currency (float to 2 d.p.)
-# Format check needed for date:
-    # dd slash mm slash yyyy
-    # first digit in dd can only be 0, 1, 2, 3 (if month != 02)
-    # second digit in dd can be any
-    # first digit in mm is 0 or 1
-    # second digit is any
-    # any digits in yyyy
 
-
-def type_check_date(value):
+def format_check_date(value):
+    """DATE FORMAT CHECK"""
     date_pattern = r"[0-9][0-9][/][0-9][0-9][/][0-9][0-9][0-9][0-9]"
 
-    # Void?:
+    # remove?:
     # try multiple elif statements that return False, and one else statement at the end that returns True (if none of the else ifs get executed)
     # 1. First digit of dd = [0, 1, 2, 3]
     # 2. Second digit of dd = any, unless first digit = 3, then = [0, 1] ONLY
@@ -122,8 +130,23 @@ def type_check_date(value):
         return False
 
 
+def format_check_postcode(value):
+    """POSTCODE FORMAT CHECK"""
+    postcode_pattern_1 = r"[A-Z][A-Z][0-9][A-Z] [0-9][A-Z][A-Z]"  # [AA9A 9AA]
+    postcode_pattern_2 = r"[A-Z][0-9][A-Z] [0-9][A-Z][A-Z]"  # [A9A 9AA]
+    postcode_pattern_3 = r"[A-Z][0-9] [0-9][A-Z][A-Z]"  # [A9 9AA]
+    postcode_pattern_4 = r"[A-Z][0-9][0-9] [0-9][A-Z][A-Z]"  # [A99 9AA]
+    postcode_pattern_5 = r"[A-Z][A-Z][0-9] [0-9][A-Z][A-Z]"  # [AA9 9AA]
+    postcode_pattern_6 = r"[A-Z][A-Z][0-9][0-9] [0-9][A-Z][A-Z]"  # [AA99 9AA]
 
-sample = {"a":1, "b":2}
+    if re.match(value, postcode_pattern_1) or re.match(value, postcode_pattern_2) or re.match(value, postcode_pattern_3) or \
+       re.match(value, postcode_pattern_4) or re.match(value, postcode_pattern_5) or re.match(value, postcode_pattern_6):
+        return True
+    else:
+        return False
+
+
+sample = {"a": 1, "b": 2}
 print(str(sample))
 print(len(sample))
 print(type(sample))
