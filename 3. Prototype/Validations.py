@@ -86,7 +86,11 @@ def format_check_currency(value):
     """CURRENCY FORMAT CHECK (float to 2 d.p.)"""
     # https://stackoverflow.com/questions/23307209/checking-if-input-is-a-float-and-has-exactly-2-numbers-after-the-decimal-point
     if isinstance(value, float):
-        # check 2 d.p.
+        # if there is no decimal point, format the value
+        # if contains dp:
+            # if more than 2 after dp, return false
+            # if 1 after dp, format and return True
+            # if 2 after dp, return True
         pass
     else:
         return False
@@ -146,6 +150,29 @@ def format_check_postcode(value):
         return False
 
 
+def format_check_lib_passwd(value):
+    """PASSWORD FORMAT CHECK"""
+    capital_letters = r"[A-Z]"
+    small_letters = r"[a-z]"
+    digits = r"[0-9]"
+    special_symbols = r""  # - + = ! $ % ^ * ; :
+    if re.match(value, capital_letters) and re.match(value, small_letters) and re.match(value, digits) and \
+       re.match(value, special_symbols):
+        return True
+    else:
+        return False
+
+
+def format_check_isbn(value):
+    """ISBN FORMAT CHECK"""
+    pass
+
+
+def format_check_email(value):
+    """EMAIL FORMAT CHECK"""
+    pass
+
+
 sample = {"a": 1, "b": 2}
 print(str(sample))
 print(len(sample))
@@ -153,5 +180,6 @@ print(type(sample))
 print(isinstance(sample, dict))
 print(type(1))
 print(type(True))
+print(float(40))
 
 print(9 in range(0, 9+1))
