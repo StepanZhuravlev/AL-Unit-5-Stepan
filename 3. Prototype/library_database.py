@@ -5,11 +5,12 @@ from tkinter import messagebox
 
 # BOOKS TABLE:
 def create_book_table():
+    # ISBN - field length not updated in database
     """Creates a table for storing book details"""
     library_database = sqlite3.connect("Library.db")
     book_table_cursor = library_database.cursor()  # creating a cursor
     book_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Books(
-                                 ISBN VARCHAR(14) PRIMARY KEY,
+                                 ISBN VARCHAR(20) PRIMARY KEY,
                                  BookTitle VARCHAR(150),
                                  Series VARCHAR(100),
                                  Author VARCHAR(50),
@@ -49,6 +50,7 @@ def insert_book_data(new_book_data):
 # MEMBERS TABLE:
 def create_members_table():
     """Creates a table for storing member details"""
+    # Member type - field length not updated in database
     library_database = sqlite3.connect("Library.db")
     members_table_cursor = library_database.cursor()
     members_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Members(
