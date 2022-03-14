@@ -188,5 +188,9 @@ def format_check_email(value):
 #print(9 in range(0, 9+1))
 
 # e = abs(Decimal(string_value).as_tuple().exponent)
-inp = decimal.Decimal("56.2345")
-print(abs(inp.as_tuple().exponent))
+#inp = decimal.Decimal("56.2345")
+#print(abs(inp.as_tuple().exponent))
+
+print(format_check_postcode("AB12CD"))
+
+print(re.match("AB1 2CD", r"[A-Z][A-Z][0-9][0-9][A-Z][A-Z]"))
