@@ -4,6 +4,7 @@
 # 4. Library Password
 
 import re
+import decimal
 
 
 def presence_check(value):
@@ -84,15 +85,18 @@ def type_check_boolean(value):
 
 def format_check_currency(value):
     """CURRENCY FORMAT CHECK (float to 2 d.p.)"""
-    # https://stackoverflow.com/questions/23307209/checking-if-input-is-a-float-and-has-exactly-2-numbers-after-the-decimal-point
-    if isinstance(value, float):
-        # if there is no decimal point, format the value
-        # if contains dp:
-            # if more than 2 after dp, return false
-            # if 1 after dp, format and return True
-            # if 2 after dp, return True
+    # count dp
+    # if 0 or 1 - format to 2 and return True, store formatted value in database
+    # if 2 - return True
+    # if more than 2 return False and error
+    decimal_places = abs(Decimal(value).as_tuple().exponent)
+    if decimal_places < 2:
+        # format to 2 dp
+        # then return True
         pass
-    else:
+    if decimal_places == 2:
+        return True
+    if decimal_places > 2:
         return False
 
 
@@ -173,13 +177,16 @@ def format_check_email(value):
     pass
 
 
-sample = {"a": 1, "b": 2}
-print(str(sample))
-print(len(sample))
-print(type(sample))
-print(isinstance(sample, dict))
-print(type(1))
-print(type(True))
-print(float(40))
+#sample = {"a": 1, "b": 2}
+#print(str(sample))
+#print(len(sample))
+#print(type(sample))
+#print(isinstance(sample, dict))
+#print(type(1))
+#print(type(True))
+#print(float(40))
+#print(9 in range(0, 9+1))
 
-print(9 in range(0, 9+1))
+# e = abs(Decimal(string_value).as_tuple().exponent)
+inp = decimal.Decimal("56.2345")
+print(abs(inp.as_tuple().exponent))
