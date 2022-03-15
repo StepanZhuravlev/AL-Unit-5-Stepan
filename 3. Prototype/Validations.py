@@ -1,7 +1,19 @@
-# 1. Currency
-# 2. ISBN
-# 3. Email
-# 4. Library Password
+# 3. Email - check @ and .
+
+
+# IMPORTANT:
+# re.match(pattern, string, flags=0)
+# If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object.
+# Return None if the string does not match the pattern; note that this is different from a zero-length match.
+
+# re.search(pattern, string, flags=0)
+# Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object.
+# Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
+
+# . matches any character
+# ^ASDF - should start with ASDF
+# ASDF$ - should end with ASDF
+# \s - whitespace character
 
 import re
 import decimal
@@ -45,7 +57,7 @@ def range_check(value, min_value, max_value):
         return True
 
 
-# TYPE CHECK FUNCTIONS (combine into one?)
+# TYPE CHECK FUNCTIONS
 
 
 def type_check_int(value):
@@ -83,72 +95,43 @@ def type_check_boolean(value):
 # FORMAT CHECK FUNCTIONS:
 
 
-def format_check_currency(value):
+def format_check_currency(value):  # Doesn't use RegEx, debugged
     """CURRENCY FORMAT CHECK (float to 2 d.p.)"""
     # count dp
     # if 0 or 1 - format to 2 and return True, store formatted value in database
     # if 2 - return True
     # if more than 2 return False and error
-    decimal_places = abs(Decimal(value).as_tuple().exponent)
+    decimal_places = abs(decimal.Decimal(value).as_tuple().exponent)
+    value = float(value)
     if decimal_places < 2:
-        # format to 2 dp
-        # then return True
-        pass
+        value = "{:.2f}".format(value)  # the formatted value needs to be put into the database
+        return True, value
     if decimal_places == 2:
-        return True
+        return True, value
     if decimal_places > 2:
         return False
 
 
-def format_check_date(value):
+def format_check_date(value):  # FIXED
     """DATE FORMAT CHECK"""
     date_pattern = r"[0-9][0-9][/][0-9][0-9][/][0-9][0-9][0-9][0-9]"
-
-    # remove?:
-    # try multiple elif statements that return False, and one else statement at the end that returns True (if none of the else ifs get executed)
-    # 1. First digit of dd = [0, 1, 2, 3]
-    # 2. Second digit of dd = any, unless first digit = 3, then = [0, 1] ONLY
-    # 3. First digit of mm = [0, 1]
-    # 4. Second digit of mm: 1) if first digit = 0 then all but 0; 2) if first digit = 1 then ONLY [0, 1, 2]
-    # 5. No checks for year as that's too complicated
-    # 6. if mm = 02, then dd != 29-31
-    #if re.match(value, date_pattern):  # first check: just check the "dd/mm/yyyy" pattern
-    #   if value[0] not in ["0", "1", "2", "3"]:
-    #       return False  # returns False because the first digit of dd can only be 0, 1, 2, or 3
-    #    elif value[0] == "3":
-    #        if value[1] not in ["0", "1"]:
-    #            return False  # returns False because dd can't be equal to 32-39
-    #    elif value[3] not in ["0", "1"]:
-    #        return False  # returns False because first digit of mm must be 0 or 1
-    #    elif value[3] == "0":
-    #        if value[4] == "0":
-    #            return False  # returns False because month can't be equal to 00
-    #    elif value[3] == "1":
-    #        if value[4] not in ["0", "1", "2"]:
-    #            return False  # returns False because mm can't be equal to 13-19
-    #    else:
-    #        return True
-    #else:  # return False immediately if the first check is failed
-    #    return False
-
-    # Doesn't check for invalid dates (e.g. 40/13/9000)
-    if re.match(value, date_pattern):
+    if re.match(date_pattern, value):
         return True
     else:
         return False
 
 
-def format_check_postcode(value):
+def format_check_postcode(value):  # FIXED
     """POSTCODE FORMAT CHECK"""
-    postcode_pattern_1 = r"[A-Z][A-Z][0-9][A-Z] [0-9][A-Z][A-Z]"  # [AA9A 9AA]
-    postcode_pattern_2 = r"[A-Z][0-9][A-Z] [0-9][A-Z][A-Z]"  # [A9A 9AA]
-    postcode_pattern_3 = r"[A-Z][0-9] [0-9][A-Z][A-Z]"  # [A9 9AA]
-    postcode_pattern_4 = r"[A-Z][0-9][0-9] [0-9][A-Z][A-Z]"  # [A99 9AA]
-    postcode_pattern_5 = r"[A-Z][A-Z][0-9] [0-9][A-Z][A-Z]"  # [AA9 9AA]
-    postcode_pattern_6 = r"[A-Z][A-Z][0-9][0-9] [0-9][A-Z][A-Z]"  # [AA99 9AA]
+    postcode_pattern_1 = r"[A-Z][A-Z][0-9][A-Z]\s[0-9][A-Z][A-Z]"  # [AA9A 9AA]
+    postcode_pattern_2 = r"[A-Z][0-9][A-Z]\s[0-9][A-Z][A-Z]"  # [A9A 9AA]
+    postcode_pattern_3 = r"[A-Z][0-9]\s[0-9][A-Z][A-Z]"  # [A9 9AA]
+    postcode_pattern_4 = r"[A-Z][0-9][0-9]\s[0-9][A-Z][A-Z]"  # [A99 9AA]
+    postcode_pattern_5 = r"[A-Z][A-Z][0-9]\s[0-9][A-Z][A-Z]"  # [AA9 9AA]
+    postcode_pattern_6 = r"[A-Z][A-Z][0-9][0-9]\s[0-9][A-Z][A-Z]"  # [AA99 9AA]
 
-    if re.match(value, postcode_pattern_1) or re.match(value, postcode_pattern_2) or re.match(value, postcode_pattern_3) or \
-       re.match(value, postcode_pattern_4) or re.match(value, postcode_pattern_5) or re.match(value, postcode_pattern_6):
+    if re.match(postcode_pattern_1, value) or re.match(postcode_pattern_2, value) or re.match(postcode_pattern_3, value) or \
+       re.match(postcode_pattern_4, value) or re.match(postcode_pattern_5, value) or re.match(postcode_pattern_6, value):
         return True
     else:
         return False
@@ -156,41 +139,39 @@ def format_check_postcode(value):
 
 def format_check_lib_passwd(value):
     """PASSWORD FORMAT CHECK"""
-    capital_letters = r"[A-Z]"
-    small_letters = r"[a-z]"
-    digits = r"[0-9]"
-    special_symbols = r""  # - + = ! $ % ^ * ; :
-    if re.match(value, capital_letters) and re.match(value, small_letters) and re.match(value, digits) and \
-       re.match(value, special_symbols):
-        return True
+    # Must have uppercase letters, lowercase letters, special symbols (e.g. ! * # % & - _ + =), digits
+    # Must not have whitespaces
+    special_characters = "[^A-Za-z0-9]"
+    if " " in value:
+        return False  # no whitespaces allowed
+    if re.search(r"[A-Z]", value) is not None:
+        if re.search(r"[a-z]", value) is not None:
+            if re.search(r"0-9", value) is not None:
+                if re.search("[^A-Za-z0-9]", value) is not None:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
     else:
         return False
 
 
+
 def format_check_isbn(value):
-    """ISBN FORMAT CHECK"""
+    """ISBN FORMAT CHECK"""  # Can take a lot of time to code
     pass
 
 
 def format_check_email(value):
     """EMAIL FORMAT CHECK"""
+    # Must have @ and .
+
     pass
 
 
-#sample = {"a": 1, "b": 2}
-#print(str(sample))
-#print(len(sample))
-#print(type(sample))
-#print(isinstance(sample, dict))
-#print(type(1))
-#print(type(True))
-#print(float(40))
-#print(9 in range(0, 9+1))
-
-# e = abs(Decimal(string_value).as_tuple().exponent)
-#inp = decimal.Decimal("56.2345")
-#print(abs(inp.as_tuple().exponent))
-
-print(format_check_postcode("AB12CD"))
-
-print(re.match("AB1 2CD", r"[A-Z][A-Z][0-9][0-9][A-Z][A-Z]"))
+# Main program:
+if re.search("[^A-Za-z0-9]", "^^::") is not None:
+    print("Special characters found")
