@@ -10,6 +10,9 @@
 # Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object.
 # Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
 
+# re.findall(pattern, string, flags=0)
+# Returns a list of all substrings that match a pattern.
+
 # . matches any character
 # ^ASDF - should start with ASDF
 # ASDF$ - should end with ASDF
@@ -141,13 +144,12 @@ def format_check_lib_passwd(value):
     """PASSWORD FORMAT CHECK"""
     # Must have uppercase letters, lowercase letters, special symbols (e.g. ! * # % & - _ + =), digits
     # Must not have whitespaces
-    special_characters = "[^A-Za-z0-9]"
     if " " in value:
         return False  # no whitespaces allowed
     if re.search(r"[A-Z]", value) is not None:
         if re.search(r"[a-z]", value) is not None:
             if re.search(r"0-9", value) is not None:
-                if re.search("[^A-Za-z0-9]", value) is not None:
+                if re.search("[^A-Za-z0-9]", value) is not None:  # checks for special characters (whitespaces are special characters too, however their absence is checked in the first if statement
                     return True
                 else:
                     return False
@@ -159,19 +161,21 @@ def format_check_lib_passwd(value):
         return False
 
 
-
 def format_check_isbn(value):
-    """ISBN FORMAT CHECK"""  # Can take a lot of time to code
+    """ISBN FORMAT CHECK"""  # Can take a lot of time to code, probably not worthwhile
     pass
 
 
 def format_check_email(value):
     """EMAIL FORMAT CHECK"""
-    # Must have @ and .
-
-    pass
+    # only one repetition of @, one or more reps of .
+    if len(re.findall(r"[@]", value)) == 1:
+        if len(re.findall(r"[.]", value)) >= 1:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 
 # Main program:
-if re.search("[^A-Za-z0-9]", "^^::") is not None:
-    print("Special characters found")
