@@ -1,6 +1,3 @@
-# 3. Email - check @ and .
-
-
 # IMPORTANT:
 # re.match(pattern, string, flags=0)
 # If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object.
