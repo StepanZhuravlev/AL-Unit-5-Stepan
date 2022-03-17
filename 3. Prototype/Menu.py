@@ -200,7 +200,7 @@ def open_add_member_window():
     email_lbl_ent = Entry(add_member_window, textvariable=email_lbl_ent_var)
     # 7.
     school_year_cbx_var = StringVar()
-    school_year_cbx = ttk.Combobox(add_member_window, values=["8", "9", "10", "11", "12", "13", "14"], textvariable=school_year_cbx_var)
+    school_year_cbx = ttk.Combobox(add_member_window, values=["n/a", "8", "9", "10", "11", "12", "13", "14"], textvariable=school_year_cbx_var)
     # 8.
     member_type_cbx_var = StringVar()
     member_type_cbx = ttk.Combobox(add_member_window, values=["Student", "Teacher", "Teaching Assistant", "Staff (other)"], textvariable=member_type_cbx_var)
