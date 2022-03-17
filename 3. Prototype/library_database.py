@@ -5,10 +5,9 @@ from tkinter import messagebox
 
 # BOOKS TABLE:
 def create_book_table():
-    # ISBN - field length not updated in database
     """Creates a table for storing book details"""
     library_database = sqlite3.connect("Library.db")
-    book_table_cursor = library_database.cursor()  # creating a cursor
+    book_table_cursor = library_database.cursor()
     book_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Books(
                                  ISBN VARCHAR(20) PRIMARY KEY,
                                  BookTitle VARCHAR(150),
@@ -50,7 +49,6 @@ def insert_book_data(new_book_data):
 # MEMBERS TABLE:
 def create_members_table():
     """Creates a table for storing member details"""
-    # Member type - field length not updated in database
     library_database = sqlite3.connect("Library.db")
     members_table_cursor = library_database.cursor()
     members_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Members(
@@ -62,7 +60,7 @@ def create_members_table():
                                     Email VARCHAR(50),
                                     SchoolYear INTEGER,
                                     MemberType VARCHAR(25))
-                                    """)  # try PRIMARY KEY AUTOINCREMENT
+                                    """)
     library_database.commit()
     library_database.close()
     
@@ -80,39 +78,40 @@ def insert_member_data(new_member_data):
     
 
 # LOANS TABLE:
-def create_loans_table():
-    """Creates a table for storing loan details"""  # foreign keys bug
-    library_database = sqlite3.connect("Library.db")
-    loans_table_cursor = library_database.cursor()
-    loans_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Loans(
-                                  LoanID VARCHAR(5) PRIMARY KEY,
-                                  LoanDate DATE,
-                                  LoanDuration INTEGER,
-                                  DueForReturn DATE,
-                                  IsDamaged BOOLEAN,
-                                  IsLost BOOLEAN,
-                                  ISBN VARCHAR(14),
-                                  MemberID INTEGER
-                                  )
-                                  """)
-    #FOREIGN KEY(ISBN) REFERENCES Books(ISBN),
-                                  #FOREIGN KEY(MemberID) REFERENCES Members(MemberID)
-    library_database.commit()
-    library_database.close()
+#def create_loans_table():
+# REBUILD CODE
+#    """Creates a table for storing loan details"""  # foreign keys bug
+#    library_database = sqlite3.connect("Library.db")
+#    loans_table_cursor = library_database.cursor()
+#    loans_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Loans(
+#                                  LoanID VARCHAR(5) PRIMARY KEY,
+#                                  LoanDate DATE,
+#                                  LoanDuration INTEGER,
+#                                  DueForReturn DATE,
+#                                  IsDamaged BOOLEAN,
+#                                  IsLost BOOLEAN,
+#                                  ISBN VARCHAR(14),
+#                                  MemberID INTEGER
+#                                  )
+#                                  """)
+#    #FOREIGN KEY(ISBN) REFERENCES Books(ISBN),
+#                                  #FOREIGN KEY(MemberID) REFERENCES Members(MemberID)
+#    library_database.commit()
+#    library_database.close()
     
 
-def insert_loan_data(new_loan_data):
-    """Adds the details entered by the user to Loans table in Library.db database"""
-    library_database = sqlite3.connect("Library.db")
-    loans_table_cursor = library_database.cursor()
-    loans_table_cursor.execute("""INSERT INTO Loans(LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN, MemberID)
-    VALUES (?,?,?,?,?,?,?,?)""", (new_loan_data[0], new_loan_data[1], new_loan_data[2], new_loan_data[3], new_loan_data[4], new_loan_data[5], new_loan_data[6], new_loan_data[7])
-                               )
-    print("New loan data inserted successfully.")
-    library_database.commit()
-    library_database.close()
+#def insert_loan_data(new_loan_data):
+# REBUILD CODE
+#    """Adds the details entered by the user to Loans table in Library.db database"""
+#    library_database = sqlite3.connect("Library.db")
+#    loans_table_cursor = library_database.cursor()
+#    loans_table_cursor.execute("""INSERT INTO Loans(LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN, MemberID)
+#    VALUES (?,?,?,?,?,?,?,?)""", (new_loan_data[0], new_loan_data[1], new_loan_data[2], new_loan_data[3], new_loan_data[4], new_loan_data[5], new_loan_data[6], new_loan_data[7])
+#                               )
+#    print("New loan data inserted successfully.")
+#    library_database.commit()
+#    library_database.close()
     
 
 create_book_table()
 create_members_table()
-create_loans_table()
