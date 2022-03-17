@@ -1,5 +1,8 @@
-# "change password" button
-# function that closes ANY current window and opens menu
+# Done:
+#
+# Current goal:
+#
+
 
 import tkinter as tk
 from tkinter import *
