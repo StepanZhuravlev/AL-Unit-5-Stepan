@@ -7,7 +7,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from library_database import insert_book_data, insert_member_data, insert_loan_data  # update insert_loan_data
+from library_database import insert_book_data, insert_member_data
 from get_table_records import display_table_records
 from switch_windows import back_to_menu, closing_using_x
 from get_form_data import get_form_data_func
