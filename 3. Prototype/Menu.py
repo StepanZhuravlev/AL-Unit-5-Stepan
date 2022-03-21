@@ -241,6 +241,15 @@ def open_find_member_window():
 
     # Resources:
     # https://www.plus2net.com/python/tkinter-sqlite-id.php - Done
+    # Loans table format: LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN (FK), MemberID (FK)
+    # LoanID - generate
+    # LoanDate - Entered by user in add loan window, suggest today's date
+    # LoanDuration - Entered by user in add loan window, suggest typical duration (2 or 3 weeks)
+    # DueForReturn - Calculate based on LoanDate and LoanDuration
+    # IsDamaged - must be entered later
+    # IsLost - must be entered later
+    # ISBN - let user search for book, import from found record
+    # MemberID - import from the found record
 
     menu_window.withdraw()
     find_member_window = Tk()
@@ -451,6 +460,50 @@ def open_view_members_table_window():
     view_members_table_window.mainloop()
 
 
+def open_view_loans_table_window():
+
+    # Issue: IsDamaged and IsLost displayed as 0 or 1
+    # Convert 0 -> False and 1 -> True for Boolean values in Loans table
+    # OR add comboboxes that only allow user to enter True or False <---- preferred solution
+
+    menu_window.withdraw()
+    view_loans_table_window = Tk()
+    view_loans_table_window.title("View Loans Table")
+
+    # Treeview:
+    view_loans_table_treeview = ttk.Treeview(view_loans_table_window, columns=("col_1", "col_2", "col_3", "col_4",
+                                                                               "col_5", "col_6", "col_7", "col_8"), show="headings")
+    view_loans_table_treeview.column("#1", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#1", text="LoanID")
+    view_loans_table_treeview.column("#2", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#2", text="LoanDate")
+    view_loans_table_treeview.column("#3", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#3", text="LoanDuration")
+    view_loans_table_treeview.column("#4", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#4", text="DueForReturn")
+    view_loans_table_treeview.column("#5", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#5", text="IsDamaged")
+    view_loans_table_treeview.column("#6", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#6", text="IsLost")
+    view_loans_table_treeview.column("#7", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#7", text="ISBN")
+    view_loans_table_treeview.column("#8", anchor=CENTER, width=100, stretch=NO)
+    view_loans_table_treeview.heading("#8", text="MemberID")
+
+    view_loans_table_treeview.grid(row=0, column=0, padx=5, pady=5)
+
+    # view_loans_table_window - buttons - instantiation
+    display_loans_table_btn = Button(view_loans_table_window, text="Display data", command=lambda: display_table_records("Loans", view_loans_table_treeview, tk.END))  # imported from get_table_records.py
+    back_to_menu_btn = Button(view_loans_table_window, text="Back to Menu", command=lambda: back_to_menu(view_loans_table_window, menu_window))
+
+    # view_loans_table_window - buttons - geometry
+    display_loans_table_btn.grid(row=1, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=2, column=0, padx=5, pady=5)
+
+    view_loans_table_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(view_loans_table_window, menu_window))  # imported from switch_windows.py
+    view_loans_table_window.mainloop()
+
+
 menu_window = Tk()
 menu_window.title("Menu")
 menu_window.resizable(width=False, height=False)
@@ -463,7 +516,7 @@ add_request_btn = Button(menu_window, text="Add a new book request", command=ope
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
 view_members_table_btn = Button(menu_window, text="View Members table", command=open_view_members_table_window)
-view_loans_table_btn = Button(menu_window, text="View Loans table")
+view_loans_table_btn = Button(menu_window, text="View Loans table", command=open_view_loans_table_window)
 view_book_requests_table_btn = Button(menu_window, text="View Book Requests table")  #
 
 # menu_window - buttons - geometry
