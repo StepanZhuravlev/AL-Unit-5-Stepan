@@ -78,40 +78,28 @@ def insert_member_data(new_member_data):
     
 
 # LOANS TABLE:
-#def create_loans_table():
-# REBUILD CODE
-#    """Creates a table for storing loan details"""  # foreign keys bug
-#    library_database = sqlite3.connect("Library.db")
-#    loans_table_cursor = library_database.cursor()
-#    loans_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Loans(
-#                                  LoanID VARCHAR(5) PRIMARY KEY,
-#                                  LoanDate DATE,
-#                                  LoanDuration INTEGER,
-#                                  DueForReturn DATE,
-#                                  IsDamaged BOOLEAN,
-#                                  IsLost BOOLEAN,
-#                                  ISBN VARCHAR(14),
-#                                  MemberID INTEGER
-#                                  )
-#                                  """)
-#    #FOREIGN KEY(ISBN) REFERENCES Books(ISBN),
-#                                  #FOREIGN KEY(MemberID) REFERENCES Members(MemberID)
-#    library_database.commit()
-#    library_database.close()
-    
-
-#def insert_loan_data(new_loan_data):
-# REBUILD CODE
-#    """Adds the details entered by the user to Loans table in Library.db database"""
-#    library_database = sqlite3.connect("Library.db")
-#    loans_table_cursor = library_database.cursor()
-#    loans_table_cursor.execute("""INSERT INTO Loans(LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN, MemberID)
-#    VALUES (?,?,?,?,?,?,?,?)""", (new_loan_data[0], new_loan_data[1], new_loan_data[2], new_loan_data[3], new_loan_data[4], new_loan_data[5], new_loan_data[6], new_loan_data[7])
-#                               )
-#    print("New loan data inserted successfully.")
-#    library_database.commit()
-#    library_database.close()
+def create_loans_table():
+    """Creates a table for storing details of loans of the members"""
+    library_database = sqlite3.connect("Library.db")
+    loans_table_cursor = library_database.cursor()
+    loans_table_cursor.execute("""CREATE TABLE IF NOT EXISTS Loans(
+                                LoanID INTEGER PRIMARY KEY,
+                                LoanDate DATE,
+                                LoanDuration INTEGER,
+                                DueForReturn DATE,
+                                IsDamaged BOOLEAN, 
+                                IsLost BOOLEAN, 
+                                ISBN VARCHAR(20), 
+                                MemberID INTEGER, 
+                                FOREIGN KEY (ISBN)
+                                    REFERENCES Books (ISBN),
+                                FOREIGN KEY (MemberID)
+                                    REFERENCES Members (MemberID))
+                                """)
+    library_database.commit()
+    library_database.close()
     
 
 create_book_table()
 create_members_table()
+create_loans_table()
