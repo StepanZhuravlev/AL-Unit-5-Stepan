@@ -232,10 +232,12 @@ def open_find_member_window():
     # Progress:
     # Value of id_or_name_var getting changed successfully on Radiobutton click
     # Appropriate widgets displayed on Radiobutton selection
-    # Records retrieved successfully by MemberID, but not by FirstName and LastName
+    # Records retrieved successfully by MemberID, and by FirstName and LastName
 
     # Current task:
-    # Show database record whose data matches FirstName AND LastName
+    # Allow user to choose member and confirm their choice
+    # Open new window, put necessary member data in a list
+    # Provide entry boxes, add inputs to list, write list contents to Loans table
 
     # Resources:
     # https://www.plus2net.com/python/tkinter-sqlite-id.php - Done
