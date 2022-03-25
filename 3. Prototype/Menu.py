@@ -530,4 +530,5 @@ view_members_table_btn.grid(row=1, column=1, padx=5, pady=5)
 view_loans_table_btn.grid(row=1, column=2, padx=5, pady=5)
 view_book_requests_table_btn.grid(row=1, column=3, padx=5, pady=5)
 
+menu_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(menu_window, menu_window))  # imported from switch_windows.py
 menu_window.mainloop()
