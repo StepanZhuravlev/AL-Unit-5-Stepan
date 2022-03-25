@@ -252,14 +252,18 @@ def open_find_member_window():
     # MemberID - import from the found record
 
     # Create list that will be exported into the Loans table
-    # From "Find a Member" window: wrtie MemberID at list[7]
+    # From "Find a Member" window: write MemberID at list[7]
+
+    # Display matching database entries in an optionbox
+    # Number of options in optionbox = len(db_cursor.fetchall())
+    # db_cursor.fetchall() returns all found records as a tuple of tuples
 
     menu_window.withdraw()
     find_member_window = Tk()
     find_member_window.title("Find a member")
 
     def selection():
-        """Shows either (find_by_id_lbl AND find_by_id_ent) | (find_by_fname_lbl AND find_by_lname_lbl AND find_by_fname_ent AND find_by_lname_ent,
+        """Shows either (find_by_id_lbl AND find_by_id_ent) or (find_by_fname_lbl AND find_by_lname_lbl AND find_by_fname_ent AND find_by_lname_ent,
         depending on the value of id_or_name_var"""
 
         if id_or_name_var.get() == "ID":
@@ -300,7 +304,7 @@ def open_find_member_window():
         if id_or_name_var.get() == "Name":
             db_connect = sqlite3.connect("Library.db")
             db_cursor = db_connect.execute("SELECT * FROM Members WHERE FirstName=? AND LastName=?", (fname, lname))
-            output_var.set(db_cursor.fetchone())
+            output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database
             db_connect.close()
 
     # StringVars
