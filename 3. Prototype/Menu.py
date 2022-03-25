@@ -251,6 +251,9 @@ def open_find_member_window():
     # ISBN - let user search for book, import from found record
     # MemberID - import from the found record
 
+    # Create list that will be exported into the Loans table
+    # From "Find a Member" window: wrtie MemberID at list[7]
+
     menu_window.withdraw()
     find_member_window = Tk()
     find_member_window.title("Find a member")
