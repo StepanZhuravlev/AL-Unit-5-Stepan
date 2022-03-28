@@ -233,8 +233,10 @@ def open_find_member_window():
     # Value of id_or_name_var getting changed successfully on Radiobutton click
     # Appropriate widgets displayed on Radiobutton selection
     # Records retrieved successfully by MemberID, and by FirstName and LastName
+    # Number of matches known
 
     # Current task:
+    # Put records in option menu or listbox
     # Allow user to choose member and confirm their choice
     # Open new window, put necessary member data in a list
     # Provide entry boxes, add inputs to list, write list contents to Loans table
@@ -303,8 +305,16 @@ def open_find_member_window():
             db_connect.close()
         if id_or_name_var.get() == "Name":
             db_connect = sqlite3.connect("Library.db")
+
+            # Return the number of records found
             db_cursor = db_connect.execute("SELECT * FROM Members WHERE FirstName=? AND LastName=?", (fname, lname))
-            output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database
+            matches_found = len(db_cursor.fetchall())  # matches_found is the number of options in the optionbox
+            print(matches_found)
+
+            # Put the records in a label
+            db_cursor = db_connect.execute("SELECT * FROM Members WHERE FirstName=? AND LastName=?", (fname, lname))
+            output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database, fetchall() returns all matches as a tuple of tuples
+
             db_connect.close()
 
     # StringVars
