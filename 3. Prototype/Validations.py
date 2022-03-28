@@ -176,3 +176,5 @@ def format_check_email(value):
 
 
 # Main program:
+test_tuple = ("a", "b")
+print(type(test_tuple))
