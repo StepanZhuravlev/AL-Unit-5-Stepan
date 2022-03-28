@@ -301,7 +301,7 @@ def open_find_member_window():
         if id_or_name_var.get() == "ID":
             db_connect = sqlite3.connect("Library.db")
             db_cursor = db_connect.execute(f"SELECT MemberID, MemberTitle, FirstName, LastName, SchoolYear, MemberType FROM Members WHERE MemberID={member_id}")  # DOB and Email can be omitted
-            output_var.set(db_cursor.fetchone())  # ID is a key field, so it's okay to use .fetchone()
+            #output_var.set(db_cursor.fetchone())  # ID is a key field, so it's okay to use .fetchone()
             db_connect.close()
         if id_or_name_var.get() == "Name":
             db_connect = sqlite3.connect("Library.db")
@@ -313,15 +313,19 @@ def open_find_member_window():
 
             # Put the records in a label
             db_cursor = db_connect.execute("SELECT MemberID, MemberTitle, FirstName, LastName, SchoolYear, MemberType FROM Members WHERE FirstName=? AND LastName=?", (fname, lname))  # DOB and Email can be omitted
-            output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database, fetchall() returns all matches as a tuple of tuples, BUT type(db_cursor.fetchall()) says it's a list
-            print(type(db_cursor.fetchall()))
-            print(type(output_var.get()))
-            print(output_var.get())
+            #output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database, fetchall() returns all matches as a tuple of tuples, BUT type(db_cursor.fetchall()) says it's a list
+            list_of_options = db_cursor.fetchall()
+            print(type(tuple(db_cursor.fetchall())))
+            #print(type(output_var.get()))
             db_connect.close()
 
-    # StringVars
+    # Variables
     id_or_name_var = StringVar(find_member_window, value="Default")  # used to store the result of selection
-    output_var = StringVar(find_member_window)
+    #output_var = StringVar(find_member_window)
+    list_of_options = []
+
+    # OptionMenu - instantiation
+    OptionMenu(find_member_window, list_of_options)
 
     # labels - instantiation
     heading_lbl = Label(find_member_window, text="Find a member by: ")
@@ -329,12 +333,12 @@ def open_find_member_window():
     find_by_id_lbl = Label(find_member_window, text="Member ID:")
     find_by_fname_lbl = Label(find_member_window, text="First name:")
     find_by_lname_lbl = Label(find_member_window, text="Last name:")
-    output_lbl = Label(find_member_window, textvariable=output_var)  # Contains the found record
+    #output_lbl = Label(find_member_window, textvariable=output_var)  # Contains the found record
 
     # labels - geometry
     heading_lbl.grid(row=0, column=0, padx=5, pady=5)
     or_lbl.grid(row=0, column=2, padx=5, pady=5)
-    output_lbl.grid(row=3, column=0, padx=5, pady=5)
+    #output_lbl.grid(row=3, column=0, padx=5, pady=5)
     # Other labels - declared within selection() function
 
     # entry fields - instantiation
