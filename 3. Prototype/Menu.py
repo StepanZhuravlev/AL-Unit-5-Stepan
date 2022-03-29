@@ -234,15 +234,13 @@ def open_find_member_window():
     # Appropriate widgets displayed on Radiobutton selection
     # Records retrieved successfully by MemberID, and by FirstName and LastName
     # Number of matches known
+    # Matches displayed in OptionMenu
 
     # Current task:
-    # Put records in option menu or listbox
-    # Allow user to choose member and confirm their choice
-    # Open new window, put necessary member data in a list
-    # Provide entry boxes, add inputs to list, write list contents to Loans table
+    # Let user confirm their choice when some record is selected
+    # Get ID from the tuple
+    # Write ID to list that will be added to Loans table
 
-    # Resources:
-    # https://www.plus2net.com/python/tkinter-sqlite-id.php - Done
     # Loans table format: LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN (FK), MemberID (FK)
     # LoanID - generate
     # LoanDate - Entered by user in add loan window, suggest today's date
@@ -252,13 +250,6 @@ def open_find_member_window():
     # IsLost - must be entered later
     # ISBN - let user search for book, import from found record
     # MemberID - import from the found record
-
-    # Create list that will be exported into the Loans table
-    # From "Find a Member" window: write MemberID at list[7]
-
-    # Display matching database entries in an optionbox
-    # Number of options in optionbox = len(db_cursor.fetchall())
-    # db_cursor.fetchall() returns all found records as a tuple of tuples
 
     menu_window.withdraw()
     find_member_window = Tk()
@@ -300,29 +291,44 @@ def open_find_member_window():
     def get_record_by_user_input(member_id, fname, lname):
         if id_or_name_var.get() == "ID":
             db_connect = sqlite3.connect("Library.db")
+            # Store matching records in records_optlist:
             db_cursor = db_connect.execute(f"SELECT MemberID, MemberTitle, FirstName, LastName, SchoolYear, MemberType FROM Members WHERE MemberID={member_id}")  # DOB and Email can be omitted
-            #output_var.set(db_cursor.fetchone())  # ID is a key field, so it's okay to use .fetchone()
+            records_optlist = db_cursor.fetchall()
             db_connect.close()
+            # Set up another records_optlist
+            another_records_optlist = [("Choose a record:")]
+            # Copy all tuples (records) for old option list into new option list
+            for record in records_optlist:
+                another_records_optlist.append(record)
+            # Create OptionMenu containing the new option list
+            matches_found_optmenu = ttk.OptionMenu(find_member_window, chosen_record_var, *another_records_optlist)
+            matches_found_optmenu.grid(row=3, column=1, padx=5, pady=5)
 
         if id_or_name_var.get() == "Name":
             db_connect = sqlite3.connect("Library.db")
-            # Put the records in a label
+            # Store matching records in records_optlist:
             db_cursor = db_connect.execute("SELECT MemberID, MemberTitle, FirstName, LastName, SchoolYear, MemberType FROM Members WHERE FirstName=? AND LastName=?", (fname, lname))  # DOB and Email can be omitted
             records_optlist = db_cursor.fetchall()
-            #output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database, fetchall() returns all matches as a tuple of tuples, BUT type(db_cursor.fetchall()) says it's a list
-            #print(type(output_var.get()))
             db_connect.close()
+            # Set up another records_optlist
+            another_records_optlist = [("Choose a record:")]
+            # Copy all tuples (records) for old option list into new option list
+            for record in records_optlist:
+                another_records_optlist.append(record)
+            # Create OptionMenu containing the new option list
+            matches_found_optmenu = ttk.OptionMenu(find_member_window, chosen_record_var, *another_records_optlist)
+            matches_found_optmenu.grid(row=3, column=1, padx=5, pady=5)
 
     # Variables
     id_or_name_var = StringVar(find_member_window, value="Default")  # used to store the result of selection
-    chosen_record_var = StringVar(find_member_window, value=None)  # used to store the selected record (matches_found_optmenu)
+    chosen_record_var = StringVar(find_member_window)  # used to store the selected record (matches_found_optmenu)
     #output_var = StringVar(find_member_window)
 
     # OptionMenu - instantiation
-    matches_found_optmenu = ttk.OptionMenu(find_member_window, chosen_record_var, *records_optlist)
+    #matches_found_optmenu = ttk.OptionMenu(find_member_window, chosen_record_var, *records_optlist)
 
     # OptionMenu - Geometry
-    matches_found_optmenu.grid(row=3, column=1, padx=5, pady=5)
+    #matches_found_optmenu.grid(row=3, column=1, padx=5, pady=5)
 
     # labels - instantiation
     heading_lbl = Label(find_member_window, text="Find a member by: ")

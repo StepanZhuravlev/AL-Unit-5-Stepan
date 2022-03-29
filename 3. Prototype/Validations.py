@@ -17,6 +17,7 @@
 
 import re
 import decimal
+from tkinter import *
 
 
 def presence_check(value):
@@ -176,5 +177,6 @@ def format_check_email(value):
 
 
 # Main program:
-test_tuple = ("a", "b")
-print(type(test_tuple))
+#test_tuple = ("a", "b")
+#print(type(test_tuple))
+help(OptionMenu)
