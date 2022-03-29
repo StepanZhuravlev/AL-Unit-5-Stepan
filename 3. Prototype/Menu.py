@@ -13,6 +13,8 @@ from switch_windows import back_to_menu, closing_using_x
 from get_form_data import get_form_data_func
 import sqlite3
 
+list_of_options = []
+
 
 def open_add_book_window():
     """Opens the add_book_window and closes the menu_window"""
@@ -229,6 +231,7 @@ def open_add_member_window():
     
 def open_find_member_window():
     """"""
+    global list_of_options
     # Progress:
     # Value of id_or_name_var getting changed successfully on Radiobutton click
     # Appropriate widgets displayed on Radiobutton selection
@@ -298,6 +301,8 @@ def open_find_member_window():
             find_by_lname_ent.grid_forget()
 
     def get_record_by_user_input(member_id, fname, lname):  # possibly split output_var.get() on ", ("
+        global list_of_options
+
         if id_or_name_var.get() == "ID":
             db_connect = sqlite3.connect("Library.db")
             db_cursor = db_connect.execute(f"SELECT MemberID, MemberTitle, FirstName, LastName, SchoolYear, MemberType FROM Members WHERE MemberID={member_id}")  # DOB and Email can be omitted
@@ -313,16 +318,16 @@ def open_find_member_window():
 
             # Put the records in a label
             db_cursor = db_connect.execute("SELECT MemberID, MemberTitle, FirstName, LastName, SchoolYear, MemberType FROM Members WHERE FirstName=? AND LastName=?", (fname, lname))  # DOB and Email can be omitted
-            #output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database, fetchall() returns all matches as a tuple of tuples, BUT type(db_cursor.fetchall()) says it's a list
             list_of_options = db_cursor.fetchall()
-            print(type(tuple(db_cursor.fetchall())))
+            print(list_of_options)
+            print(type(list_of_options))
+            #output_var.set(db_cursor.fetchall())  # .fetchone() only returns the first match in the database, fetchall() returns all matches as a tuple of tuples, BUT type(db_cursor.fetchall()) says it's a list
             #print(type(output_var.get()))
             db_connect.close()
 
     # Variables
     id_or_name_var = StringVar(find_member_window, value="Default")  # used to store the result of selection
     #output_var = StringVar(find_member_window)
-    list_of_options = []
 
     # OptionMenu - instantiation
     OptionMenu(find_member_window, list_of_options)
