@@ -7,6 +7,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 from library_database import insert_book_data, insert_member_data
 from get_table_records import display_table_records
 from switch_windows import back_to_menu, closing_using_x
@@ -319,6 +320,18 @@ def open_find_member_window():
             matches_found_optmenu = ttk.OptionMenu(find_member_window, chosen_record_var, *another_records_optlist)
             matches_found_optmenu.grid(row=3, column=1, padx=5, pady=5)
 
+    def confirm_user_selection():
+        """Asks the user to confirm their choice, saves the MemberID of the chosen record, opens the Add new loan window"""
+        if messagebox.askyesno("Confirm record selection", "Do you want to confirm your choice?") == True:  # ask to confirm choice
+            disallowed_characters = "()'"
+            chosen_record_string = chosen_record_var.get()
+            for char in disallowed_characters:
+                chosen_record_string = chosen_record_string.replace(char,"")  # delete brackets and single quotes to get a clean string
+            chosen_record_list = chosen_record_string.split(", ")  # create a list containing values of fields of the chosen record
+            chosen_record_id = int(chosen_record_list[0])  # save MemberID
+            # Open Add new loan window:
+            # . . .
+
     # Variables
     id_or_name_var = StringVar(find_member_window, value="Default")  # used to store the result of selection
     chosen_record_var = StringVar(find_member_window)  # used to store the selected record (matches_found_optmenu)
@@ -366,10 +379,12 @@ def open_find_member_window():
     # buttons - instantiation
     find_member_btn = Button(find_member_window, text="Find a member", command=lambda: get_record_by_user_input(find_by_id_ent_var.get(), find_by_fname_ent_var.get(), find_by_lname_ent_var.get()))  # passes user entered data to a function to get the record details
     back_to_menu_btn = Button(find_member_window, text="Back to Menu", command=lambda: back_to_menu(find_member_window, menu_window))  # imported from switch_windows.py
+    print_user_selection_btn = Button(find_member_window, text="Print selection", command=lambda: confirm_user_selection())
 
     # buttons - geometry
     find_member_btn.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
     back_to_menu_btn.grid(row=4, column=2, columnspan=2, padx=5, pady=5)
+    print_user_selection_btn.grid(row=5, column=0, padx=5, pady=5)
 
     find_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(find_member_window, menu_window))  # imported from switch_windows.py
     find_member_window.mainloop()
