@@ -1,3 +1,9 @@
+# Close on x
+# Validations
+# Calculations
+# E.g. for search: how many books are worth over [user input cost] pounds? how many members are in [user input year] or higher? how many students are [user input age] or older?
+# copy all column values into array, sort the array using insertion (quicksort if enough time), count number of items above the [user input]
+
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -225,7 +231,6 @@ def open_add_member_window():
 def open_find_member_window():
     """"""
     # Write ID to list that will be added to Loans table
-
     menu_window.withdraw()
     find_member_window = Tk()
     find_member_window.title("Find a member")
@@ -425,13 +430,13 @@ def open_add_loan_window():
 
     # buttons - instantiation
     loan_insert_btn = Button(add_loan_window, text="Save to the database", command=get_loan_data)
-    back_to_menu_btn = Button(add_loan_window, text="Back to Menu", command=lambda: back_to_menu(add_loan_window, open_find_member_window.find_member_window))  # imported from switch_windows.py
+    back_to_menu_btn = Button(add_loan_window, text="Back to Menu", command=lambda: back_to_menu(add_loan_window, ))  # imported from switch_windows.py
 
     # buttons - geometry
     loan_insert_btn.grid(row=7, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=7, column=1, padx=5, pady=5)
 
-    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(menu_window, add_loan_window))  # imported from switch_windows.py
+    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(add_loan_window, menu_window, ))  # imported from switch_windows.py
     add_loan_window.mainloop()
 
 
