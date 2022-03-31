@@ -1,9 +1,3 @@
-# Done:
-#
-# Current goal:
-#
-
-
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -437,7 +431,7 @@ def open_add_loan_window():
     loan_insert_btn.grid(row=7, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=7, column=1, padx=5, pady=5)
 
-    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(add_loan_window, open_find_member_window.find_member_window))  # imported from switch_windows.py
+    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(menu_window, add_loan_window))  # imported from switch_windows.py
     add_loan_window.mainloop()
 
 
