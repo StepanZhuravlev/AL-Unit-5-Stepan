@@ -392,8 +392,81 @@ def open_find_member_window():
 
 def open_add_loan_window():
     """Loan details entry interface"""
-    pass
+    # add islost and isdamaged to the form, the user should set those to True once a loan is created
+    # the values of islost and isdamaged can be changed by the user later on if needed
 
+    # LoanID - generate
+    # LoanDate - Entered by user in add loan window, suggest today's date
+    # LoanDuration - Entered by user in add loan window, suggest typical duration (2 or 3 weeks)
+    # DueForReturn - Calculate based on LoanDate and LoanDuration
+    # IsDamaged - must be entered later
+    # IsLost - must be entered later
+    # ISBN - let user search for book, import from found record
+
+    def get_loan_data():
+        list_of_ent_fields = [loan_id_ent, loan_date_ent, loan_duration_ent, due_for_return_ent,
+                              is_damaged_ent, is_lost_ent, isbn_ent]
+        get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
+
+    menu_window.withdraw()
+    add_loan_window = Tk()
+    add_loan_window.title("Add a New Loan")
+
+    # labels - instantiation
+    loan_id_lbl = Label(add_loan_window, text="Loan ID:")
+    loan_date_lbl = Label(add_loan_window, text="Loan date:")
+    loan_duration_lbl = Label(add_loan_window, text="Loan duration:")
+    due_for_return_lbl = Label(add_loan_window, text="Due for return:")
+    is_damaged_lbl = Label(add_loan_window, text="Damaged?")
+    is_lost_lbl = Label(add_loan_window, text="Lost?")
+    isbn_lbl = Label(add_loan_window, text="ISBN:")
+
+    # labels - geometry
+    loan_id_lbl.grid(row=0, column=0, padx=5, pady=5)
+    loan_date_lbl.grid(row=1, column=0, padx=5, pady=5)
+    loan_duration_lbl.grid(row=2, column=0, padx=5, pady=5)
+    due_for_return_lbl.grid(row=3, column=0, padx=5, pady=5)
+    is_damaged_lbl.grid(row=4, column=0, padx=5, pady=5)
+    is_lost_lbl.grid(row=5, column=0, padx=5, pady=5)
+    isbn_lbl.grid(row=6, column=0, padx=5, pady=5)
+
+    # variables
+    loan_id_ent_var = StringVar()
+    loan_date_ent_var = StringVar()
+    loan_duration_ent_var = StringVar()
+    due_for_return_ent_var = StringVar()
+    is_damaged_cbx_var = StringVar()
+    is_lost_cbx_var = StringVar()
+    isbn_ent_var = StringVar()
+
+    # entry fields - instantiation
+    loan_id_ent = Entry(add_loan_window, textvariable=loan_id_ent_var)
+    loan_date_ent = Entry(add_loan_window, textvariable=loan_date_ent_var)
+    loan_duration_ent = Entry(add_loan_window, textvariable=loan_duration_ent_var)
+    due_for_return_ent = Entry(add_loan_window, textvariable=due_for_return_ent_var)
+    is_damaged_cbx = Entry(add_loan_window, values=["True", "False"], textvariable=is_damaged_cbx_var)
+    is_lost_cbx = Entry(add_loan_window, values=["True", "False"], textvariable=is_lost_cbx_var)
+    isbn_ent = Entry(add_loan_window, textvariable=isbn_ent_var)
+
+    # entry fields - geometry
+    loan_id_ent.grid(row=0, column=1, padx=5, pady=5)
+    loan_date_ent.grid(row=1, column=1, padx=5, pady=5)
+    loan_duration_ent.grid(row=2, column=1, padx=5, pady=5)
+    due_for_return_ent.grid(row=3, column=1, padx=5, pady=5)
+    is_damaged_cbx.grid(row=4, column=1, padx=5, pady=5)
+    is_lost_cbx.grid(row=5, column=1, padx=5, pady=5)
+    isbn_ent.grid(row=6, column=1, padx=5, pady=5)
+
+    # buttons - instantiation
+    loan_insert_btn = Button(add_loan_window, text="Save to the database", command=get_loan_data)
+    back_to_menu_btn = Button(add_loan_window, text="Back to Menu", command=lambda: back_to_menu(add_loan_window, menu_window))  # imported from switch_windows.py
+
+    # buttons - geometry
+    loan_insert_btn.grid(row=7, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=7, column=1, padx=5, pady=5)
+
+    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_loan_window, menu_window))  # imported from switch_windows.py
+    add_loan_window.mainloop()
 
 def open_add_book_request_window():
     """Opens the add_book_request_window and closes the menu_window"""
