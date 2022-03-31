@@ -8,9 +8,9 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
-from library_database import insert_book_data, insert_member_data
+from library_database import insert_book_data, insert_member_data, insert_loan_data
 from get_table_records import display_table_records
-from switch_windows import back_to_menu, closing_using_x
+from switch_windows import back_to_menu, close_all_on_x
 from get_form_data import get_form_data_func
 import sqlite3
 
@@ -141,7 +141,7 @@ def open_add_book_window():
     book_insert_database_btn.grid(row=16, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=16, column=1, padx=5, pady=5)
 
-    add_book_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_book_window, menu_window))  # imported from switch_windows.py
+    add_book_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(add_book_window, menu_window))  # imported from switch_windows.py
     add_book_window.mainloop()
     
     
@@ -224,33 +224,13 @@ def open_add_member_window():
     member_insert_btn.grid(row=8, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=8, column=1, padx=5, pady=5)
 
-    add_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_member_window, menu_window))  # imported from switch_windows.py
+    add_member_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(add_member_window, menu_window))  # imported from switch_windows.py
     add_member_window.mainloop()
     
     
 def open_find_member_window():
     """"""
-    # Progress:
-    # Value of id_or_name_var getting changed successfully on Radiobutton click
-    # Appropriate widgets displayed on Radiobutton selection
-    # Records retrieved successfully by MemberID, and by FirstName and LastName
-    # Number of matches known
-    # Matches displayed in OptionMenu
-
-    # Current task:
-    # Let user confirm their choice when some record is selected
-    # Get ID from the tuple
     # Write ID to list that will be added to Loans table
-
-    # Loans table format: LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN (FK), MemberID (FK)
-    # LoanID - generate
-    # LoanDate - Entered by user in add loan window, suggest today's date
-    # LoanDuration - Entered by user in add loan window, suggest typical duration (2 or 3 weeks)
-    # DueForReturn - Calculate based on LoanDate and LoanDuration
-    # IsDamaged - must be entered later
-    # IsLost - must be entered later
-    # ISBN - let user search for book, import from found record
-    # MemberID - import from the found record
 
     menu_window.withdraw()
     find_member_window = Tk()
@@ -330,7 +310,7 @@ def open_find_member_window():
             chosen_record_list = chosen_record_string.split(", ")  # create a list containing values of fields of the chosen record
             chosen_record_id = int(chosen_record_list[0])  # save MemberID
             # Open Add new loan window:
-            # . . .
+            open_add_loan_window()
 
     # Variables
     id_or_name_var = StringVar(find_member_window, value="Default")  # used to store the result of selection
@@ -379,14 +359,14 @@ def open_find_member_window():
     # buttons - instantiation
     find_member_btn = Button(find_member_window, text="Find a member", command=lambda: get_record_by_user_input(find_by_id_ent_var.get(), find_by_fname_ent_var.get(), find_by_lname_ent_var.get()))  # passes user entered data to a function to get the record details
     back_to_menu_btn = Button(find_member_window, text="Back to Menu", command=lambda: back_to_menu(find_member_window, menu_window))  # imported from switch_windows.py
-    print_user_selection_btn = Button(find_member_window, text="Print selection", command=lambda: confirm_user_selection())
+    print_user_selection_btn = Button(find_member_window, text="Confirm selection", command=lambda: confirm_user_selection())
 
     # buttons - geometry
     find_member_btn.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
     back_to_menu_btn.grid(row=4, column=2, columnspan=2, padx=5, pady=5)
     print_user_selection_btn.grid(row=5, column=0, padx=5, pady=5)
 
-    find_member_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(find_member_window, menu_window))  # imported from switch_windows.py
+    find_member_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(find_member_window, menu_window))  # imported from switch_windows.py
     find_member_window.mainloop()
 
 
@@ -395,18 +375,10 @@ def open_add_loan_window():
     # add islost and isdamaged to the form, the user should set those to True once a loan is created
     # the values of islost and isdamaged can be changed by the user later on if needed
 
-    # LoanID - generate
-    # LoanDate - Entered by user in add loan window, suggest today's date
-    # LoanDuration - Entered by user in add loan window, suggest typical duration (2 or 3 weeks)
-    # DueForReturn - Calculate based on LoanDate and LoanDuration
-    # IsDamaged - must be entered later
-    # IsLost - must be entered later
-    # ISBN - let user search for book, import from found record
-
     def get_loan_data():
         list_of_ent_fields = [loan_id_ent, loan_date_ent, loan_duration_ent, due_for_return_ent,
-                              is_damaged_ent, is_lost_ent, isbn_ent]
-        get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
+                              is_damaged_cbx, is_lost_cbx, isbn_ent]  # add 8th item - chosen_record_id from confirm_user_selection function
+        get_form_data_func(list_of_ent_fields, insert_loan_data)  # imported from get_form_data.py
 
     menu_window.withdraw()
     add_loan_window = Tk()
@@ -444,8 +416,8 @@ def open_add_loan_window():
     loan_date_ent = Entry(add_loan_window, textvariable=loan_date_ent_var)
     loan_duration_ent = Entry(add_loan_window, textvariable=loan_duration_ent_var)
     due_for_return_ent = Entry(add_loan_window, textvariable=due_for_return_ent_var)
-    is_damaged_cbx = Entry(add_loan_window, values=["True", "False"], textvariable=is_damaged_cbx_var)
-    is_lost_cbx = Entry(add_loan_window, values=["True", "False"], textvariable=is_lost_cbx_var)
+    is_damaged_cbx = ttk.Combobox(add_loan_window, values=["True", "False"], textvariable=is_damaged_cbx_var)
+    is_lost_cbx = ttk.Combobox(add_loan_window, values=["True", "False"], textvariable=is_lost_cbx_var)
     isbn_ent = Entry(add_loan_window, textvariable=isbn_ent_var)
 
     # entry fields - geometry
@@ -459,14 +431,15 @@ def open_add_loan_window():
 
     # buttons - instantiation
     loan_insert_btn = Button(add_loan_window, text="Save to the database", command=get_loan_data)
-    back_to_menu_btn = Button(add_loan_window, text="Back to Menu", command=lambda: back_to_menu(add_loan_window, menu_window))  # imported from switch_windows.py
+    back_to_menu_btn = Button(add_loan_window, text="Back to Menu", command=lambda: back_to_menu(add_loan_window, open_find_member_window.find_member_window))  # imported from switch_windows.py
 
     # buttons - geometry
     loan_insert_btn.grid(row=7, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=7, column=1, padx=5, pady=5)
 
-    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_loan_window, menu_window))  # imported from switch_windows.py
+    add_loan_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(add_loan_window, open_find_member_window.find_member_window))  # imported from switch_windows.py
     add_loan_window.mainloop()
+
 
 def open_add_book_request_window():
     """Opens the add_book_request_window and closes the menu_window"""
@@ -474,7 +447,7 @@ def open_add_book_request_window():
     add_book_request_window = Tk()
     book_request_test_lbl = Label(add_book_request_window, text="book request test").pack()
 
-    add_book_request_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(add_book_request_window, menu_window))  # imported from switch_windows.py
+    add_book_request_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(add_book_request_window, menu_window))  # imported from switch_windows.py
     add_book_request_window.mainloop()
     
     
@@ -530,7 +503,7 @@ def open_view_books_table_window():
     display_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=2, column=0, padx=5, pady=5)
 
-    view_books_table_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(view_books_table_window, menu_window))  # imported from switch_windows.py
+    view_books_table_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(view_books_table_window, menu_window))  # imported from switch_windows.py
     view_books_table_window.mainloop()
 
 
@@ -570,7 +543,7 @@ def open_view_members_table_window():
     display_members_table_btn.grid(row=1, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=2, column=0, padx=5, pady=5)
 
-    view_members_table_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(view_members_table_window, menu_window))  # imported from switch_windows.py
+    view_members_table_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(view_members_table_window, menu_window))  # imported from switch_windows.py
     view_members_table_window.mainloop()
 
 
@@ -614,7 +587,7 @@ def open_view_loans_table_window():
     display_loans_table_btn.grid(row=1, column=0, padx=5, pady=5)
     back_to_menu_btn.grid(row=2, column=0, padx=5, pady=5)
 
-    view_loans_table_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(view_loans_table_window, menu_window))  # imported from switch_windows.py
+    view_loans_table_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(view_loans_table_window, menu_window))  # imported from switch_windows.py
     view_loans_table_window.mainloop()
 
 
@@ -644,5 +617,5 @@ view_members_table_btn.grid(row=1, column=1, padx=5, pady=5)
 view_loans_table_btn.grid(row=1, column=2, padx=5, pady=5)
 view_book_requests_table_btn.grid(row=1, column=3, padx=5, pady=5)
 
-menu_window.protocol("WM_DELETE_WINDOW", lambda: closing_using_x(menu_window, menu_window))  # imported from switch_windows.py
+menu_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(menu_window, menu_window))  # imported from switch_windows.py
 menu_window.mainloop()
