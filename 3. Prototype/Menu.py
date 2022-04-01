@@ -1,4 +1,4 @@
-# get memberid from another function
+# swapping comboboxes for optionmenus - book fixed, member fixed
 # Validations
 # Calculations
 # E.g. for search: how many books are worth over [user input cost] pounds? how many members are in [user input year] or higher? how many students are [user input age] or older?
@@ -20,7 +20,7 @@ def open_add_book_window():
 
     def get_book_data():  # Leave at the top as a different function OR call get_form_data_func() directly but after instantiation of entry fields?
         list_of_ent_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
-                              publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_cbx,
+                              publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_optmenu,
                               charge_if_lost_ent, charge_if_damaged_ent, copies_owned_ent, copies_available_ent,
                               date_added_ent]
         get_form_data_func(list_of_ent_fields, insert_book_data)  # imported from get_form_data.py
@@ -97,8 +97,8 @@ def open_add_book_window():
     keywords_ent_var = StringVar()
     keywords_ent = Entry(add_book_window, textvariable=keywords_ent_var)
     # 11.
-    cover_type_cbx_var = StringVar()
-    cover_type_cbx = ttk.Combobox(add_book_window, values=["Paperback", "Hardback"], textvariable=cover_type_cbx_var)
+    cover_type_optmenu_var = StringVar()
+    cover_type_optmenu = ttk.OptionMenu(add_book_window, cover_type_optmenu_var, "Choose value:", "Paperback", "Hardback")
     # 12.
     charge_if_lost_ent_var = StringVar()
     charge_if_lost_ent = Entry(add_book_window, textvariable=charge_if_lost_ent_var)
@@ -126,7 +126,7 @@ def open_add_book_window():
     price_ent.grid(row=7, column=1, padx=5, pady=5)
     summary_ent.grid(row=8, column=1, padx=5, pady=5)
     keywords_ent.grid(row=9, column=1, padx=5, pady=5)
-    cover_type_cbx.grid(row=10, column=1, padx=5, pady=5)
+    cover_type_optmenu.grid(row=10, column=1, padx=5, pady=5)
     charge_if_lost_ent.grid(row=11, column=1, padx=5, pady=5)
     charge_if_damaged_ent.grid(row=12, column=1, padx=5, pady=5)
     copies_owned_ent.grid(row=13, column=1, padx=5, pady=5)
@@ -149,8 +149,8 @@ def open_add_member_window():
     """Opens the add_member_window and closes the menu_window"""
 
     def get_member_data():
-        list_of_ent_fields = [member_id_ent, member_title_cbx, first_name_ent, last_name_ent, date_of_birth_ent,
-                              email_lbl_ent, school_year_cbx, member_type_cbx]
+        list_of_ent_fields = [member_id_ent, member_title_optmenu, first_name_ent, last_name_ent, date_of_birth_ent,
+                              email_lbl_ent, school_year_optmenu, member_type_optmenu]
         get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
 
     menu_window.withdraw()
@@ -185,8 +185,8 @@ def open_add_member_window():
     member_id_ent_var = StringVar()
     member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
     # 2.
-    member_title_cbx_var = StringVar()
-    member_title_cbx = ttk.Combobox(add_member_window, values=["Mr", "Mrs", "Ms", "Dr"], textvariable=member_title_cbx_var)
+    member_title_optmenu_var = StringVar()
+    member_title_optmenu = ttk.OptionMenu(add_member_window, member_title_optmenu_var, "Choose value:", "Mr", "Miss", "Mrs", "Ms", "Dr")
     # 3.
     first_name_ent_var = StringVar()
     first_name_ent = Entry(add_member_window, textvariable=first_name_ent_var)
@@ -200,21 +200,21 @@ def open_add_member_window():
     email_lbl_ent_var = StringVar()
     email_lbl_ent = Entry(add_member_window, textvariable=email_lbl_ent_var)
     # 7.
-    school_year_cbx_var = StringVar()
-    school_year_cbx = ttk.Combobox(add_member_window, values=["n/a", "8", "9", "10", "11", "12", "13", "14"], textvariable=school_year_cbx_var)
+    school_year_optmenu_var = StringVar()
+    school_year_optmenu = ttk.OptionMenu(add_member_window, school_year_optmenu_var, "Choose value:", "n/a", "8", "9", "10", "11", "12", "13", "14")
     # 8.
-    member_type_cbx_var = StringVar()
-    member_type_cbx = ttk.Combobox(add_member_window, values=["Student", "Teacher", "Teaching Assistant", "Staff (other)"], textvariable=member_type_cbx_var)
+    member_type_optmenu_var = StringVar()
+    member_type_optmenu = ttk.OptionMenu(add_member_window, member_type_optmenu_var, "Choose value:", "Student", "Teacher", "Teaching Assistant", "Staff (other)")
     
     # add_member_window - entry fields - geometry
     member_id_ent.grid(row=0, column=1, padx=5, pady=5)
-    member_title_cbx.grid(row=1, column=1, padx=5, pady=5)
+    member_title_optmenu.grid(row=1, column=1, padx=5, pady=5)
     first_name_ent.grid(row=2, column=1, padx=5, pady=5)
     last_name_ent.grid(row=3, column=1, padx=5, pady=5)
     date_of_birth_ent.grid(row=4, column=1, padx=5, pady=5)
     email_lbl_ent.grid(row=5, column=1, padx=5, pady=5)
-    school_year_cbx.grid(row=6, column=1, padx=5, pady=5)
-    member_type_cbx.grid(row=7, column=1, padx=5, pady=5)
+    school_year_optmenu.grid(row=6, column=1, padx=5, pady=5)
+    member_type_optmenu.grid(row=7, column=1, padx=5, pady=5)
     
     # add_member_window - buttons - instantiation
     member_insert_btn = Button(add_member_window, text="Save to the database", command=get_member_data)
@@ -379,7 +379,7 @@ def open_add_loan_window():
 
     def get_loan_data():
         list_of_ent_fields = [loan_id_ent, loan_date_ent, loan_duration_ent, due_for_return_ent,
-                              is_damaged_cbx, is_lost_cbx, isbn_ent, chosen_record_id]  # add 8th item - chosen_record_id from confirm_user_selection function
+                              is_damaged_optmenu, is_lost_optmenu, isbn_ent, chosen_record_id]  # add 8th item - chosen_record_id from confirm_user_selection function
         get_form_data_func(list_of_ent_fields, insert_loan_data)  # imported from get_form_data.py
 
     menu_window.withdraw()
@@ -409,8 +409,8 @@ def open_add_loan_window():
     loan_date_ent_var = StringVar()
     loan_duration_ent_var = StringVar()
     due_for_return_ent_var = StringVar()
-    is_damaged_cbx_var = StringVar()
-    is_lost_cbx_var = StringVar()
+    is_damaged_optmenu_var = StringVar()
+    is_lost_optmenu_var = StringVar()
     isbn_ent_var = StringVar()
 
     # entry fields - instantiation
@@ -418,8 +418,8 @@ def open_add_loan_window():
     loan_date_ent = Entry(add_loan_window, textvariable=loan_date_ent_var)
     loan_duration_ent = Entry(add_loan_window, textvariable=loan_duration_ent_var)
     due_for_return_ent = Entry(add_loan_window, textvariable=due_for_return_ent_var)
-    is_damaged_cbx = ttk.Combobox(add_loan_window, values=["True", "False"], textvariable=is_damaged_cbx_var)
-    is_lost_cbx = ttk.Combobox(add_loan_window, values=["True", "False"], textvariable=is_lost_cbx_var)
+    is_damaged_optmenu = ttk.OptionMenu(add_loan_window, is_damaged_optmenu_var, "Choose value", "True", "False")
+    is_lost_optmenu = ttk.OptionMenu(add_loan_window, is_lost_optmenu_var, "Choose value", "True", "False")
     isbn_ent = Entry(add_loan_window, textvariable=isbn_ent_var)
 
     # entry fields - geometry
@@ -427,8 +427,8 @@ def open_add_loan_window():
     loan_date_ent.grid(row=1, column=1, padx=5, pady=5)
     loan_duration_ent.grid(row=2, column=1, padx=5, pady=5)
     due_for_return_ent.grid(row=3, column=1, padx=5, pady=5)
-    is_damaged_cbx.grid(row=4, column=1, padx=5, pady=5)
-    is_lost_cbx.grid(row=5, column=1, padx=5, pady=5)
+    is_damaged_optmenu.grid(row=4, column=1, padx=5, pady=5)
+    is_lost_optmenu.grid(row=5, column=1, padx=5, pady=5)
     isbn_ent.grid(row=6, column=1, padx=5, pady=5)
 
     # buttons - instantiation
