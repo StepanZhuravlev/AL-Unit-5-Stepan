@@ -19,6 +19,8 @@ import re
 import decimal
 from tkinter import *
 
+# BASIC VALIDATIONS
+
 
 def presence_check(value):
     """PRESENCE CHECK"""
@@ -79,7 +81,7 @@ def type_check_float(value):
 
 def type_check_string(value):
     """STR TYPE CHECK"""
-    if isinstance(value, string):
+    if isinstance(value, str):
         return True
     else:
         return False
@@ -179,4 +181,6 @@ def format_check_email(value):
 # Main program:
 #test_tuple = ("a", "b")
 #print(type(test_tuple))
-help(OptionMenu)
+#help(OptionMenu)
+
+print(type_check_string("Hell"))

@@ -1,5 +1,4 @@
-# swapping comboboxes for optionmenus - book fixed, member fixed
-# Validations
+# Validations - just for Add Member window
 # Calculations
 # E.g. for search: how many books are worth over [user input cost] pounds? how many members are in [user input year] or higher? how many students are [user input age] or older?
 # copy all column values into array, sort the array using insertion (quicksort if enough time), count number of items above the [user input]
@@ -13,6 +12,7 @@ from get_table_records import display_table_records
 from switch_windows import back_to_menu, close_all_on_x
 from get_form_data import get_form_data_func
 import sqlite3
+import Validations as val
 
 
 def open_add_book_window():
