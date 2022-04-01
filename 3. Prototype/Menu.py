@@ -308,6 +308,7 @@ def open_find_member_window():
             for char in disallowed_characters:
                 chosen_record_string = chosen_record_string.replace(char,"")  # delete brackets and single quotes to get a clean string
             chosen_record_list = chosen_record_string.split(", ")  # create a list containing values of fields of the chosen record
+            global chosen_record_id
             chosen_record_id = int(chosen_record_list[0])  # save MemberID
             # Open Add new loan window:
             open_add_loan_window()
@@ -378,7 +379,7 @@ def open_add_loan_window():
 
     def get_loan_data():
         list_of_ent_fields = [loan_id_ent, loan_date_ent, loan_duration_ent, due_for_return_ent,
-                              is_damaged_cbx, is_lost_cbx, isbn_ent]  # add 8th item - chosen_record_id from confirm_user_selection function
+                              is_damaged_cbx, is_lost_cbx, isbn_ent, chosen_record_id]  # add 8th item - chosen_record_id from confirm_user_selection function
         get_form_data_func(list_of_ent_fields, insert_loan_data)  # imported from get_form_data.py
 
     menu_window.withdraw()

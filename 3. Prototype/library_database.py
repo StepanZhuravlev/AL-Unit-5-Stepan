@@ -105,9 +105,9 @@ def insert_loan_data(new_loan_data):
     library_database = sqlite3.connect("Library.db")
     loans_table_cursor = library_database.cursor()
     loans_table_cursor.execute("""
-    INSERT INTO Loans(LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN)
-    VALUES (?,?,?,?,?,?,?)""", (new_loan_data[0], new_loan_data[1], new_loan_data[2], new_loan_data[3],
-                                  new_loan_data[4], new_loan_data[5], new_loan_data[6]))
+    INSERT INTO Loans(LoanID, LoanDate, LoanDuration, DueForReturn, IsDamaged, IsLost, ISBN, MemberID)
+    VALUES (?,?,?,?,?,?,?,?)""", (new_loan_data[0], new_loan_data[1], new_loan_data[2], new_loan_data[3],
+                                  new_loan_data[4], new_loan_data[5], new_loan_data[6], new_loan_data[7]))
     messagebox.showinfo("", "New data saved successfully.")
     library_database.commit()
     library_database.close()
