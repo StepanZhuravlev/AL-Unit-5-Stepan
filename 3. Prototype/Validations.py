@@ -15,15 +15,6 @@
 # ASDF$ - should end with ASDF
 # \s - whitespace character
 
-# presence - MemberID - done
-# length - ISBN
-# range - copies owned
-# int - copies owned
-# float, currency - price
-# string - first name
-# date - dob
-# email - email
-
 import re
 import decimal
 from tkinter import *
@@ -59,7 +50,7 @@ def length_check(value, max_length, field_name):
         value = str(value)
 
     if len(value) > max_length:  # if longer than length (length check fail), return False
-        messagebox.showerror("Invalid value!", f"{field_name} cannot be left blank!")
+        messagebox.showerror("Invalid value!", f"{field_name} must not be longer than {max_length} characters!")
         return False
     else:  # else (length check pass), return True
         return True
@@ -199,10 +190,10 @@ def format_check_email(value, field_name):
         if len(re.findall(r"[.]", value)) >= 1:
             return True
         else:
-            messagebox.showerror("Invalid value!", f"{field_name}: invalid email format!")
+            messagebox.showerror("Invalid value!", f"{field_name}: invalid email format 2!")
             return False
     else:
-        messagebox.showerror("Invalid value!", f"{field_name} invalid email format!")
+        messagebox.showerror("Invalid value!", f"{field_name}: invalid email format 1!")
         return False
 
 
@@ -223,3 +214,5 @@ def no_numerals(value, field_name):
 #asdf = ["a", 1, 35, True]
 #for a in asdf:
 #    print(a, type(a))
+
+#print(format_check_email("jjobs84@email.com", "Email"))

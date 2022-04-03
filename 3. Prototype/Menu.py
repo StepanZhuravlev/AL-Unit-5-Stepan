@@ -19,12 +19,26 @@ import re
 def open_add_book_window():
     """Opens the add_book_window and closes the menu_window"""
 
+    def validate_book_data():
+        # ISBN: length
+
+        # Copies owned: range
+
+        # Copies owned: int check
+
+        # Currency: float and currency format
+
+        pass
+
     def get_book_data():  # Leave at the top as a different function OR call get_form_data_func() directly but after instantiation of entry fields?
         list_of_ent_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
                               publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_optmenu,
                               charge_if_lost_ent, charge_if_damaged_ent, copies_owned_ent, copies_available_ent,
                               date_added_ent]
-        get_form_data_func(list_of_ent_fields, insert_book_data)  # imported from get_form_data.py
+        if validate_book_data() == True:
+            get_form_data_func(list_of_ent_fields, insert_book_data)  # imported from get_form_data.py
+        else:
+            pass
 
     menu_window.withdraw()  # menu_window.destroy() | .withdraw() keeps the menu_window hidden -> needs to be revealed again when X is clicked, or else the program keeps running
     add_book_window = Tk()
@@ -148,24 +162,23 @@ def open_add_book_window():
     
 def open_add_member_window():
     """Opens the add_member_window and closes the menu_window"""
-    # MemberID - presence, type = int
-    # Member Title - presence, length, string
-    # First name - presence, length, numerals, string
-    # Last name - presence, length, numerals, string
-    # dob - presence, length, format
-    # email - presence, length, format
-    # year - presence, lookup
-    # member type - presence, lookup
 
     def validate_member_data():
         # Member ID:
         val.presence_check(member_id_ent.get(), "Member ID")  # presence
+        # First name: type string
+        val.length_check(first_name_ent.get(), 5, "First name")  # length
+        # Date of birth: date format
+        val.format_check_date(date_of_birth_ent.get(), "Date of birth")
+        # Email: email format
+        val.format_check_email(email_ent.get(), "Email")
 
 
     def get_member_data():
         list_of_ent_fields = [member_id_ent, member_title_optmenu, first_name_ent, last_name_ent, date_of_birth_ent,
-                              email_lbl_ent, school_year_optmenu, member_type_optmenu]
-        if validate_member_data() == True:
+                              email_ent, school_year_optmenu, member_type_optmenu]
+        print(validate_member_data())
+        if validate_member_data() == None:  # validate_member_data() returns None if no errors have been raised
             get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
         else:
             pass
@@ -201,8 +214,8 @@ def open_add_member_window():
     # 1.
     member_id_ent_var = StringVar()
     member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
-    print(type(member_id_ent))
     # 2.
+    global member_title_optmenu_var
     member_title_optmenu_var = StringVar()
     member_title_optmenu = ttk.OptionMenu(add_member_window, member_title_optmenu_var, "Choose value:", "Mr", "Miss", "Mrs", "Ms", "Dr")
     # 3.
@@ -215,12 +228,14 @@ def open_add_member_window():
     date_of_birth_ent_var = StringVar()
     date_of_birth_ent = Entry(add_member_window, textvariable=date_of_birth_ent_var)
     # 6.
-    email_lbl_ent_var = StringVar()
-    email_lbl_ent = Entry(add_member_window, textvariable=email_lbl_ent_var)
+    email_ent_var = StringVar()
+    email_ent = Entry(add_member_window, textvariable=email_ent_var)
     # 7.
+    global school_year_optmenu_var
     school_year_optmenu_var = StringVar()
     school_year_optmenu = ttk.OptionMenu(add_member_window, school_year_optmenu_var, "Choose value:", "n/a", "8", "9", "10", "11", "12", "13", "14")
     # 8.
+    global member_type_optmenu_var
     member_type_optmenu_var = StringVar()
     member_type_optmenu = ttk.OptionMenu(add_member_window, member_type_optmenu_var, "Choose value:", "Student", "Teacher", "Teaching Assistant", "Staff (other)")
     
@@ -230,7 +245,7 @@ def open_add_member_window():
     first_name_ent.grid(row=2, column=1, padx=5, pady=5)
     last_name_ent.grid(row=3, column=1, padx=5, pady=5)
     date_of_birth_ent.grid(row=4, column=1, padx=5, pady=5)
-    email_lbl_ent.grid(row=5, column=1, padx=5, pady=5)
+    email_ent.grid(row=5, column=1, padx=5, pady=5)
     school_year_optmenu.grid(row=6, column=1, padx=5, pady=5)
     member_type_optmenu.grid(row=7, column=1, padx=5, pady=5)
     
