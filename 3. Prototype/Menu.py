@@ -1,7 +1,9 @@
-# Validations - just for Add Member window
 # Calculations
 # E.g. for search: how many books are worth over [user input cost] pounds? how many members are in [user input year] or higher? how many students are [user input age] or older?
 # copy all column values into array, sort the array using insertion (quicksort if enough time), count number of items above the [user input]
+
+# input book price, sort all the books' prices in asc order, find how many books are = or above that price
+# insertion sort on array of prices, then binary search on sorted array of prices, then simple calculation to produce result
 
 import tkinter as tk
 from tkinter import *
