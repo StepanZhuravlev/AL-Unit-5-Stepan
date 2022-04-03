@@ -15,6 +15,15 @@
 # ASDF$ - should end with ASDF
 # \s - whitespace character
 
+# presence - MemberID - done
+# length - ISBN
+# range - copies owned
+# int - copies owned
+# float, currency - price
+# string - first name
+# date - dob
+# email - email
+
 import re
 import decimal
 from tkinter import *
