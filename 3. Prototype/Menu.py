@@ -13,6 +13,7 @@ from switch_windows import back_to_menu, close_all_on_x
 from get_form_data import get_form_data_func
 import sqlite3
 import Validations as val
+import re
 
 
 def open_add_book_window():
@@ -147,11 +148,27 @@ def open_add_book_window():
     
 def open_add_member_window():
     """Opens the add_member_window and closes the menu_window"""
+    # MemberID - presence, type = int
+    # Member Title - presence, length, string
+    # First name - presence, length, numerals, string
+    # Last name - presence, length, numerals, string
+    # dob - presence, length, format
+    # email - presence, length, format
+    # year - presence, lookup
+    # member type - presence, lookup
+
+    def validate_member_data():
+        # Member ID:
+        val.presence_check(member_id_ent.get(), "Member ID")  # presence
+
 
     def get_member_data():
         list_of_ent_fields = [member_id_ent, member_title_optmenu, first_name_ent, last_name_ent, date_of_birth_ent,
                               email_lbl_ent, school_year_optmenu, member_type_optmenu]
-        get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
+        if validate_member_data() == True:
+            get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
+        else:
+            pass
 
     menu_window.withdraw()
     add_member_window = Tk()
@@ -184,6 +201,7 @@ def open_add_member_window():
     # 1.
     member_id_ent_var = StringVar()
     member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
+    print(type(member_id_ent))
     # 2.
     member_title_optmenu_var = StringVar()
     member_title_optmenu = ttk.OptionMenu(add_member_window, member_title_optmenu_var, "Choose value:", "Mr", "Miss", "Mrs", "Ms", "Dr")
