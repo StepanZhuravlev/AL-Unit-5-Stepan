@@ -21,21 +21,26 @@ def open_add_book_window():
 
     def validate_book_data():
         # ISBN: length
-
+        val.length_check(isbn_ent.get(), 20, "ISBN")
         # Copies owned: range
-
+        if not val.range_check(int(copies_owned_ent.get()), 1, 999, "Copies owned"):
+            return False
         # Copies owned: int check
-
-        # Currency: float and currency format
-
-        pass
+        val.type_check_int(int(copies_owned_ent.get()), "Copies owned")
+        # Price: float and currency format
+        try:
+            val.type_check_float(float(price_ent.get()), "Price")
+        except ValueError:
+            messagebox.showerror("Invalid value!", "Price must be a decimal!")
+        val.format_check_currency(float(price_ent.get()), "Price")
 
     def get_book_data():  # Leave at the top as a different function OR call get_form_data_func() directly but after instantiation of entry fields?
         list_of_ent_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
-                              publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_optmenu,
+                              publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_optmenu_var,
                               charge_if_lost_ent, charge_if_damaged_ent, copies_owned_ent, copies_available_ent,
                               date_added_ent]
-        if validate_book_data() == True:
+        print(validate_book_data())
+        if validate_book_data() is None:  # validate_book_data() returns None if no errors have been raised
             get_form_data_func(list_of_ent_fields, insert_book_data)  # imported from get_form_data.py
         else:
             pass
@@ -173,12 +178,11 @@ def open_add_member_window():
         # Email: email format
         val.format_check_email(email_ent.get(), "Email")
 
-
     def get_member_data():
-        list_of_ent_fields = [member_id_ent, member_title_optmenu, first_name_ent, last_name_ent, date_of_birth_ent,
-                              email_ent, school_year_optmenu, member_type_optmenu]
+        list_of_ent_fields = [member_id_ent, member_title_optmenu_var, first_name_ent, last_name_ent, date_of_birth_ent,
+                              email_ent, school_year_optmenu_var, member_type_optmenu_var]
         print(validate_member_data())
-        if validate_member_data() == None:  # validate_member_data() returns None if no errors have been raised
+        if validate_member_data() is None:  # validate_member_data() returns None if no errors have been raised
             get_form_data_func(list_of_ent_fields, insert_member_data)  # imported from get_form_data.py
         else:
             pass
@@ -215,7 +219,6 @@ def open_add_member_window():
     member_id_ent_var = StringVar()
     member_id_ent = Entry(add_member_window, textvariable=member_id_ent_var)
     # 2.
-    global member_title_optmenu_var
     member_title_optmenu_var = StringVar()
     member_title_optmenu = ttk.OptionMenu(add_member_window, member_title_optmenu_var, "Choose value:", "Mr", "Miss", "Mrs", "Ms", "Dr")
     # 3.
@@ -231,11 +234,9 @@ def open_add_member_window():
     email_ent_var = StringVar()
     email_ent = Entry(add_member_window, textvariable=email_ent_var)
     # 7.
-    global school_year_optmenu_var
     school_year_optmenu_var = StringVar()
     school_year_optmenu = ttk.OptionMenu(add_member_window, school_year_optmenu_var, "Choose value:", "n/a", "8", "9", "10", "11", "12", "13", "14")
     # 8.
-    global member_type_optmenu_var
     member_type_optmenu_var = StringVar()
     member_type_optmenu = ttk.OptionMenu(add_member_window, member_type_optmenu_var, "Choose value:", "Student", "Teacher", "Teaching Assistant", "Staff (other)")
     

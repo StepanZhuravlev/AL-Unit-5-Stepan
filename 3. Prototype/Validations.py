@@ -59,10 +59,10 @@ def length_check(value, max_length, field_name):
 def range_check(value, min_value, max_value, field_name):
     """RANGE CHECK"""
     if value in range(min_value, max_value+1):
-        messagebox.showerror("Invalid value!", f"{field_name} cannot be left blank!")
-        return False
-    else:
         return True
+    else:
+        messagebox.showerror("Invalid value!", f"{field_name} must be between {min_value} and {max_value}!")
+        return False
 
 
 # TYPE CHECK FUNCTIONS
@@ -79,11 +79,15 @@ def type_check_int(value, field_name):
 
 def type_check_float(value, field_name):
     """FLOAT TYPE CHECK"""
-    if isinstance(value, float):
-        return True
-    else:
-        messagebox.showerror("Invalid value!", f"{field_name} must be an integer or a decimal!")
-        return False
+    try:
+        if isinstance(value, float):
+            return True
+        else:
+            messagebox.showerror("Invalid value!", f"{field_name} must be a decimal!")
+            return False
+    except ValueError:
+        messagebox.showerror("Invalid value!", f"{field_name} must be a decimal!")
+        print(f"{field_name} must be a decimal!")
 
 
 def type_check_string(value, field_name):
@@ -216,3 +220,7 @@ def no_numerals(value, field_name):
 #    print(a, type(a))
 
 #print(format_check_email("jjobs84@email.com", "Email"))
+#print(range_check(10000, 1, 999, "Copies owned"))
+#print(type_check_int("10000", "Copies owned"))
+#print(type_check_float("egg", "price"))
+#print(range_check(10000, 1, 999, "Copies"))
