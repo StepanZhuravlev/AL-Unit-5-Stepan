@@ -633,29 +633,29 @@ def open_view_loans_table_window():
 
 def open_calculations_window():
 
-    def calculation(user_price):
-        # get list of prices and numbers of books
-        # sort prices and swap the numbers of books in the same way
-        # find
+    def calculation(user_price, total_price_output, total_books_output):
+
         db_connect = sqlite3.connect("Library.db")
-        db_cursor_prices = db_connect.execute("SELECT Price FROM Books WHERE Price>?;", [user_price])
-        prices_list = db_cursor_prices.fetchone()
-        print(prices_list)
+        db_cursor_prices = db_connect.execute(f"SELECT Price, CopiesOwned FROM Books WHERE Price>={user_price}")
+        prices_numbers_list = db_cursor_prices.fetchall()
 
-        db_cursor_book_nums = db_connect.execute("SELECT CopiesOwned FROM Books WHERE Price>?;", [user_price])
-        book_nums_list = db_cursor_book_nums.fetchone()
-        print(book_nums_list)
+        prices_sum = 0
+        books_nums_sum = 0
 
-
+        for tup in prices_numbers_list:
+            prices_sum += (tup[0] * tup[1])
+            books_nums_sum += tup[1]
+        total_price_output.set(str(prices_sum))
+        total_books_output.set(str(books_nums_sum))
 
     menu_window.withdraw()
     calculations_window = Tk()
     calculations_window.title("Calculations")
 
     # variables
-    enter_price_ent_var = StringVar()
-    tot_books_num_var = StringVar()
-    tot_books_price_var = StringVar()
+    enter_price_ent_var = StringVar(calculations_window)
+    tot_books_num_var = StringVar(calculations_window)
+    tot_books_price_var = StringVar(calculations_window)
 
     # labels - inst
     explanation_lbl = Label(calculations_window, text="Explanation...")
@@ -668,10 +668,10 @@ def open_calculations_window():
     # labels - geometry
     explanation_lbl.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
     enter_price_lbl.grid(row=1, column=0, padx=5, pady=5)
-    tot_books_num.grid(row=3, column=0, padx=5, pady=5)
-    tot_books_price.grid(row=4, column=0, padx=5, pady=5)
-    tot_books_num_val_lbl.grid(row=3, column=1, padx=5, pady=5)
-    tot_books_price_val_lbl.grid(row=4, column=1, padx=5, pady=5)
+    tot_books_num.grid(row=2, column=0, padx=5, pady=5)
+    tot_books_price.grid(row=3, column=0, padx=5, pady=5)
+    tot_books_num_val_lbl.grid(row=2, column=1, padx=5, pady=5)
+    tot_books_price_val_lbl.grid(row=3, column=1, padx=5, pady=5)
 
     # entry fields - inst
     enter_price_ent = Entry(calculations_window, textvariable=enter_price_ent_var)
@@ -680,12 +680,12 @@ def open_calculations_window():
     enter_price_ent.grid(row=1, column=2, padx=5, pady=5)
 
     # buttons - inst
-    confirm_btn = Button(calculations_window, text="Confirm input", command=lambda: calculation(enter_price_ent_var.get()))
+    confirm_btn = Button(calculations_window, text="Confirm input", command=lambda: calculation(enter_price_ent_var.get(), tot_books_price_var, tot_books_num_var))
     back_to_menu_btn = Button(calculations_window, text="Back to Menu", command=lambda: back_to_menu(calculations_window, menu_window))
 
     # buttons - geometry
-    confirm_btn.grid(row=2, column=0, padx=5, pady=5)
-    back_to_menu_btn.grid(row=5, column=0, padx=5, pady=5)
+    confirm_btn.grid(row=4, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=4, column=1, padx=5, pady=5)
 
     calculations_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(calculations_window, menu_window))
     calculations_window.mainloop()

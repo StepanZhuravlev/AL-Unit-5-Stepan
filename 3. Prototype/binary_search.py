@@ -14,4 +14,4 @@ def binary_search(array, search, left, right):
 
 
 #test_arr = [1, 2, 6, 10, 25, 70, 73, 450]
-#print(binary_search(test_arr, 8, 1, len(test_arr)))
+#print(binary_search(test_arr, 40, 1, len(test_arr)))
