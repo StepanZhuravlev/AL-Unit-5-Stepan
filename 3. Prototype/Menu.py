@@ -16,6 +16,8 @@ from get_form_data import get_form_data_func
 import sqlite3
 import Validations as val
 import re
+from binary_search import binary_search
+from insertion_sort import insertion_sort
 
 
 def open_add_book_window():
@@ -629,6 +631,66 @@ def open_view_loans_table_window():
     view_loans_table_window.mainloop()
 
 
+def open_calculations_window():
+
+    def calculation(user_price):
+        # get list of prices and numbers of books
+        # sort prices and swap the numbers of books in the same way
+        # find
+        db_connect = sqlite3.connect("Library.db")
+        db_cursor_prices = db_connect.execute("SELECT Price FROM Books WHERE Price>?;", [user_price])
+        prices_list = db_cursor_prices.fetchone()
+        print(prices_list)
+
+        db_cursor_book_nums = db_connect.execute("SELECT CopiesOwned FROM Books WHERE Price>?;", [user_price])
+        book_nums_list = db_cursor_book_nums.fetchone()
+        print(book_nums_list)
+
+
+
+    menu_window.withdraw()
+    calculations_window = Tk()
+    calculations_window.title("Calculations")
+
+    # variables
+    enter_price_ent_var = StringVar()
+    tot_books_num_var = StringVar()
+    tot_books_price_var = StringVar()
+
+    # labels - inst
+    explanation_lbl = Label(calculations_window, text="Explanation...")
+    enter_price_lbl = Label(calculations_window, text="Enter the price:")
+    tot_books_num = Label(calculations_window, text="Total number of books:")
+    tot_books_price = Label(calculations_window, text="Total price of books:")
+    tot_books_num_val_lbl = Label(calculations_window, textvariable=tot_books_num_var)
+    tot_books_price_val_lbl = Label(calculations_window, textvariable=tot_books_price_var)
+
+    # labels - geometry
+    explanation_lbl.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+    enter_price_lbl.grid(row=1, column=0, padx=5, pady=5)
+    tot_books_num.grid(row=3, column=0, padx=5, pady=5)
+    tot_books_price.grid(row=4, column=0, padx=5, pady=5)
+    tot_books_num_val_lbl.grid(row=3, column=1, padx=5, pady=5)
+    tot_books_price_val_lbl.grid(row=4, column=1, padx=5, pady=5)
+
+    # entry fields - inst
+    enter_price_ent = Entry(calculations_window, textvariable=enter_price_ent_var)
+
+    # entry fields - geometry
+    enter_price_ent.grid(row=1, column=2, padx=5, pady=5)
+
+    # buttons - inst
+    confirm_btn = Button(calculations_window, text="Confirm input", command=lambda: calculation(enter_price_ent_var.get()))
+    back_to_menu_btn = Button(calculations_window, text="Back to Menu", command=lambda: back_to_menu(calculations_window, menu_window))
+
+    # buttons - geometry
+    confirm_btn.grid(row=2, column=0, padx=5, pady=5)
+    back_to_menu_btn.grid(row=5, column=0, padx=5, pady=5)
+
+    calculations_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(calculations_window, menu_window))
+    calculations_window.mainloop()
+
+
 menu_window = Tk()
 menu_window.title("Menu")
 menu_window.resizable(width=False, height=False)
@@ -637,23 +699,25 @@ menu_window.resizable(width=False, height=False)
 add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_window)
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_find_member_window)
-add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)  #
+#add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)  #
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
 view_members_table_btn = Button(menu_window, text="View Members table", command=open_view_members_table_window)
 view_loans_table_btn = Button(menu_window, text="View Loans table", command=open_view_loans_table_window)
-view_book_requests_table_btn = Button(menu_window, text="View Book Requests table")  #
+calculations_btn = Button(menu_window, text="Calculations", command=open_calculations_window)
+#view_book_requests_table_btn = Button(menu_window, text="View Book Requests table")  #
 
 # menu_window - buttons - geometry
 add_book_btn.grid(row=0, column=0, padx=5, pady=5)
 add_member_btn.grid(row=0, column=1, padx=5, pady=5)
 add_loan_btn.grid(row=0, column=2, padx=5, pady=5)
-add_request_btn.grid(row=0, column=3, padx=5, pady=5)
+#add_request_btn.grid(row=0, column=3, padx=5, pady=5)
 close_menu_btn.grid(row=0, column=4, padx=5, pady=5)
 view_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
 view_members_table_btn.grid(row=1, column=1, padx=5, pady=5)
 view_loans_table_btn.grid(row=1, column=2, padx=5, pady=5)
-view_book_requests_table_btn.grid(row=1, column=3, padx=5, pady=5)
+calculations_btn.grid(row=0, column=3, padx=5, pady=5)
+#view_book_requests_table_btn.grid(row=1, column=3, padx=5, pady=5)
 
 menu_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(menu_window))  # imported from switch_windows.py
 menu_window.mainloop()

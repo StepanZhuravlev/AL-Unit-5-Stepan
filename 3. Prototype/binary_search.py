@@ -9,7 +9,7 @@ def binary_search(array, search, left, right):
             return binary_search(array, search, mid+1, right)
         elif array[mid] < search:
             return binary_search(array, search, left, mid-1)
-        elif array[mid] == search:
+        else:
             return mid
 
 
