@@ -398,12 +398,12 @@ def open_find_member_window():
     # buttons - instantiation
     find_member_btn = Button(find_member_window, text="Find a member", command=lambda: get_record_by_user_input(find_by_id_ent_var.get(), find_by_fname_ent_var.get(), find_by_lname_ent_var.get()))  # passes user entered data to a function to get the record details
     back_to_menu_btn = Button(find_member_window, text="Back to Menu", command=lambda: back_to_menu(find_member_window, menu_window))  # imported from switch_windows.py
-    print_user_selection_btn = Button(find_member_window, text="Confirm selection", command=lambda: confirm_user_selection())
+    confirm_selection_btn = Button(find_member_window, text="Confirm selection", command=lambda: confirm_user_selection())
 
     # buttons - geometry
     find_member_btn.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
     back_to_menu_btn.grid(row=4, column=2, columnspan=2, padx=5, pady=5)
-    print_user_selection_btn.grid(row=5, column=0, padx=5, pady=5)
+    confirm_selection_btn.grid(row=5, column=0, padx=5, pady=5)
 
     find_member_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(find_member_window, menu_window))  # imported from switch_windows.py
     find_member_window.mainloop()
