@@ -421,6 +421,7 @@ def open_add_loan_window():
         get_form_data_func(list_of_ent_fields, insert_loan_data)  # imported from get_form_data.py
 
     menu_window.withdraw()
+    find_member_window.withdraw()
     add_loan_window = Tk()
     add_loan_window.title("Add a New Loan")
 
@@ -471,7 +472,7 @@ def open_add_loan_window():
 
     # buttons - instantiation
     loan_insert_btn = Button(add_loan_window, text="Save to the database", command=get_loan_data)
-    back_to_menu_btn = Button(add_loan_window, text="Back to Menu", command=lambda: back_to_menu(add_loan_window, find_member_window))  # imported from switch_windows.py
+    back_to_menu_btn = Button(add_loan_window, text="Back to the previous window", command=lambda: back_to_menu(add_loan_window, find_member_window))  # imported from switch_windows.py
 
     # buttons - geometry
     loan_insert_btn.grid(row=7, column=0, padx=5, pady=5)
@@ -649,6 +650,7 @@ def open_calculations_window():
         total_books_output.set(str(books_nums_sum))
 
     menu_window.withdraw()
+
     calculations_window = Tk()
     calculations_window.title("Calculations")
 
