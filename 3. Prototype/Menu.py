@@ -417,7 +417,7 @@ def open_add_loan_window():
 
     def get_loan_data():
         list_of_ent_fields = [loan_id_ent, loan_date_ent, loan_duration_ent, due_for_return_ent,
-                              is_damaged_optmenu, is_lost_optmenu, isbn_ent, chosen_record_id]  # add 8th item - chosen_record_id from confirm_user_selection function
+                              is_damaged_optmenu_var, is_lost_optmenu_var, isbn_ent, chosen_record_id]  # add 8th item - chosen_record_id from confirm_user_selection function
         get_form_data_func(list_of_ent_fields, insert_loan_data)  # imported from get_form_data.py
 
     menu_window.withdraw()
@@ -451,14 +451,15 @@ def open_add_loan_window():
     is_damaged_optmenu_var = StringVar()
     is_lost_optmenu_var = StringVar()
     isbn_ent_var = StringVar()
+    optmenu_values = ["n/a", "True", "False"]
 
     # entry fields - instantiation
-    loan_id_ent = Entry(add_loan_window, textvariable=loan_id_ent_var)
+    loan_id_ent = ttk.Entry(add_loan_window, textvariable=loan_id_ent_var)
     loan_date_ent = Entry(add_loan_window, textvariable=loan_date_ent_var)
     loan_duration_ent = Entry(add_loan_window, textvariable=loan_duration_ent_var)
     due_for_return_ent = Entry(add_loan_window, textvariable=due_for_return_ent_var)
-    is_damaged_optmenu = ttk.OptionMenu(add_loan_window, is_damaged_optmenu_var, "Choose value", "True", "False")
-    is_lost_optmenu = ttk.OptionMenu(add_loan_window, is_lost_optmenu_var, "Choose value", "True", "False")
+    is_damaged_optmenu = ttk.OptionMenu(add_loan_window, is_damaged_optmenu_var, *optmenu_values)
+    is_lost_optmenu = ttk.OptionMenu(add_loan_window, is_lost_optmenu_var, *optmenu_values)
     isbn_ent = Entry(add_loan_window, textvariable=isbn_ent_var)
 
     # entry fields - geometry
@@ -634,20 +635,33 @@ def open_view_loans_table_window():
 
 def open_calculations_window():
 
+    def validate_price():
+        """Checks the presence, the range, and the type of user input"""
+        val.presence_check(enter_price_ent.get(), "Minimum price")  # presence
+        try:  # type
+            val.type_check_float(float(enter_price_ent.get()), "Minimum price")
+        except ValueError:
+            messagebox.showerror("Invalid value!", "Price must be a number!")
+        if val.not_negative(enter_price_ent.get(), "Minimum price") is not True:
+            return False
+
     def calculation(user_price, total_price_output, total_books_output):
 
-        db_connect = sqlite3.connect("Library.db")
-        db_cursor_prices = db_connect.execute(f"SELECT Price, CopiesOwned FROM Books WHERE Price>={user_price}")
-        prices_numbers_list = db_cursor_prices.fetchall()
+        if validate_price() is None:  # validate_price returns None if no errors have been raised
+            db_connect = sqlite3.connect("Library.db")
+            db_cursor_prices = db_connect.execute(f"SELECT Price, CopiesOwned FROM Books WHERE Price>={user_price}")
+            prices_numbers_list = db_cursor_prices.fetchall()
 
-        prices_sum = 0
-        books_nums_sum = 0
+            prices_sum = 0
+            books_nums_sum = 0
 
-        for tup in prices_numbers_list:
-            prices_sum += (tup[0] * tup[1])
-            books_nums_sum += tup[1]
-        total_price_output.set(str(prices_sum))
-        total_books_output.set(str(books_nums_sum))
+            for tup in prices_numbers_list:
+                prices_sum += (tup[0] * tup[1])
+                books_nums_sum += tup[1]
+            total_price_output.set(str(prices_sum))
+            total_books_output.set(str(books_nums_sum))
+        else:
+            pass
 
     menu_window.withdraw()
 
@@ -660,7 +674,9 @@ def open_calculations_window():
     tot_books_price_var = StringVar(calculations_window)
 
     # labels - inst
-    explanation_lbl = Label(calculations_window, text="Explanation...")
+    explanation_lbl = Label(calculations_window, text="""This window allows to calculate the number, 
+    \nand the total cost of books whose price is 
+    \nat least equal to the one entered in the field below""")
     enter_price_lbl = Label(calculations_window, text="Enter the price:")
     tot_books_num = Label(calculations_window, text="Total number of books:")
     tot_books_price = Label(calculations_window, text="Total price of books:")
@@ -702,7 +718,7 @@ add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_find_member_window)
 #add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)  #
-close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
+close_menu_btn = ttk.Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
 view_members_table_btn = Button(menu_window, text="View Members table", command=open_view_members_table_window)
 view_loans_table_btn = Button(menu_window, text="View Loans table", command=open_view_loans_table_window)

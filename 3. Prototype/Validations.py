@@ -65,6 +65,15 @@ def range_check(value, min_value, max_value, field_name):
         return False
 
 
+def not_negative(value, field_name):
+    """Checks if a float/integer is positive"""
+    if float(value) < 0:
+        messagebox.showerror("Invalid value!", f"{field_name} must not be negative!")
+        return False
+    if float(value) >= 0:
+        return True
+
+
 # TYPE CHECK FUNCTIONS
 
 
