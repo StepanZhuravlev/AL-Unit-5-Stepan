@@ -93,7 +93,8 @@ def open_add_book_window():
         # Date added: format
         val.format_check_date(date_added_ent.get(), "Date added")
 
-    def get_book_data():  # Leave at the top as a different function OR call get_form_data_func() directly but after instantiation of entry fields?
+    def get_book_data():
+        """Saves the field inputs to the database if none of the validation functions return False"""
         list_of_ent_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
                               publication_date_ent, price_ent, summary_ent, keywords_ent, cover_type_optmenu_var,
                               charge_if_lost_ent, charge_if_damaged_ent, copies_owned_ent, copies_available_ent,
@@ -228,10 +229,6 @@ def open_add_member_window():
     """Opens the add_member_window and closes the menu_window"""
 
     def validate_member_data():
-
-        #print(member_title_optmenu_var.get())
-        #print(school_year_optmenu_var.get())
-        #print(member_type_optmenu_var.get())
         # presence checks
         val.presence_check(member_id_ent.get(), "Member ID")
         if member_title_optmenu_var.get() == "Choose value:":
@@ -257,7 +254,6 @@ def open_add_member_window():
         if val.not_negative(int(member_id_ent.get()), "MemberID") is not True:
             return False
 
-
         # First name: type string, length
         val.type_check_string(first_name_ent.get(), "First name")
         if val.length_check(first_name_ent.get(), 50, "First name") is not True:
@@ -279,6 +275,7 @@ def open_add_member_window():
             return False
 
     def get_member_data():
+        """Saves the field inputs to the database if none of the validation functions return False"""
         list_of_ent_fields = [member_id_ent, member_title_optmenu_var, first_name_ent, last_name_ent, date_of_birth_ent,
                               email_ent, school_year_optmenu_var, member_type_optmenu_var]
         print(validate_member_data())
@@ -293,16 +290,13 @@ def open_add_member_window():
     
     # add_member_window - labels - instantiation
     member_id_lbl = Label(add_member_window, text="Member ID:")
-    member_title_lbl = Label(add_member_window, text="Member title:")  # combobox
+    member_title_lbl = Label(add_member_window, text="Member title:")
     first_name_lbl = Label(add_member_window, text="First name:")
     last_name_lbl = Label(add_member_window, text="Last name:")
     date_of_birth_lbl = Label(add_member_window, text="Date of birth:")
     email_lbl = Label(add_member_window, text="Email:")
-    school_year_lbl = Label(add_member_window, text="School year (if applicable):")  # combobox
-    member_type_lbl = Label(add_member_window, text="Member type:")  # combobox
-    # Combobox example:
-    # cover_type_cbx = ttk.Combobox(add_book_window, values=["Paperback", "Hardback"], textvariable=cover_type_cbx_var)
-    # Fields changed: member_title, school_year, member_type
+    school_year_lbl = Label(add_member_window, text="School year (if applicable):")
+    member_type_lbl = Label(add_member_window, text="Member type:")
     
     # add_member_window - labels - geometry
     member_id_lbl.grid(row=0, column=0, padx=5, pady=5)
@@ -404,6 +398,7 @@ def open_find_member_window():
             find_by_lname_ent.grid_forget()
 
     def get_record_by_user_input(member_id, fname, lname):
+        """Gets the matching records from the database and adds them to an OptionMenu"""
         if id_or_name_var.get() == "ID":
             db_connect = sqlite3.connect("Library.db")
             # Store matching records in records_optlist:
@@ -507,11 +502,12 @@ def open_find_member_window():
 
 
 def open_add_loan_window():
-    """Loan details entry interface"""
+    """Hides menu_window, opens add_loan_window"""
     # add islost and isdamaged to the form, the user should set those to True once a loan is created
     # the values of islost and isdamaged can be changed by the user later on if needed
 
     def get_loan_data():
+        """Saves the field inputs to the database"""
         list_of_ent_fields = [loan_id_ent, loan_date_ent, loan_duration_ent, due_for_return_ent,
                               is_damaged_optmenu_var, is_lost_optmenu_var, isbn_ent, chosen_record_id]  # add 8th item - chosen_record_id from confirm_user_selection function
         get_form_data_func(list_of_ent_fields, insert_loan_data)  # imported from get_form_data.py
@@ -579,16 +575,6 @@ def open_add_loan_window():
     add_loan_window.mainloop()
 
 
-def open_add_book_request_window():
-    """Opens the add_book_request_window and closes the menu_window"""
-    menu_window.withdraw()
-    add_book_request_window = Tk()
-    book_request_test_lbl = Label(add_book_request_window, text="book request test").pack()
-
-    add_book_request_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(add_book_request_window, menu_window))  # imported from switch_windows.py
-    add_book_request_window.mainloop()
-    
-    
 def open_view_books_table_window():
     """Opens the view_books_table_window and closes the menu_window"""
     menu_window.withdraw()
@@ -813,25 +799,25 @@ menu_window.resizable(width=False, height=False)
 add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_window)
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_find_member_window)
-#add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)  #
+add_request_btn = Button(menu_window, text="Add a new book request")
 close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
 view_members_table_btn = Button(menu_window, text="View Members table", command=open_view_members_table_window)
 view_loans_table_btn = Button(menu_window, text="View Loans table", command=open_view_loans_table_window)
 calculations_btn = Button(menu_window, text="Calculations", command=open_calculations_window)
-#view_book_requests_table_btn = Button(menu_window, text="View Book Requests table")  #
+view_book_requests_table_btn = Button(menu_window, text="View Book Requests table")
 
 # menu_window - buttons - geometry
 add_book_btn.grid(row=0, column=0, padx=5, pady=5)
 add_member_btn.grid(row=0, column=1, padx=5, pady=5)
 add_loan_btn.grid(row=0, column=2, padx=5, pady=5)
-#add_request_btn.grid(row=0, column=3, padx=5, pady=5)
-close_menu_btn.grid(row=0, column=4, padx=5, pady=5)
+add_request_btn.grid(row=0, column=3, padx=5, pady=5)
+close_menu_btn.grid(row=0, column=5, padx=5, pady=5)
 view_books_table_btn.grid(row=1, column=0, padx=5, pady=5)
 view_members_table_btn.grid(row=1, column=1, padx=5, pady=5)
 view_loans_table_btn.grid(row=1, column=2, padx=5, pady=5)
-calculations_btn.grid(row=0, column=3, padx=5, pady=5)
-#view_book_requests_table_btn.grid(row=1, column=3, padx=5, pady=5)
+calculations_btn.grid(row=0, column=4, padx=5, pady=5)
+view_book_requests_table_btn.grid(row=1, column=3, padx=5, pady=5)
 
 menu_window.protocol("WM_DELETE_WINDOW", lambda: close_all_on_x(menu_window))  # imported from switch_windows.py
 menu_window.mainloop()
