@@ -203,10 +203,10 @@ def format_check_email(value, field_name):
         if len(re.findall(r"[.]", value)) >= 1:
             return True
         else:
-            messagebox.showerror("Invalid value!", f"{field_name}: invalid email format 2!")
+            messagebox.showerror("Invalid value!", f"{field_name}: invalid email format!")
             return False
     else:
-        messagebox.showerror("Invalid value!", f"{field_name}: invalid email format 1!")
+        messagebox.showerror("Invalid value!", f"{field_name}: invalid email format!")
         return False
 
 

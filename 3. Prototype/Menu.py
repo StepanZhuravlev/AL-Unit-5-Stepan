@@ -16,27 +16,82 @@ from get_form_data import get_form_data_func
 import sqlite3
 import Validations as val
 import re
-from binary_search import binary_search
-from insertion_sort import insertion_sort
 
 
 def open_add_book_window():
     """Opens the add_book_window and closes the menu_window"""
 
     def validate_book_data():
-        # ISBN: length
+
+        # presence checks
+        val.presence_check(isbn_ent.get(), "ISBN")
+        val.presence_check(book_title_ent.get(), "Book Title")
+        val.presence_check(series_ent.get(), "Series")
+        val.presence_check(author_ent.get(), "Author")
+        val.presence_check(genre_ent.get(), "Genre")
+        val.presence_check(publisher_ent.get(), "Publisher")
+        val.presence_check(publication_date_ent.get(), "Publication date")
+        val.presence_check(price_ent.get(), "Price")
+        val.presence_check(summary_ent.get(), "Summary")
+        val.presence_check(keywords_ent.get(), "Keywords")
+        val.presence_check(cover_type_optmenu_var.get(), "Cover type")
+        val.presence_check(charge_if_lost_ent.get(), "Charge if lost")
+        val.presence_check(charge_if_damaged_ent.get(), "Charge if damaged")
+        val.presence_check(copies_owned_ent.get(), "Copies owned")
+        val.presence_check(copies_available_ent.get(), "Copies available")
+        val.presence_check(date_added_ent.get(), "Date added")
+
+        # ISBN checks: length
         val.length_check(isbn_ent.get(), 20, "ISBN")
-        # Copies owned: range
-        if not val.range_check(int(copies_owned_ent.get()), 1, 999, "Copies owned"):
-            return False
-        # Copies owned: int check
-        val.type_check_int(int(copies_owned_ent.get()), "Copies owned")
-        # Price: float and currency format
+
+        # Price checks: float type, format, range
         try:
             val.type_check_float(float(price_ent.get()), "Price")
         except ValueError:
-            messagebox.showerror("Invalid value!", "Price must be a decimal!")
+            messagebox.showerror("Invalid value!", "Price must be a number!")
         val.format_check_currency(float(price_ent.get()), "Price")
+        if val.not_negative(float(price_ent.get()), "Price") is not True:
+            return False
+
+        # Charge if lost checks: float type, format, range
+        try:
+            val.type_check_float(float(charge_if_lost_ent.get()), "Charge if lost")
+        except ValueError:
+            messagebox.showerror("Invalid value!", "Charge if lost must be a number!")
+        val.format_check_currency(float(charge_if_lost_ent.get()), "Charge if lost")
+        if val.not_negative(float(charge_if_lost_ent.get()), "Charge if lost") is not True:
+            return False
+
+        # Charge if damaged checks: float type, format, range
+        try:
+            val.type_check_float(float(charge_if_lost_ent.get()), "Charge if damaged")
+        except ValueError:
+            messagebox.showerror("Invalid value!", "Charge if damaged must be a number!")
+        val.format_check_currency(float(charge_if_damaged_ent.get()), "Charge if damaged")
+        if val.not_negative(float(charge_if_damaged_ent.get()), "Charge if damaged") is not True:
+            return False
+
+        # Copies owned checks: int type, range
+        try:  # type
+            val.type_check_int(int(copies_owned_ent.get()), "Copies owned")
+        except ValueError:
+            messagebox.showerror("Invalid value!", "Copies owned must be a number!")
+        if val.not_negative(int(copies_owned_ent.get()), "Copies owned") is not True:
+            return False
+
+        # Copies available checks: int type, range
+        try:
+            val.type_check_int(int(copies_available_ent.get()), "Copies available")
+        except ValueError:
+            messagebox.showerror("Invalid value!", "Copies available must be a number!")
+        if val.not_negative(int(copies_available_ent.get()), "Copies available") is not True:
+            return False
+
+        # Publication date: format
+        val.format_check_date(publication_date_ent.get(), "Publication date")
+
+        # Date added: format
+        val.format_check_date(date_added_ent.get(), "Date added")
 
     def get_book_data():  # Leave at the top as a different function OR call get_form_data_func() directly but after instantiation of entry fields?
         list_of_ent_fields = [isbn_ent, book_title_ent, series_ent, author_ent, genre_ent, publisher_ent,
@@ -71,7 +126,7 @@ def open_add_book_window():
     copies_available_lbl = Label(add_book_window, text="Copies available:")
     date_added_lbl = Label(add_book_window, text="Date added:")
 
-    # add_book_window geometry - labels - geometry
+    # add_book_window - labels - geometry
     isbn_lbl.grid(row=0, column=0, padx=5, pady=5)
     book_title_lbl.grid(row=1, column=0, padx=5, pady=5)
     series_lbl.grid(row=2, column=0, padx=5, pady=5)
@@ -89,7 +144,7 @@ def open_add_book_window():
     copies_available_lbl.grid(row=14, column=0, padx=5, pady=5)
     date_added_lbl.grid(row=15, column=0, padx=5, pady=5)
 
-    # add_book_window - entry fields - instantiation & StringVars - Current purpose of StringVars?
+    # add_book_window - entry fields - instantiation & StringVars
     # 1.
     isbn_ent_var = StringVar()
     isbn_ent = Entry(add_book_window, textvariable=isbn_ent_var)
@@ -173,14 +228,55 @@ def open_add_member_window():
     """Opens the add_member_window and closes the menu_window"""
 
     def validate_member_data():
-        # Member ID:
-        val.presence_check(member_id_ent.get(), "Member ID")  # presence
-        # First name: type string
-        val.length_check(first_name_ent.get(), 5, "First name")  # length
+
+        #print(member_title_optmenu_var.get())
+        #print(school_year_optmenu_var.get())
+        #print(member_type_optmenu_var.get())
+        # presence checks
+        val.presence_check(member_id_ent.get(), "Member ID")
+        if member_title_optmenu_var.get() == "Choose value:":
+            messagebox.showerror("Invalid input!", "Member title can't be left blank!")
+            return False
+        val.presence_check(first_name_ent.get(), "First name")
+        val.presence_check(last_name_ent.get(), "Last name")
+        val.presence_check(date_of_birth_ent.get(), "Date of birth")
+        val.presence_check(email_ent.get(), "Email")
+        if school_year_optmenu_var.get() == "Choose value:":
+            messagebox.showerror("Invalid input!", "School year can't be left blank!")
+            return False
+        if member_type_optmenu_var.get() == "Choose value:":
+            messagebox.showerror("Invalid input!", "Member type can't be left blank!")
+            return False
+
+        # MemberID checks: type int, range
+        try:
+            val.type_check_int(int(member_id_ent.get()), "MemberID")
+        except ValueError:
+            messagebox.showerror("Invalid input!", "MemberID can only be an integer!")
+            return False
+        if val.not_negative(int(member_id_ent.get()), "MemberID") is not True:
+            return False
+
+
+        # First name: type string, length
+        val.type_check_string(first_name_ent.get(), "First name")
+        if val.length_check(first_name_ent.get(), 50, "First name") is not True:
+            return False
+
+        # Last name: type string, length
+        val.type_check_string(last_name_ent.get(), "Last name")
+        if val.length_check(last_name_ent.get(), 50, "Last name") is not True:
+            return False
+
         # Date of birth: date format
-        val.format_check_date(date_of_birth_ent.get(), "Date of birth")
-        # Email: email format
-        val.format_check_email(email_ent.get(), "Email")
+        if val.format_check_date(date_of_birth_ent.get(), "Date of birth") is not True:
+            return False
+
+        # Email: email format, length
+        if val.length_check(email_ent.get(), 50, "Email") is not True:
+            return False
+        if val.format_check_email(email_ent.get(), "Email") is not True:
+            return False
 
     def get_member_data():
         list_of_ent_fields = [member_id_ent, member_title_optmenu_var, first_name_ent, last_name_ent, date_of_birth_ent,
@@ -454,7 +550,7 @@ def open_add_loan_window():
     optmenu_values = ["n/a", "True", "False"]
 
     # entry fields - instantiation
-    loan_id_ent = ttk.Entry(add_loan_window, textvariable=loan_id_ent_var)
+    loan_id_ent = Entry(add_loan_window, textvariable=loan_id_ent_var)
     loan_date_ent = Entry(add_loan_window, textvariable=loan_date_ent_var)
     loan_duration_ent = Entry(add_loan_window, textvariable=loan_duration_ent_var)
     due_for_return_ent = Entry(add_loan_window, textvariable=due_for_return_ent_var)
@@ -642,7 +738,7 @@ def open_calculations_window():
             val.type_check_float(float(enter_price_ent.get()), "Minimum price")
         except ValueError:
             messagebox.showerror("Invalid value!", "Price must be a number!")
-        if val.not_negative(enter_price_ent.get(), "Minimum price") is not True:
+        if val.not_negative(enter_price_ent.get(), "Minimum price") is not True:  # range
             return False
 
     def calculation(user_price, total_price_output, total_books_output):
@@ -718,7 +814,7 @@ add_book_btn = Button(menu_window, text="Add a new book", command=open_add_book_
 add_member_btn = Button(menu_window, text="Add a new member", command=open_add_member_window)
 add_loan_btn = Button(menu_window, text="Add a new loan", command=open_find_member_window)
 #add_request_btn = Button(menu_window, text="Add a new book request", command=open_add_book_request_window)  #
-close_menu_btn = ttk.Button(menu_window, text="Close Menu", command=menu_window.destroy)
+close_menu_btn = Button(menu_window, text="Close Menu", command=menu_window.destroy)
 view_books_table_btn = Button(menu_window, text="View Books table", command=open_view_books_table_window)
 view_members_table_btn = Button(menu_window, text="View Members table", command=open_view_members_table_window)
 view_loans_table_btn = Button(menu_window, text="View Loans table", command=open_view_loans_table_window)
