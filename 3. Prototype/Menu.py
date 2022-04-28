@@ -76,7 +76,9 @@ def open_add_book_window():
             val.type_check_int(int(copies_owned_ent.get()), "Copies owned")
         except ValueError:
             messagebox.showerror("Invalid value!", "Copies owned must be a number!")
-        if val.not_negative(int(copies_owned_ent.get()), "Copies owned") is not True:
+        #if val.not_negative(int(copies_owned_ent.get()), "Copies owned") is not True:
+            #return False
+        if val.range_check(int(copies_owned_ent.get()), 0, 1000, "Copies owned") is not True:
             return False
 
         # Copies available checks: int type, range
@@ -84,7 +86,9 @@ def open_add_book_window():
             val.type_check_int(int(copies_available_ent.get()), "Copies available")
         except ValueError:
             messagebox.showerror("Invalid value!", "Copies available must be a number!")
-        if val.not_negative(int(copies_available_ent.get()), "Copies available") is not True:
+        #if val.not_negative(int(copies_available_ent.get()), "Copies available") is not True:
+            #return False
+        if val.range_check(int(copies_available_ent.get()), 0, 1000, "Copies available") is not True:
             return False
 
         # Publication date: format
